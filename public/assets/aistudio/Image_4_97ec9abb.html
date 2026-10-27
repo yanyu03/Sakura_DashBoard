@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;1,9..40,400&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=DM+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;width:100%;height:100%;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed-dim":"#ffb2bb","on-secondary-fixed-variant":"#85145a","on-primary-container":"#793741","primary-fixed":"#ffd9dc","inverse-surface":"#4c1d4f","on-tertiary-fixed-variant":"#4a4456","surface-container-highest":"#ffd6fa","tertiary-fixed":"#e9def5","error":"#ba1a1a","tertiary":"#635b6e","surface-container-lowest":"#ffffff","surface-container-low":"#ffeffa","surface-tint":"#8f4953","primary":"#8f4953","tertiary-container":"#c3b9cf","secondary-fixed-dim":"#ffafd3","background":"#fff7fa","surface-bright":"#fff7fa","on-primary-fixed-variant":"#73323d","on-primary":"#ffffff","outline":"#857274","secondary":"#a43073","inverse-primary":"#ffb2bb","on-error-container":"#93000a","inverse-on-surface":"#ffebfa","primary-container":"#fda4af","surface":"#fff7fa","on-surface":"#340538","on-primary-fixed":"#3b0613","on-secondary-container":"#76014e","error-container":"#ffdad6","on-secondary":"#ffffff","on-tertiary-container":"#50495b","surface-container-high":"#ffdffa","surface-container":"#ffe7fa","on-tertiary-fixed":"#1e1929","on-surface-variant":"#534344","secondary-fixed":"#ffd8e7","surface-variant":"#ffd6fa","outline-variant":"#d8c1c3","on-secondary-fixed":"#3d0026","tertiary-fixed-dim":"#cdc2d9","secondary-container":"#fc79bd","on-tertiary":"#ffffff","on-background":"#340538","surface-dim":"#ffc9fb","on-error":"#ffffff"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"gutter-lg":"2rem","space-xl":"3rem","space-xs":"0.375rem","gutter-sm":"1rem","space-sm":"0.75rem","gutter":"1.5rem","space-md":"1.25rem","space-lg":"2rem","margin":"2rem","margin-mobile":"1rem","margin-desktop":"3rem"},"fontFamily":{"body-lg":["DM Sans"],"headline-sm":["Bricolage Grotesque"],"label-md":["DM Sans"],"headline-lg-mobile":["Bricolage Grotesque"],"label-sm":["DM Sans"],"body-md":["DM Sans"],"headline-xl":["Bricolage Grotesque"],"headline-xl-mobile":["Bricolage Grotesque"],"headline-md":["Bricolage Grotesque"],"headline-lg":["Bricolage Grotesque"],"body-sm":["DM Sans"]},"fontSize":{"body-lg":["1.125rem",{"lineHeight":"1.75rem","fontWeight":"400"}],"headline-sm":["1.25rem",{"lineHeight":"1.75rem","fontWeight":"600"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.02em","fontWeight":"600"}],"body-md":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-xl":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-xl-mobile":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.75rem",{"lineHeight":"2.25rem","fontWeight":"600"}],"headline-lg":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"400"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface w-screen h-screen overflow-hidden select-none flex flex-col"><header class="h-16 w-full flex-none bg-surface/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(131,24,67,0.06)] z-50 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_4px_16px_rgba(131,24,67,0.08)]"><span class="material-symbols-outlined text-2xl">local_florist</span></div><div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight block leading-none">SakuraEdu</span><span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase block mt-0.5">樱花教务云 · 教师端</span></div></div><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container-low"><span class="material-symbols-outlined text-primary text-lg">calendar_month</span><span class="font-label-md text-label-md text-on-surface">2024 春季学期 · 第 12 周</span><span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span><span class="font-body-sm text-body-sm text-on-surface-variant">周四 · 4节在教日程</span></div><div class="hidden 2xl:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><span class="material-symbols-outlined text-secondary text-lg">wb_sunny</span><span class="font-label-sm text-label-sm text-on-surface">23°C 晴朗微风</span><span class="text-outline-variant">|</span><span class="font-label-sm text-label-sm text-primary">🌸 今日备课心情：元气满满</span></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-on-surface-variant text-lg">search</span><input class="w-72 pl-10 pr-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container shadow-[0_2px_8px_rgba(131,24,67,0.04)] transition-all" placeholder="搜索学生档案、排课表、教学案..." type="text"/></div><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all relative" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary"></span></button><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" type="button"><span class="material-symbols-outlined text-xl">assignment_turned_in</span></button><div class="flex items-center gap-space-sm pl-space-sm py-1 pr-space-md rounded-full bg-surface-container-low shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">林知夏 老师</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">高二(3)班班主任 · 语文组</span></div></div></div></header><div class="flex-1 flex overflow-hidden"><aside class="w-64 flex-none bg-surface-container-low flex flex-col justify-between p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)]"><div class="flex flex-col gap-space-xs"><div class="px-space-md py-space-xs mb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant/70">教务教学核心</span></div><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="dashboard-overview" href="#"><span class="material-symbols-outlined text-xl">grid_view</span>工作台概览</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="schedule-management" href="#"><span class="material-symbols-outlined text-xl">calendar_today</span>课表与排课</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="student-profiles" href="#"><span class="material-symbols-outlined text-xl">school</span>学生学情档案</a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full transition-all bg-primary-container text-on-primary-container font-headline-sm" data-path="homework-center" href="#"><span class="material-symbols-outlined text-xl">rate_review</span>作业批改中心</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="lesson-plans" href="#"><span class="material-symbols-outlined text-xl">menu_book</span>备课教案库</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="exam-analytics" href="#"><span class="material-symbols-outlined text-xl">analytics</span>考务与成绩分析</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="school-home-communication" href="#"><span class="material-symbols-outlined text-xl">forum</span>家校沟通社区</a></nav></div><div class="flex flex-col gap-space-sm pt-space-md bg-surface-container-lowest/70 p-space-md rounded-2xl shadow-[0_2px_12px_rgba(131,24,67,0.03)]"><button class="w-full flex items-center justify-center gap-space-xs py-2.5 px-space-md rounded-full bg-secondary text-on-secondary font-label-md text-label-md shadow-[0_4px_16px_rgba(164,48,115,0.25)] hover:opacity-95 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-lg">cast_for_education</span><span>一键开启上课模式</span></button><nav class="flex flex-col gap-1" data-active-classes="bg-surface-container text-on-surface font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-sm text-label-sm" data-path="system-settings" href="#"><span class="material-symbols-outlined text-lg">settings</span>系统偏好设置</a></nav></div></aside><main class="flex-1 h-full overflow-hidden bg-background relative flex flex-col"><div class="flex flex-col w-full h-[calc(100vh-4rem)] p-space-md gap-space-sm overflow-hidden box-border">
+<!-- Top Controller Bar: Title, Class Pills, Overall Metrics, Quick Action Pods -->
+<div class="flex-none bg-surface-container-lowest/90 backdrop-blur-xl rounded-lg p-space-sm px-space-md shadow-[0_8px_30px_rgba(143,73,83,0.06)] flex items-center justify-between gap-space-md relative overflow-hidden">
+<!-- Ambient Cherry Glow -->
+<div class="absolute -top-12 -left-12 w-48 h-48 bg-primary-container/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-8 right-1/4 w-40 h-40 bg-secondary-fixed/30 rounded-full blur-xl pointer-events-none"></div>
+<!-- Left: Assignment Title & Class Selectors -->
+<div class="flex items-center gap-space-md z-10">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-container to-secondary-fixed flex items-center justify-center text-secondary shadow-[0_4px_12px_rgba(164,48,115,0.15)] animate-pulse">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">stylus_note</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">作业批阅工坊</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-container">🌸 必修下 · 文言核心课</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+            《赤壁赋》文言主旨与哲学拓展思考 · 第四课时主观卷
+            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary">满分 100 分制</span>
+</span>
+</div>
+</div>
+<!-- Class Switching Pills -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-full shadow-inner gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-[0_2px_8px_rgba(143,73,83,0.08)] flex items-center gap-1.5 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span>高二(1)班</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm bg-surface-container px-1.5 py-0.2 rounded-full">43/45交</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1" type="button">
+<span>高二(3)班</span>
+<span class="text-on-surface-variant/70 font-label-sm text-label-sm">40/42交</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span>高一实验班</span>
+</button>
+</div>
+</div>
+<!-- Center: Micro Metrics Pill Indicators -->
+<div class="hidden xl:flex items-center gap-space-md bg-surface-container-low/70 px-space-md py-1.5 rounded-full z-10">
+<div class="flex items-center gap-2">
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">批阅进度</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold leading-tight">38<span class="text-xs font-normal text-on-surface-variant">/45</span></span>
+</div>
+<div class="w-14 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-secondary rounded-full" style="width: 84.4%"></div>
+</div>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">班级均分</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">88.5 <span class="font-label-sm text-label-sm text-secondary">分</span></span>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">优秀率 (A+)</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold leading-tight">34.2%</span>
+</div>
+</div>
+<!-- Right: Operational Pods -->
+<div class="flex items-center gap-space-xs z-10">
+<button class="px-space-md py-2 rounded-full bg-gradient-to-r from-primary-container to-secondary-fixed text-on-primary-container font-label-md text-label-md shadow-[0_4px_16px_rgba(253,164,175,0.4)] hover:shadow-lg active:scale-95 transition-all flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+<span>AI 智能初批 (7份未检)</span>
+</button>
+<button class="px-space-sm py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-all flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-base text-secondary">checklist_rtl</span>
+<span>批量批注</span>
+</button>
+<button class="px-space-sm py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-error transition-all flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-base">notifications_active</span>
+<span>一键催交(2人)</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+</div>
+</div>
+<!-- Main 3-Column Workspace (Fixed Height Viewport Layout) -->
+<div class="flex-1 grid grid-cols-12 gap-space-sm overflow-hidden min-h-0">
+<!-- Column 1 (Left): Student Submission Flow (3 Cols) -->
+<section class="col-span-3 bg-surface-container-lowest/80 backdrop-blur-md rounded-lg p-space-sm flex flex-col shadow-[0_4px_24px_rgba(143,73,83,0.04)] overflow-hidden">
+<!-- Search & Filters in Student List -->
+<div class="flex-none pb-space-xs flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface">提交名录</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed">45 人</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+<button class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-sm">swap_vert</span></button>
+</div>
+</div>
+<!-- Status Tabs -->
+<div class="grid grid-cols-4 gap-1 p-0.5 bg-surface-container-low rounded-full text-center">
+<button class="py-1 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm font-semibold shadow-xs" type="button">全部</button>
+<button class="py-1 rounded-full text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface" type="button">待批(5)</button>
+<button class="py-1 rounded-full text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface" type="button">优秀(15)</button>
+<button class="py-1 rounded-full text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface" type="button">订正(3)</button>
+</div>
+</div>
+<!-- Scrollable Student Roster -->
+<div class="flex-1 overflow-y-auto space-y-2 pr-1 pt-1">
+<!-- Selected Student: 苏小萌 -->
+<div class="p-space-sm rounded-lg bg-gradient-to-r from-primary-fixed/50 via-surface-container-low to-surface-container-lowest shadow-[0_4px_16px_rgba(164,48,115,0.12)] cursor-pointer relative overflow-hidden transition-all scale-[1.01]">
+<div class="absolute top-0 right-0 w-12 h-12 bg-secondary-fixed/50 rounded-bl-full flex items-start justify-end p-1.5">
+<span class="material-symbols-outlined text-secondary text-xs" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-secondary-container to-primary-container p-0.5">
+<div class="w-full h-full rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary font-headline-sm text-sm font-bold">萌</div>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">苏小萌</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold mr-4">98<span class="text-xs font-normal">分</span></span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary-fixed text-on-secondary-container">🌸 班级标杆卷</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant truncate">今天 11:24 提交</span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 line-clamp-1 italic bg-surface-container-lowest/80 px-2 py-1 rounded-md">
+            “物与我皆无尽也，此乃通达宇宙之旷达胸襟……”
+          </p>
+</div>
+<!-- Student 2: 周子涵 (待复核) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all cursor-pointer shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-headline-sm text-sm font-bold">涵</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">周子涵</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">89<span class="text-xs font-normal">分</span></span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant">AI预批完成</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">今天 11:08</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Student 3: 林沐风 (需面批订正) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all cursor-pointer shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-headline-sm text-sm font-bold">风</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">林沐风</span>
+<span class="font-headline-sm text-headline-sm text-error font-bold">74<span class="text-xs font-normal">分</span></span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container">建议面批订正</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">今天 10:45</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Student 4: 陈诗涵 (待批改) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all cursor-pointer shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim/60 flex items-center justify-center text-on-secondary-fixed font-headline-sm text-sm font-bold">诗</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">陈诗涵</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">待批阅</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-primary-fixed text-on-primary-fixed-variant">手写图卷已转写</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">今天 09:30</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Student 5: 陆天宇 -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all cursor-pointer shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-headline-sm text-sm font-bold">宇</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">陆天宇</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">92<span class="text-xs font-normal">分</span></span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-secondary-fixed text-on-secondary-container">优秀论述</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">今天 09:12</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Student 6: 赵语凝 -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all cursor-pointer shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-headline-sm text-sm font-bold">凝</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">赵语凝</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">86<span class="text-xs font-normal">分</span></span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant">已评阅</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">昨天 22:40</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 2 (Center): Core Grading Canvas & AI Copilot Inspection (6 Cols) -->
+<main class="col-span-6 flex flex-col gap-space-sm overflow-hidden min-h-0">
+<!-- Student Answer Paper Workspace (Top 62% of center) -->
+<div class="flex-1 bg-surface-container-lowest rounded-lg p-space-md shadow-[0_8px_32px_rgba(143,73,83,0.06)] flex flex-col overflow-hidden relative">
+<!-- Top Tool Belt: Annotation Tools & Sakura Badges -->
+<div class="flex-none pb-space-sm flex items-center justify-between bg-surface-container-low/60 p-space-xs px-space-sm rounded-full">
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant px-2">批改笔刷：</span>
+<button class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm" title="朱砂红笔" type="button"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="w-7 h-7 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary" title="樱花高光记号" type="button"><span class="material-symbols-outlined text-base">brush</span></button>
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container" title="文本框便签" type="button"><span class="material-symbols-outlined text-base">note_add</span></button>
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container" title="语音批阅评语录音" type="button"><span class="material-symbols-outlined text-base">mic</span></button>
+<div class="w-px h-4 bg-outline-variant/60 mx-1"></div>
+<!-- Sakura Stamp Shortcuts -->
+<button class="px-2.5 py-1 rounded-full bg-primary-fixed-dim/60 hover:bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm flex items-center gap-1" type="button">
+<span>🌸 妙笔生花</span>
+</button>
+<button class="px-2.5 py-1 rounded-full bg-secondary-fixed hover:bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm flex items-center gap-1" type="button">
+<span>✨ 见解独到</span>
+</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container" type="button"><span class="material-symbols-outlined text-base">zoom_in</span></button>
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container" type="button"><span class="material-symbols-outlined text-base">fullscreen</span></button>
+<span class="font-label-sm text-label-sm px-2 text-on-surface-variant font-medium">第 1/2 页</span>
+</div>
+</div>
+<!-- The Paper: Authentic Student Essay & Visual Teacher Annotations -->
+<div class="flex-1 overflow-y-auto mt-space-sm pr-2 relative bg-surface-container-lowest/90 rounded-2xl p-space-md shadow-inner">
+<!-- Floating Sakura Stamp Stamp Mark on the Paper Top-Right -->
+<div class="absolute top-4 right-6 rotate-12 pointer-events-none select-none">
+<div class="w-24 h-24 rounded-full border-4 border-dashed border-secondary/40 flex flex-col items-center justify-center text-secondary/80 bg-secondary-fixed/20 backdrop-blur-xs p-1">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-headline-sm text-xs font-bold tracking-widest mt-0.5">妙笔生花</span>
+<span class="font-label-sm text-[10px]">高二语文组 · 荐</span>
+</div>
+</div>
+<!-- Section 1: Question Stem -->
+<div class="mb-space-md bg-surface-container-low/70 p-space-sm rounded-xl">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary text-on-secondary">【大题 03 · 拓展探究】</span>
+<p class="font-body-md text-body-md text-on-surface mt-1.5 leading-relaxed font-semibold">
+              苏轼在《赤壁赋》中由“客之悲”转向“苏子之喜”，试结合“逝者如斯，而未尝往也；盈虚者如彼，而卒莫消长也”一句，谈谈作者是如何在有限生命与无限造化中建立精神安顿的？并简析其道家与儒家哲学的合流。（共25分）
+            </p>
+</div>
+<!-- Section 2: Student Handwriting / Transcription with Marks -->
+<div class="space-y-space-sm relative">
+<div class="flex items-center justify-between pb-1 border-b border-surface-container-high">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-primary">draw</span> 学生原答卷（苏小萌 · 卷面整洁度 A+）
+              </span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">得分：24.5 / 25</span>
+</div>
+<!-- Paragraph 1 -->
+<div class="relative group bg-surface/50 p-2.5 rounded-xl transition-colors">
+<p class="font-body-md text-body-md text-on-surface leading-loose tracking-wide">
+                苏轼在此处通过水与月之喻，构建起辩证的时空观。从变的角度审视，“天地曾不能以一瞬”；但若自其不变者而观之，
+                <span class="relative inline-block bg-primary-container/40 px-1 rounded mx-0.5 text-on-surface font-medium cursor-help">
+                  “则物与我皆无尽也”
+                  <!-- Floating Teacher Note Bubble -->
+<span class="absolute -top-7 left-1/2 -translate-x-1/2 bg-secondary text-on-secondary font-label-sm text-[11px] px-2 py-0.5 rounded-full shadow-md whitespace-nowrap flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">favorite</span> 引用精准，点睛之笔！
+                  </span>
+</span>。客之悲伤，源于执着于个体生命的“须臾”与长江的“无穷”这一绝对对立；而苏轼跳脱出世俗的得失计算，将生命归还于自然之化境。
+              </p>
+</div>
+<!-- Paragraph 2 (Has AI Micro-finding) -->
+<div class="relative bg-surface/50 p-2.5 rounded-xl">
+<p class="font-body-md text-body-md text-on-surface leading-loose tracking-wide">
+                在哲学立意上，苏子外表托庇于老庄的“齐万物”、“同生死”，任凭轻舟泛于浩渺江海；
+                <span class="relative inline-block bg-amber-200/60 px-1 rounded mx-0.5 border-b-2 border-dashed border-amber-500 cursor-pointer">
+                  然其精神内核终未归于绝望的虚无
+                  <span class="absolute -top-7 right-0 bg-amber-700 text-surface-container-lowest font-label-sm text-[11px] px-2 py-0.5 rounded-full shadow-md whitespace-nowrap">
+                    ✎ “然”字承转突兀，建议加“实则”增强逻辑层递
+                  </span>
+</span>，而是以儒者的经世柔情，在黄州贬谪的困顿中完成了对日常烟火（山间明月、江上清风）的虔诚拥抱。这种“自适”不仅是解脱，更是对生命的极致肯定。
+              </p>
+</div>
+<!-- Bottom Teacher Handwritten Stamp & Audio Note -->
+<div class="mt-4 p-space-sm bg-gradient-to-r from-secondary-fixed/30 to-primary-fixed/20 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<button class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1">
+                    林知夏老师的语音评语 <span class="text-xs text-primary font-normal">(00:38)</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">“小萌，这段儒道合流的解读非常有深度，文风雅致……”</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm px-2 py-1 rounded-full bg-surface-container-lowest text-secondary font-semibold shadow-xs">
+                  批阅者：林知夏
+                </span>
+<span class="text-xs text-on-surface-variant">2024-05-16 11:32</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Copilot Diagnostic Card (Bottom 38% of center) -->
+<div class="flex-none h-44 bg-surface-container-lowest rounded-lg p-space-sm shadow-[0_4px_24px_rgba(143,73,83,0.05)] flex gap-space-md overflow-hidden relative">
+<div class="w-1.5 h-full rounded-full bg-gradient-to-b from-primary via-secondary to-primary-container"></div>
+<!-- Left: Diagnostic Summary -->
+<div class="flex-1 flex flex-col justify-between overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<span class="font-headline-sm text-sm text-on-surface font-bold">Sakura-AI 答卷诊断切片报告</span>
+<span class="font-label-sm text-[11px] px-2 py-0.2 rounded-full bg-primary-container/60 text-on-primary-container">契合高中语文新课标核心素养</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">综合得分率：98% (极优)</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs mt-1 text-xs">
+<div class="bg-surface-container-low p-2 rounded-xl flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-primary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">star</span> 亮点萃取：思维深刻性与词藻
+              </span>
+<p class="text-on-surface-variant text-[11px] mt-0.5 line-clamp-2">
+                准确提炼老庄“齐物”与儒家“仁爱”在贬谪文学中的互渗，论证结构自成严密体系。
+              </p>
+</div>
+<div class="bg-surface-container-low p-2 rounded-xl flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">tips_and_updates</span> 提分锦囊：逻辑连词优化
+              </span>
+<p class="text-on-surface-variant text-[11px] mt-0.5 line-clamp-2">
+                第二段文意转折可引用苏轼《定风波》互证，拓展纵深空间，已生成强化微课卡片。
+              </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">推荐拓展练习：</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface text-[11px]">《前赤壁赋》与《后赤壁赋》心境对勘 3道题</span>
+</div>
+<button class="px-3 py-1 rounded-full bg-primary-container hover:bg-primary hover:text-on-primary text-on-primary-container font-label-sm text-label-sm font-semibold transition-all flex items-center gap-1" type="button">
+<span>推送变式巩固包给学生</span>
+<span class="material-symbols-outlined text-xs">send</span>
+</button>
+</div>
+</div>
+<!-- Right: Stamp Score & Fast Grade Input Controller -->
+<div class="w-48 bg-gradient-to-br from-surface-container-low to-secondary-fixed/20 p-2.5 rounded-xl flex flex-col items-center justify-between text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">快速终核打分</span>
+<div class="flex items-baseline gap-1 my-1">
+<input class="w-16 h-11 text-center font-headline-sm text-2xl font-bold text-secondary bg-surface-container-lowest rounded-full shadow-inner border-0 focus:ring-2 focus:ring-secondary focus:outline-none" type="text" value="98"/>
+<span class="text-xs text-on-surface-variant font-medium">/ 100</span>
+</div>
+<div class="w-full flex items-center gap-1">
+<button class="flex-1 py-1.5 rounded-full bg-surface-container-lowest text-on-surface font-label-sm text-[11px] hover:bg-surface-container" type="button">打回重订</button>
+<button class="flex-1 py-1.5 rounded-full bg-secondary text-on-secondary font-label-sm text-[11px] shadow-sm hover:opacity-95" type="button">提交并下一个</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Column 3 (Right): Cohort Insights & Model Essays Board (3 Cols) -->
+<aside class="col-span-3 bg-surface-container-lowest/80 backdrop-blur-md rounded-lg p-space-sm flex flex-col gap-space-sm shadow-[0_4px_24px_rgba(143,73,83,0.04)] overflow-hidden">
+<!-- Panel Header -->
+<div class="flex-none flex items-center justify-between pb-1 border-b border-surface-container-high">
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">donut_small</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">全班学情洞察</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-container">高二(1)班</span>
+</div>
+<!-- Scrollable Analytics Modules -->
+<div class="flex-1 overflow-y-auto space-y-space-sm pr-1">
+<!-- 1. Score Distribution Chart Card (Compact SVG Bar Graphic) -->
+<div class="bg-surface-container-low/70 p-space-sm rounded-xl">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold">分数段分布阶梯</span>
+<span class="font-label-sm text-label-sm text-secondary">中位数: 89.0</span>
+</div>
+<!-- SVG Distribution Chart -->
+<div class="w-full h-24 flex items-end justify-between px-2 pt-2 pb-1 bg-surface-container-lowest rounded-lg">
+<!-- 90-100 -->
+<div class="flex flex-col items-center gap-1 w-1/4">
+<span class="text-[10px] text-secondary font-bold">15人</span>
+<div class="w-full bg-gradient-to-t from-secondary to-primary-container rounded-t-md" style="height: 58px;"></div>
+<span class="text-[10px] text-on-surface-variant font-medium">90-100</span>
+</div>
+<!-- 80-89 -->
+<div class="flex flex-col items-center gap-1 w-1/4">
+<span class="text-[10px] text-primary font-bold">22人</span>
+<div class="w-full bg-gradient-to-t from-primary to-primary-fixed rounded-t-md" style="height: 76px;"></div>
+<span class="text-[10px] text-on-surface-variant font-medium">80-89</span>
+</div>
+<!-- 70-79 -->
+<div class="flex flex-col items-center gap-1 w-1/4">
+<span class="text-[10px] text-on-surface-variant font-bold">6人</span>
+<div class="w-full bg-surface-container-high rounded-t-md" style="height: 28px;"></div>
+<span class="text-[10px] text-on-surface-variant font-medium">70-79</span>
+</div>
+<!-- <70 -->
+<div class="flex flex-col items-center gap-1 w-1/4">
+<span class="text-[10px] text-error font-bold">2人</span>
+<div class="w-full bg-error-container rounded-t-md" style="height: 12px;"></div>
+<span class="text-[10px] text-on-surface-variant font-medium"><70</span>
+</div>
+</div>
+</div>
+<!-- 2. Frequent Error Points / Pedagogical Heatmap -->
+<div class="bg-surface-container-low/70 p-space-sm rounded-xl">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-error">warning</span> 高频失分点排查
+            </span>
+<span class="font-label-sm text-xs text-on-surface-variant">失分率</span>
+</div>
+<div class="space-y-2">
+<!-- Error 1 -->
+<div>
+<div class="flex justify-between text-xs mb-0.5">
+<span class="text-on-surface font-medium truncate">1. 虚词“然”字转折与指代辨析</span>
+<span class="text-error font-bold font-label-sm">41.8%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 41.8%;"></div>
+</div>
+</div>
+<!-- Error 2 -->
+<div>
+<div class="flex justify-between text-xs mb-0.5">
+<span class="text-on-surface font-medium truncate">2. 儒道合流哲学立意辨证表述</span>
+<span class="text-primary font-bold font-label-sm">28.4%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 28.4%;"></div>
+</div>
+</div>
+<!-- Error 3 -->
+<div>
+<div class="flex justify-between text-xs mb-0.5">
+<span class="text-on-surface font-medium truncate">3. 赋体散文的句式偶偶相生格律</span>
+<span class="text-on-surface-variant font-bold font-label-sm">16.2%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 16.2%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Sakura Model Essay Showcase Wall (范文墙) -->
+<div class="bg-gradient-to-br from-primary-fixed/30 to-secondary-fixed/30 p-space-sm rounded-xl relative overflow-hidden">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface font-bold flex items-center gap-1">
+<span>🌸 优秀范文展示墙</span>
+<span class="font-label-sm text-[10px] px-1.5 py-0.2 rounded-full bg-secondary text-on-secondary">已选2篇</span>
+</span>
+<button class="text-xs text-secondary hover:underline flex items-center gap-0.5 font-label-sm" type="button">
+<span>大屏联播</span>
+<span class="material-symbols-outlined text-xs">tv</span>
+</button>
+</div>
+<!-- Pinned Model Student Card -->
+<div class="bg-surface-container-lowest p-2.5 rounded-lg shadow-sm space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">苏小萌 (98分卷)</span>
+<span class="text-[10px] text-secondary font-semibold">全班推优率 96%</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2 italic">
+              “将生命归还于自然之化境，以儒者的经世柔情拥抱日常烟火……”
+            </p>
+<div class="pt-1 flex items-center justify-between">
+<span class="text-[10px] text-primary">标签：思辨立意极佳</span>
+<button class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-container text-[11px] font-label-sm hover:bg-secondary hover:text-on-secondary transition-all" type="button">
+                设为教案样卷
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Action: Export & Class Broadcast Button -->
+<div class="flex-none pt-space-xs">
+<button class="w-full py-2 rounded-full bg-gradient-to-r from-secondary to-primary text-on-secondary font-label-md text-label-md shadow-[0_4px_16px_rgba(164,48,115,0.25)] hover:opacity-95 active:scale-98 transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-base">co_present</span>
+<span>一键投影到教室一体机讲评</span>
+</button>
+</div>
+</aside>
+</div>
+</div></main></div></body></html>

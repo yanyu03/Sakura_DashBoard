@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;1,9..40,400&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&amp;family=DM+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;width:100%;height:100%;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed-dim":"#ffb2bb","on-secondary-fixed-variant":"#85145a","on-primary-container":"#793741","primary-fixed":"#ffd9dc","inverse-surface":"#4c1d4f","on-tertiary-fixed-variant":"#4a4456","surface-container-highest":"#ffd6fa","tertiary-fixed":"#e9def5","error":"#ba1a1a","tertiary":"#635b6e","surface-container-lowest":"#ffffff","surface-container-low":"#ffeffa","surface-tint":"#8f4953","primary":"#8f4953","tertiary-container":"#c3b9cf","secondary-fixed-dim":"#ffafd3","background":"#fff7fa","surface-bright":"#fff7fa","on-primary-fixed-variant":"#73323d","on-primary":"#ffffff","outline":"#857274","secondary":"#a43073","inverse-primary":"#ffb2bb","on-error-container":"#93000a","inverse-on-surface":"#ffebfa","primary-container":"#fda4af","surface":"#fff7fa","on-surface":"#340538","on-primary-fixed":"#3b0613","on-secondary-container":"#76014e","error-container":"#ffdad6","on-secondary":"#ffffff","on-tertiary-container":"#50495b","surface-container-high":"#ffdffa","surface-container":"#ffe7fa","on-tertiary-fixed":"#1e1929","on-surface-variant":"#534344","secondary-fixed":"#ffd8e7","surface-variant":"#ffd6fa","outline-variant":"#d8c1c3","on-secondary-fixed":"#3d0026","tertiary-fixed-dim":"#cdc2d9","secondary-container":"#fc79bd","on-tertiary":"#ffffff","on-background":"#340538","surface-dim":"#ffc9fb","on-error":"#ffffff"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"gutter-lg":"2rem","space-xl":"3rem","space-xs":"0.375rem","gutter-sm":"1rem","space-sm":"0.75rem","gutter":"1.5rem","space-md":"1.25rem","space-lg":"2rem","margin":"2rem","margin-mobile":"1rem","margin-desktop":"3rem"},"fontFamily":{"body-lg":["DM Sans"],"headline-sm":["Bricolage Grotesque"],"label-md":["DM Sans"],"headline-lg-mobile":["Bricolage Grotesque"],"label-sm":["DM Sans"],"body-md":["DM Sans"],"headline-xl":["Bricolage Grotesque"],"headline-xl-mobile":["Bricolage Grotesque"],"headline-md":["Bricolage Grotesque"],"headline-lg":["Bricolage Grotesque"],"body-sm":["DM Sans"]},"fontSize":{"body-lg":["1.125rem",{"lineHeight":"1.75rem","fontWeight":"400"}],"headline-sm":["1.25rem",{"lineHeight":"1.75rem","fontWeight":"600"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.02em","fontWeight":"600"}],"body-md":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-xl":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-xl-mobile":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.75rem",{"lineHeight":"2.25rem","fontWeight":"600"}],"headline-lg":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"400"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface w-screen h-screen overflow-hidden select-none flex flex-col"><header class="h-16 w-full flex-none bg-surface/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(131,24,67,0.06)] z-50 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_4px_16px_rgba(131,24,67,0.08)]"><span class="material-symbols-outlined text-2xl">local_florist</span></div><div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight block leading-none">SakuraEdu</span><span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase block mt-0.5">樱花教务云 · 教师端</span></div></div><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container-low"><span class="material-symbols-outlined text-primary text-lg">calendar_month</span><span class="font-label-md text-label-md text-on-surface">2024 春季学期 · 第 12 周</span><span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span><span class="font-body-sm text-body-sm text-on-surface-variant">周四 · 4节在教日程</span></div><div class="hidden 2xl:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><span class="material-symbols-outlined text-secondary text-lg">wb_sunny</span><span class="font-label-sm text-label-sm text-on-surface">23°C 晴朗微风</span><span class="text-outline-variant">|</span><span class="font-label-sm text-label-sm text-primary">🌸 今日备课心情：元气满满</span></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-on-surface-variant text-lg">search</span><input class="w-72 pl-10 pr-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container shadow-[0_2px_8px_rgba(131,24,67,0.04)] transition-all" placeholder="搜索学生档案、排课表、教学案..." type="text"/></div><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all relative" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary"></span></button><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" type="button"><span class="material-symbols-outlined text-xl">assignment_turned_in</span></button><div class="flex items-center gap-space-sm pl-space-sm py-1 pr-space-md rounded-full bg-surface-container-low shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">林知夏 老师</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">高二(3)班班主任 · 语文组</span></div></div></div></header><div class="flex-1 flex overflow-hidden"><aside class="w-64 flex-none bg-surface-container-low flex flex-col justify-between p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)]"><div class="flex flex-col gap-space-xs"><div class="px-space-md py-space-xs mb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant/70">教务教学核心</span></div><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="dashboard-overview" href="#"><span class="material-symbols-outlined text-xl">grid_view</span>工作台概览</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="schedule-management" href="#"><span class="material-symbols-outlined text-xl">calendar_today</span>课表与排课</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="student-profiles" href="#"><span class="material-symbols-outlined text-xl">school</span>学生学情档案</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="homework-center" href="#"><span class="material-symbols-outlined text-xl">rate_review</span>作业批改中心</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="lesson-plans" href="#"><span class="material-symbols-outlined text-xl">menu_book</span>备课教案库</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="exam-analytics" href="#"><span class="material-symbols-outlined text-xl">analytics</span>考务与成绩分析</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="school-home-communication" href="#"><span class="material-symbols-outlined text-xl">forum</span>家校沟通社区</a></nav></div><div class="flex flex-col gap-space-sm pt-space-md bg-surface-container-lowest/70 p-space-md rounded-2xl shadow-[0_2px_12px_rgba(131,24,67,0.03)]"><button class="w-full flex items-center justify-center gap-space-xs py-2.5 px-space-md rounded-full bg-secondary text-on-secondary font-label-md text-label-md shadow-[0_4px_16px_rgba(164,48,115,0.25)] hover:opacity-95 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-lg">cast_for_education</span><span>一键开启上课模式</span></button><nav class="flex flex-col gap-1" data-active-classes="bg-surface-container text-on-surface font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-sm text-label-sm" data-path="system-settings" href="#"><span class="material-symbols-outlined text-lg">settings</span>系统偏好设置</a></nav></div></aside><main class="flex-1 h-full overflow-hidden bg-background relative flex flex-col"><div class="flex flex-col w-full h-full overflow-hidden p-space-md gap-space-sm bg-background select-none">
+<!-- Top Control Bar (Strawberry Milk Frosted Pill Bar) -->
+<header class="flex-none w-full bg-surface-container-lowest/90 backdrop-blur-md rounded-2xl p-space-sm shadow-[0_4px_24px_rgba(131,24,67,0.04)] flex items-center justify-between gap-space-md">
+<!-- Left: Week Navigator & Range Badge -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-surface-container-low rounded-full p-1 shadow-inner">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-all">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<div class="px-space-sm flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-headline-sm text-label-md text-on-surface">第 12 周</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-label-sm text-[11px]">当前教学周</span>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-all">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<div class="hidden xl:flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
+<span>4月15日 (周一) - 4月21日 (周日)</span>
+</div>
+</div>
+<!-- Center: View Filter Pills -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-full gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-md shadow-[0_2px_8px_rgba(131,24,67,0.06)] flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>我的任教课表</span>
+</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-md transition-all">高二(3)班</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-md transition-all">高二(1)班</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-md transition-all flex items-center gap-1">
+<span>公开课/研讨</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</button>
+<div class="h-4 w-px bg-outline-variant/40 mx-0.5"></div>
+<button class="px-space-sm py-1 rounded-full text-on-surface-variant hover:text-on-surface font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">meeting_room</span>
+<span>教室视角</span>
+</button>
+</div>
+<!-- Right: Quick Actions & Status -->
+<div class="flex items-center gap-space-xs">
+<div class="hidden 2xl:flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm">
+<span class="material-symbols-outlined text-sm text-emerald-600" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>排课无冲突</span>
+</div>
+<button class="flex items-center gap-1 px-space-sm py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-base text-primary">published_with_changes</span>
+<span>申请调代课</span>
+</button>
+<button class="flex items-center gap-1 px-space-sm py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-base text-on-surface-variant">print</span>
+<span>周历打印</span>
+</button>
+<button class="flex items-center gap-1 px-space-md py-1.5 rounded-full bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-label-md shadow-[0_4px_12px_rgba(253,164,175,0.4)] transition-all">
+<span class="material-symbols-outlined text-base">ios_share</span>
+<span>同步日程</span>
+</button>
+</div>
+</header>
+<!-- Main View Area (72% Timetable Grid : 28% Side Dashboard) -->
+<div class="flex-1 w-full flex gap-space-md overflow-hidden min-h-0">
+<!-- Left: Schedule Timetable Matrix (72%) -->
+<section class="w-[72%] h-full flex flex-col bg-surface-container-lowest/80 backdrop-blur-sm rounded-2xl p-space-sm shadow-[0_4px_24px_rgba(131,24,67,0.03)] overflow-hidden">
+<!-- Week Days Header -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 pb-space-xs border-b border-surface-container flex-none items-center text-center">
+<div class="flex items-center justify-center">
+<span class="font-label-sm text-[11px] text-on-surface-variant/70 tracking-wider">节次 \ 时间</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+<span class="font-label-sm text-on-surface-variant">周一 (4/15)</span>
+<span class="font-headline-sm text-xs text-on-surface">常规课程</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+<span class="font-label-sm text-on-surface-variant">周二 (4/16)</span>
+<span class="font-headline-sm text-xs text-on-surface">双班连堂</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+<span class="font-label-sm text-on-surface-variant">周三 (4/17)</span>
+<span class="font-headline-sm text-xs text-on-surface">教研开放日</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-primary-container/20 rounded-xl flex flex-col items-center shadow-sm">
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-secondary font-bold">周四 (4/18)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</div>
+<span class="font-headline-sm text-xs text-secondary">今日在席</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-surface-container-low/60 flex flex-col items-center">
+<span class="font-label-sm text-on-surface-variant">周五 (4/19)</span>
+<span class="font-headline-sm text-xs text-on-surface">培优复盘</span>
+</div>
+<div class="py-1 px-2 rounded-xl bg-surface-container/60 flex flex-col items-center">
+<span class="font-label-sm text-on-surface-variant">周末拓展</span>
+<span class="font-headline-sm text-xs text-on-surface-variant">名著研修</span>
+</div>
+</div>
+<!-- Timetable Body Rows Grid (Fixed-fit for 1080p canvas) -->
+<div class="flex-1 grid grid-rows-[0.8fr_1fr_1fr_0.7fr_1fr_1fr_0.9fr] gap-2 pt-2 overflow-hidden min-h-0">
+<!-- Row 1: 早读 (07:40 - 08:15) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">早读</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">07:40-08:15</span>
+</div>
+<!-- Mon: Duty -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex items-center justify-between hover:bg-surface-container transition-all">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-xs text-on-surface truncate">高二(3)班 古诗文晨诵</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[12px] text-primary">location_on</span>行知楼 303</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-label-sm">常规</span>
+</div>
+<!-- Tue -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-on-surface-variant/40 font-label-sm text-xs">自由晨读</div>
+<!-- Wed -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex items-center justify-between">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-xs text-on-surface truncate">高二(1)班 现代文语感</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">行知楼 301</span>
+</div>
+</div>
+<!-- Thu (Today) -->
+<div class="rounded-xl bg-secondary-container/20 p-2 flex items-center justify-between shadow-sm">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-xs text-on-secondary-container font-semibold truncate">高二(3) 班主任巡堂</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant">应到42 / 实到42人</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-label-sm">已完成</span>
+</div>
+<!-- Fri -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-on-surface-variant/40 font-label-sm text-xs">英语晨读交换</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/30 p-2 flex flex-col justify-center items-center text-center">
+<span class="font-label-sm text-[10px] text-on-surface-variant">周六自主</span>
+<span class="font-label-sm text-[11px] text-primary">阅读打卡</span>
+</div>
+</div>
+<!-- Row 2: 上午第 1-2 节 (08:30 - 10:10) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">上午 1-2</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">08:30-10:10</span>
+</div>
+<!-- Mon -->
+<div class="rounded-xl bg-surface-container-low/30 p-2 flex flex-col justify-center items-center text-center">
+<span class="font-label-sm text-[11px] text-on-surface-variant">升旗集会与班会</span>
+</div>
+<!-- Tue: Lesson -->
+<div class="rounded-xl bg-primary-fixed/40 p-2 flex flex-col justify-between hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-primary-fixed font-bold">高二(3)班 语文</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-lowest text-primary text-[10px] font-label-sm">讲评</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">期中综合卷现代文主观题剖析</p>
+<div class="flex items-center justify-between text-[10px] text-on-surface-variant">
+<span>行知楼 303 (42人)</span>
+<span class="text-primary font-medium">课件 v3.2</span>
+</div>
+</div>
+<!-- Wed: Collab Prep -->
+<div class="rounded-xl bg-tertiary-fixed/30 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-tertiary-fixed font-bold">语文组 大单元教研</span>
+<span class="material-symbols-outlined text-sm text-tertiary">groups</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant truncate">召集人：林知夏 · 行政楼402</p>
+<span class="font-label-sm text-[10px] text-tertiary">跨学科融合研讨</span>
+</div>
+<!-- Thu (Today - Big Lesson Highlight) -->
+<div class="rounded-xl bg-gradient-to-br from-primary-fixed to-secondary-fixed p-2.5 flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="absolute -right-2 -bottom-2 w-14 h-14 bg-white/30 rounded-full blur-md"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-label-sm animate-pulse">正在进行</span>
+<span class="font-headline-sm text-xs text-on-primary-fixed font-bold">高二(1)班 语文</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-lowest/80 text-secondary text-[10px] font-label-sm flex items-center gap-0.5 shadow-sm">
+<span class="material-symbols-outlined text-[11px]" style="font-variation-settings: 'FILL' 1;">star</span> 已备课
+              </span>
+</div>
+<div class="my-1 relative z-10">
+<h4 class="font-headline-sm text-xs text-on-surface leading-tight font-bold">《长恨歌》艺术构思与悲剧美</h4>
+<p class="font-label-sm text-[10px] text-on-surface-variant mt-0.5">录播教室 B204 · 全班45人已入座</p>
+</div>
+<div class="flex items-center justify-between pt-1 relative z-10">
+<div class="flex items-center gap-1 text-[10px] text-primary font-medium">
+<span class="material-symbols-outlined text-xs">cast</span> 互动板书已投屏
+              </div>
+<button class="px-2 py-0.5 rounded-full bg-secondary text-white text-[10px] font-label-sm shadow-sm hover:scale-105 active:scale-95 transition-all">
+                开启随堂测
+              </button>
+</div>
+</div>
+<!-- Fri -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">高二(3)班 语文</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px]">正课</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">文言虚词实战微专题</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">多媒体西阶一</span>
+</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">
+            休息日
+          </div>
+</div>
+<!-- Row 3: 上午第 3-4 节 (10:25 - 12:00) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">上午 3-4</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">10:25-12:00</span>
+</div>
+<!-- Mon: Lesson -->
+<div class="rounded-xl bg-primary-fixed/30 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">高二(1)班 语文</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-primary text-[10px]">课文细读</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">白居易叙事长诗结构节奏</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">行知楼 301</span>
+</div>
+<!-- Tue: Prep Window -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-base text-secondary/60">edit_note</span>
+<span class="font-headline-sm text-xs text-secondary mt-1">备课与作业精批</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">第三单元导学案校印</span>
+</div>
+<!-- Wed: Open Class -->
+<div class="rounded-xl bg-secondary-fixed/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-secondary-fixed font-bold">教研公开课观摩</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-white text-[10px]">学术听课</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">《红楼梦大单元情境化》</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">学术报告厅 · 执教: 苏若水</span>
+</div>
+<!-- Thu (Today): Scheduled Preparation -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-semibold">自习值守 / 辅导</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px]">待开启</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant truncate">高二(3)班 作业课内面批</p>
+<span class="font-label-sm text-[10px] text-primary">已预约 6 位学生</span>
+</div>
+<!-- Fri: Adjusted Lesson Note -->
+<div class="rounded-xl bg-secondary-container/15 p-2 flex flex-col justify-between shadow-sm">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-secondary-container font-bold">调课: 英语(李老师)</span>
+<span class="px-1 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-label-sm font-semibold">调课已生效</span>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface truncate">原周五第3节语文与李老师英语互换</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">原高二(3)教室</span>
+</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">
+            -
+          </div>
+</div>
+<!-- Row 4: 午休与师生心语答疑 (12:00 - 14:00) -->
+<div class="grid grid-cols-[72px_1fr] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">午间</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">12:00-14:00</span>
+</div>
+<div class="rounded-xl bg-surface-container-low/30 px-space-md py-1 flex items-center justify-between text-xs">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1 text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary">coffee</span> 午间静校与教师心语氧吧
+              </span>
+<span class="text-on-surface-variant/40">|</span>
+<span class="text-on-surface font-label-sm">今日值守老师：王主任 (高二年级组)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-primary text-[10px] font-label-sm shadow-sm">
+                今日预约答疑：13:20 顾明朗 (诗歌鉴赏辅导)
+              </span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">午休静音模式 12:40 - 13:40</span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</div>
+</div>
+</div>
+<!-- Row 5: 下午第 5-6 节 (14:00 - 15:40) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">下午 5-6</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">14:00-15:40</span>
+</div>
+<!-- Mon -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">高二(3)班 语文</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px]">讲评课</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">微写作与立意升格指导</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">行知楼 303</span>
+</div>
+<!-- Tue -->
+<div class="rounded-xl bg-primary-fixed/30 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">高二(1)班 语文</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-primary text-[10px]">新授</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">《琵琶行》音乐描写技法</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">行知楼 301</span>
+</div>
+<!-- Wed -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-center items-center text-center">
+<span class="font-headline-sm text-xs text-on-surface">学科组集体备课</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-0.5">下阶段教学进度规划</span>
+</div>
+<!-- Thu (Today) -->
+<div class="rounded-xl bg-primary-fixed/40 p-2 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-primary-fixed font-bold">高二(3)班 作业讲评</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-lowest text-secondary text-[10px] font-label-sm shadow-sm">待上课 14:00</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">古代文人志趣比较赏析讲评</p>
+<div class="flex items-center justify-between text-[10px] text-on-surface-variant">
+<span>多媒体西阶一 (42人)</span>
+<span class="material-symbols-outlined text-xs text-primary">videocam</span>
+</div>
+</div>
+<!-- Fri -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">周测命题分析</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px]">年级统测</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant truncate">周末统考试卷组题评审</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">高二教研室</span>
+</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/30 p-2 flex flex-col justify-center items-center text-center">
+<span class="font-label-sm text-[11px] text-primary">社团读书沙龙</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">文学社指导</span>
+</div>
+</div>
+<!-- Row 6: 下午第 7 节与课后延时辅导 (16:00 - 18:00) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">延时辅导</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">16:00-18:00</span>
+</div>
+<!-- Mon -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/50 font-label-sm text-xs">
+            答疑答辩自由窗
+          </div>
+<!-- Tue: 培优班 -->
+<div class="rounded-xl bg-secondary-fixed/30 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-secondary-fixed font-bold">卓越语文拔尖培优</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-white text-[10px]">精品小班</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">高二整本书思辨读写讲座</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">博学楼 103 (12人预约)</span>
+</div>
+<!-- Wed -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/50 font-label-sm text-xs">
+            体育大课间 / 教师锻炼
+          </div>
+<!-- Thu (Today) -->
+<div class="rounded-xl bg-surface-container-low/40 p-2 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-surface font-bold">个别化学法面批</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-primary text-[10px]">待进行</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant truncate">高二(3)班 临界生帮扶对谈</p>
+<span class="font-label-sm text-[10px] text-on-surface-variant">办公室 208 · 4位学生</span>
+</div>
+<!-- Fri -->
+<div class="rounded-xl bg-surface-container-low/30 p-2 flex flex-col justify-center items-center text-center">
+<span class="font-headline-sm text-xs text-on-surface">周末安全离校清点</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-0.5">高二(3)班 离校班会</span>
+</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">
+            -
+          </div>
+</div>
+<!-- Row 7: 晚自习与答疑值班 (18:40 - 21:30) -->
+<div class="grid grid-cols-[72px_repeat(5,1fr)_110px] gap-2 items-stretch min-h-0">
+<div class="rounded-xl bg-surface-container-low/40 flex flex-col justify-center items-center p-1 text-center">
+<span class="font-label-sm text-on-surface font-semibold">晚自习</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80">18:40-21:30</span>
+</div>
+<!-- Mon -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">非值班日</div>
+<!-- Tue -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">非值班日</div>
+<!-- Wed -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">非值班日</div>
+<!-- Thu (Today: Evening duty) -->
+<div class="rounded-xl bg-tertiary-fixed/30 p-2 flex flex-col justify-between shadow-sm">
+<div class="flex items-start justify-between">
+<span class="font-headline-sm text-xs text-on-tertiary-fixed font-bold">高二年级 晚自习统筹值班</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-label-sm">本周值班</span>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface truncate">高二(1)班 &amp; 高二(3)班 巡查走动</p>
+<span class="font-label-sm text-[10px] text-tertiary">总值班室：立言楼 102</span>
+</div>
+<!-- Fri -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">周末放学离校</div>
+<!-- Weekend -->
+<div class="rounded-xl bg-surface-container-low/20 p-2 flex items-center justify-center text-center text-on-surface-variant/40 font-label-sm text-xs">家校线上答疑</div>
+</div>
+</div>
+<!-- Bottom Timetable Micro-Footer / Legend -->
+<footer class="mt-space-xs pt-1 flex items-center justify-between text-xs text-on-surface-variant px-space-xs flex-none">
+<div class="flex items-center gap-space-md font-label-sm text-[11px]">
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>日常语文正课</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>教研/公开课</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed"></span>晚自习/值守</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-surface-container"></span>自主备课与批改</span>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-[11px]">
+<span class="text-secondary flex items-center gap-0.5"><span class="material-symbols-outlined text-xs">touch_app</span> 单击卡片呼出教案与学情快照</span>
+</div>
+</footer>
+</section>
+<!-- Right: Assistant, Realtime Status & Handheld Tracker Panel (28%) -->
+<aside class="w-[28%] h-full flex flex-col gap-space-sm overflow-hidden min-h-0">
+<!-- Card 1: Upcoming Class Live Pod (Upcoming countdown & room telemetry) -->
+<div class="bg-surface-container-lowest/90 backdrop-blur-md rounded-2xl p-space-md shadow-[0_4px_24px_rgba(131,24,67,0.04)] flex flex-col gap-space-sm flex-none">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-headline-sm text-label-md text-on-surface">即将开启 · 下一节课堂</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-primary-container/30 text-on-primary-container font-label-sm text-[11px]">下午 14:00</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-2 shadow-inner">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-sm text-on-surface">高二(3)班 · 作业讲评课</span>
+<span class="font-label-sm text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm text-secondary">domain</span> 多媒体西阶一教室
+              </span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-sm text-xl text-secondary">38 <span class="text-xs text-on-surface-variant font-normal">分钟后</span></span>
+<span class="font-label-sm text-[10px] text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full mt-0.5">全员教案同步就绪</span>
+</div>
+</div>
+<!-- Classroom Telemetry Bubbles -->
+<div class="grid grid-cols-3 gap-1.5 pt-1 text-center font-label-sm text-[11px]">
+<div class="bg-surface-container-lowest p-1.5 rounded-lg flex flex-col items-center shadow-xs">
+<span class="text-on-surface-variant text-[10px]">室内温度</span>
+<span class="font-semibold text-on-surface mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-xs text-primary">device_thermostat</span> 22.4°C</span>
+</div>
+<div class="bg-surface-container-lowest p-1.5 rounded-lg flex flex-col items-center shadow-xs">
+<span class="text-on-surface-variant text-[10px]">投影系统</span>
+<span class="font-semibold text-emerald-600 mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-xs">cast</span> 待机就绪</span>
+</div>
+<div class="bg-surface-container-lowest p-1.5 rounded-lg flex flex-col items-center shadow-xs">
+<span class="text-on-surface-variant text-[10px]">电子点名册</span>
+<span class="font-semibold text-secondary mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-xs">how_to_reg</span> 预载 42人</span>
+</div>
+</div>
+</div>
+<!-- Quick Class Action Launchers -->
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2 px-3 rounded-full bg-secondary text-on-secondary font-label-sm text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_12px_rgba(164,48,115,0.2)] hover:opacity-95 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">present_to_all</span>
+<span>投屏备课讲义</span>
+</button>
+<button class="py-2 px-3 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-xs flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-sm text-secondary">checklist</span>
+<span>发起课前随堂签</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Swap Class Approval Status & Progress -->
+<div class="bg-surface-container-lowest/90 backdrop-blur-md rounded-2xl p-space-sm px-space-md shadow-[0_4px_24px_rgba(131,24,67,0.03)] flex flex-col gap-2 flex-none">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-label-md text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-primary">swap_horiz</span> 调代课快讯与审批
+          </span>
+<span class="font-label-sm text-[11px] text-primary hover:underline cursor-pointer">记录明细</span>
+</div>
+<!-- Swap item instance -->
+<div class="p-2 rounded-xl bg-surface-container-low/60 flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="font-label-md text-on-surface">与 李老师 (英语组) 课时对调</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-[10px]">教研组长已核准 ✓</span>
+</div>
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>换出：周五第3节 (语文)</span>
+<span class="material-symbols-outlined text-xs text-outline">trending_flat</span>
+<span>换入：周三第4节 (高二3班)</span>
+</div>
+<!-- Progress bar -->
+<div class="w-full bg-surface-container-lowest rounded-full h-1.5 overflow-hidden mt-0.5">
+<div class="bg-secondary h-full rounded-full w-full"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Teaching Progress Meter & Memo Notepad (Fills remaining height) -->
+<div class="flex-1 bg-surface-container-lowest/90 backdrop-blur-md rounded-2xl p-space-md shadow-[0_4px_24px_rgba(131,24,67,0.03)] flex flex-col justify-between overflow-hidden min-h-0">
+<!-- Top of Card: Weekly Hours Donut & Metrics -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-label-md text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary">donut_small</span> 本周授课学时进度
+            </span>
+<span class="font-label-sm text-xs text-on-surface-variant">已完成 8 / 14 课时</span>
+</div>
+<div class="flex items-center gap-space-md bg-surface-container-low/50 p-space-sm rounded-xl">
+<!-- Inline Mini Progress Ring SVG -->
+<div class="relative w-14 h-14 flex items-center justify-center flex-none">
+<svg class="w-14 h-14 transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="57, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-sm text-xs font-bold text-secondary">57%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 text-xs">
+<div class="flex items-center justify-between gap-4">
+<span class="text-on-surface-variant font-label-sm text-[11px]">常规授课：</span>
+<span class="font-headline-sm text-xs text-on-surface">6 节已结</span>
+</div>
+<div class="flex items-center justify-between gap-4">
+<span class="text-on-surface-variant font-label-sm text-[11px]">培优与答疑：</span>
+<span class="font-headline-sm text-xs text-on-surface">2 节已结</span>
+</div>
+<div class="flex items-center justify-between gap-4">
+<span class="text-on-surface-variant font-label-sm text-[11px]">待上正课：</span>
+<span class="font-headline-sm text-xs text-primary font-bold">6 节待授</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Middle: Academic Tour & Mentorship Notes -->
+<div class="flex flex-col gap-1.5 my-1">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-semibold uppercase tracking-wider">教研活动备忘</span>
+<div class="flex items-start gap-2 p-2 rounded-xl bg-tertiary-fixed/20">
+<span class="material-symbols-outlined text-tertiary text-base mt-0.5">co_present</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-xs text-on-surface truncate">周五下午：语文备课组命题研讨</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">主讲：陈铭特级教师 · 15:40 行政楼报告厅</span>
+</div>
+</div>
+</div>
+<!-- Bottom: Sakura Sweet Note Alert -->
+<div class="p-space-sm rounded-xl bg-gradient-to-r from-primary-fixed/60 via-secondary-fixed/50 to-primary-fixed/40 flex items-center gap-space-xs text-on-primary-fixed shadow-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-lowest flex items-center justify-center flex-none shadow-xs">
+<span class="material-symbols-outlined text-secondary text-sm">favorite</span>
+</div>
+<p class="font-label-sm text-[11px] leading-tight text-on-surface">
+<span class="font-semibold text-secondary">樱花备忘：</span>明日第2节高二(1)班有教学督导常规随堂听课，记得携带纸质教案手册哦~🌸
+          </p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Active sidebar highlighting for "课表与排课"
+  (function activateSidebar() {
+    const navItems = document.querySelectorAll('aside nav a');
+    navItems.forEach(item => {
+      if (item.getAttribute('data-path') === 'schedule-management') {
+        item.classList.add('bg-primary-container', 'text-on-primary-container', 'font-headline-sm');
+        item.classList.remove('text-on-surface-variant');
+      } else {
+        item.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-headline-sm');
+      }
+    });
+  })();
+</script></main></div></body></html>

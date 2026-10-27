@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  /* Default Theme: Awesome DESIGN.md Green UI (Mintlify / Wise / Spruce Emerald System) */
+  --color-background: #f5faf7;
+  --color-surface: #f5faf7;
+  --color-surface-bright: #f8fcfa;
+  --color-surface-dim: #d6ebe0;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #ebf5ef;
+  --color-surface-container: #dfefe6;
+  --color-surface-container-high: #d2e7dc;
+  --color-surface-container-highest: #c1ddd0;
+  --color-surface-variant: #d2e7dc;
+
+  --color-on-background: #0a261d;
+  --color-on-surface: #0a261d;
+  --color-on-surface-variant: #3b594e;
+  --color-inverse-surface: #0d2e22;
+  --color-inverse-on-surface: #ecfdf5;
+
+  --color-outline: #5e7d71;
+  --color-outline-variant: #bdd4c9;
+  --color-surface-tint: #0d7a5f;
+
+  --color-primary: #0d7a5f;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #a7f3d0;
+  --color-on-primary-container: #064e3b;
+  --color-inverse-primary: #6ee7b7;
+  --color-primary-fixed: #d1fae5;
+  --color-primary-fixed-dim: #a7f3d0;
+  --color-on-primary-fixed: #064e3b;
+  --color-on-primary-fixed-variant: #047857;
+
+  --color-secondary: #059669;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #6ee7b7;
+  --color-on-secondary-container: #064e3b;
+  --color-secondary-fixed: #dcfce7;
+  --color-secondary-fixed-dim: #bbf7d0;
+  --color-on-secondary-fixed: #052e16;
+  --color-on-secondary-fixed-variant: #15803d;
+
+  --color-tertiary: #0f766e;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #99f6e4;
+  --color-on-tertiary-container: #134e4a;
+  --color-tertiary-fixed: #ccfbf1;
+  --color-tertiary-fixed-dim: #99f6e4;
+  --color-on-tertiary-fixed: #134e4a;
+  --color-on-tertiary-fixed-variant: #0f766e;
+
+  --color-error: #dc2626;
+  --color-on-error: #ffffff;
+  --color-error-container: #fee2e2;
+  --color-on-error-container: #991b1b;
+
+  /* Strictly Restrained Architectural Corner Radii (2px - 8px max) */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.3125rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.4375rem;
+  --radius-2xl: 0.5rem;
+  --radius-3xl: 0.5rem;
+
+  --spacing-gutter-lg: 1.25rem;
+  --spacing-space-xl: 1.75rem;
+  --spacing-space-xs: 0.375rem;
+  --spacing-gutter-sm: 0.75rem;
+  --spacing-space-sm: 0.625rem;
+  --spacing-gutter: 1rem;
+  --spacing-space-md: 0.875rem;
+  --spacing-space-lg: 1.25rem;
+  --spacing-margin: 1.25rem;
+  --spacing-margin-mobile: 0.75rem;
+  --spacing-margin-desktop: 1.75rem;
+
+  --font-headline-xl: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-headline-xl-mobile: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-headline-lg: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-headline-lg-mobile: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-headline-md: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-headline-sm: "Bricolage Grotesque", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body-lg: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body-md: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body-sm: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-label-md: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-label-sm: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --text-headline-xl: 2.75rem;
+  --text-headline-xl--line-height: 3.25rem;
+  --text-headline-xl--letter-spacing: -0.03em;
+  --text-headline-xl--font-weight: 700;
+
+  --text-headline-xl-mobile: 1.875rem;
+  --text-headline-xl-mobile--line-height: 2.375rem;
+  --text-headline-xl-mobile--letter-spacing: -0.02em;
+  --text-headline-xl-mobile--font-weight: 700;
+
+  --text-headline-lg: 2rem;
+  --text-headline-lg--line-height: 2.5rem;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-lg-mobile: 1.5rem;
+  --text-headline-lg-mobile--line-height: 2rem;
+  --text-headline-lg-mobile--letter-spacing: -0.01em;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-headline-md: 1.5rem;
+  --text-headline-md--line-height: 2rem;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 1.125rem;
+  --text-headline-sm--line-height: 1.625rem;
+  --text-headline-sm--font-weight: 600;
+
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.625rem;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 0.9375rem;
+  --text-body-md--line-height: 1.45rem;
+  --text-body-md--font-weight: 400;
+
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.25rem;
+  --text-body-sm--font-weight: 400;
+
+  --text-label-md: 0.8125rem;
+  --text-label-md--line-height: 1.2rem;
+  --text-label-md--letter-spacing: 0.01em;
+  --text-label-md--font-weight: 600;
+
+  --text-label-sm: 0.75rem;
+  --text-label-sm--line-height: 1rem;
+  --text-label-sm--letter-spacing: 0.01em;
+  --text-label-sm--font-weight: 600;
+}
+
+/* Theme Variant 2: Awesome DESIGN.md Four-Tier Earth/Matcha Green (Starbucks / Sage System) */
+[data-theme="matcha-bamboo"] {
+  --color-background: #f6f8f4;
+  --color-surface: #f6f8f4;
+  --color-surface-bright: #fafbf9;
+  --color-surface-dim: #dce4d8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #edf2ea;
+  --color-surface-container: #e2ebe0;
+  --color-surface-container-high: #d4e2d2;
+  --color-surface-container-highest: #c4d6c2;
+  --color-surface-variant: #d4e2d2;
+
+  --color-on-background: #162a22;
+  --color-on-surface: #162a22;
+  --color-on-surface-variant: #41584d;
+  --color-inverse-surface: #1e3932;
+  --color-inverse-on-surface: #f1f8f5;
+
+  --color-outline: #647a6f;
+  --color-outline-variant: #c2d1c8;
+  --color-surface-tint: #1e3932;
+
+  --color-primary: #1e3932;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #b7e4c7;
+  --color-on-primary-container: #0b291e;
+  --color-inverse-primary: #95d5b2;
+  --color-primary-fixed: #d8f3dc;
+  --color-primary-fixed-dim: #b7e4c7;
+  --color-on-primary-fixed: #081c15;
+  --color-on-primary-fixed-variant: #1b4332;
+
+  --color-secondary: #00754a;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #95d5b2;
+  --color-on-secondary-container: #081c15;
+  --color-secondary-fixed: #d4e9e2;
+  --color-secondary-fixed-dim: #b7e4c7;
+  --color-on-secondary-fixed: #081c15;
+  --color-on-secondary-fixed-variant: #006241;
+
+  --color-tertiary: #2d6a4f;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #b7e4c7;
+  --color-on-tertiary-container: #1b4332;
+  --color-tertiary-fixed: #d8f3dc;
+  --color-tertiary-fixed-dim: #b7e4c7;
+  --color-on-tertiary-fixed: #081c15;
+  --color-on-tertiary-fixed-variant: #2d6a4f;
+}
+
+/* Theme Variant 3: Sakura Classic Palette (with Restrained Small Corner Radii) */
+[data-theme="sakura-pink"] {
+  --color-primary-fixed-dim: #ffb2bb;
+  --color-on-secondary-fixed-variant: #85145a;
+  --color-on-primary-container: #793741;
+  --color-primary-fixed: #ffd9dc;
+  --color-inverse-surface: #4c1d4f;
+  --color-on-tertiary-fixed-variant: #4a4456;
+  --color-surface-container-highest: #ffd6fa;
+  --color-tertiary-fixed: #e9def5;
+  --color-error: #ba1a1a;
+  --color-tertiary: #635b6e;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #ffeffa;
+  --color-surface-tint: #8f4953;
+  --color-primary: #8f4953;
+  --color-tertiary-container: #c3b9cf;
+  --color-secondary-fixed-dim: #ffafd3;
+  --color-background: #fff7fa;
+  --color-surface-bright: #fff7fa;
+  --color-on-primary-fixed-variant: #73323d;
+  --color-on-primary: #ffffff;
+  --color-outline: #857274;
+  --color-secondary: #a43073;
+  --color-inverse-primary: #ffb2bb;
+  --color-on-error-container: #93000a;
+  --color-inverse-on-surface: #ffebfa;
+  --color-primary-container: #fda4af;
+  --color-surface: #fff7fa;
+  --color-on-surface: #340538;
+  --color-on-primary-fixed: #3b0613;
+  --color-on-secondary-container: #76014e;
+  --color-error-container: #ffdad6;
+  --color-on-secondary: #ffffff;
+  --color-on-tertiary-container: #50495b;
+  --color-surface-container-high: #ffdffa;
+  --color-surface-container: #ffe7fa;
+  --color-on-tertiary-fixed: #1e1929;
+  --color-on-surface-variant: #534344;
+  --color-secondary-fixed: #ffd8e7;
+  --color-surface-variant: #ffd6fa;
+  --color-outline-variant: #d8c1c3;
+  --color-on-secondary-fixed: #3d0026;
+  --color-tertiary-fixed-dim: #cdc2d9;
+  --color-secondary-container: #fc79bd;
+  --color-on-tertiary: #ffffff;
+  --color-on-background: #340538;
+  --color-surface-dim: #ffc9fb;
+  --color-on-error: #ffffff;
+}
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior: none;
+  }
+}
+
+/* Global Anti-Pill / Restrained Corner Enforcement:
+   Prevents buttons, inputs, tabs, badges, and cards with legacy `rounded-full`
+   or `rounded-3xl` / `rounded-2xl` from rendering with giant capsule corners,
+   while preserving circular geometry on 1:1 avatars and micro indicator dots. */
+button.rounded-full:not(.w-6):not(.w-7):not(.w-8):not(.w-9):not(.w-10),
+input.rounded-full,
+a.rounded-full,
+nav.rounded-full,
+span.rounded-full:not(.w-1):not(.w-1\.5):not(.w-2):not(.w-2\.5):not(.w-3):not(.w-3\.5):not(.w-4):not(.w-5):not(.w-6):not(.w-7):not(.w-8),
+div.rounded-full:not(.w-1):not(.w-1\.5):not(.w-2):not(.w-2\.5):not(.w-3):not(.w-3\.5):not(.w-4):not(.w-5):not(.w-6):not(.w-7):not(.w-8):not(.w-9):not(.w-10):not(.w-11):not(.w-12):not(.w-14):not(.w-24):not(.blur-xl):not(.blur-2xl):not(.blur-3xl) {
+  border-radius: 0.375rem !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}

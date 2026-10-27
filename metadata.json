@@ -1,0 +1,6 @@
+{
+  "name": "SakuraEdu 樱花教务云",
+  "description": "樱花教务云（教师端专属空间）——融合温柔与智慧的高中教务教学协同平台，涵盖智能批阅工坊、全景学情画像、课表与排课、备课教案库、考务与成绩分析、家校沟通社区及教务知识库。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
