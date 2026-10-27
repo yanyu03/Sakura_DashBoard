@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-10-27T09:25:19.916Z",
+  "baselineDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\baselines\\2026-10-27T09-25-19-759Z",
+  "databaseSource": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sakura_edu.sqlite",
+  "backupSha256": "3d63a9f9f065259714162f81f194d643036018bb7859c0f7e86fa80cb14007ac",
+  "restoreIntegrity": "ok",
+  "tableCounts": {
+    "academic_classes": 1,
+    "coaching_journals": 1,
+    "course_swap_requests": 1,
+    "exam_analytics_batches": 1,
+    "faculty_users": 1,
+    "home_school_messages": 2,
+    "home_school_threads": 1,
+    "homework_assignments": 1,
+    "homework_submissions": 1,
+    "lesson_plans": 1,
+    "security_captchas": 30,
+    "sql_audit_logs": 88,
+    "student_profiles": 1,
+    "timetable_schedules": 1
+  },
+  "head": "7394d49cb5a49f2e372b5106f544872194e2ea12",
+  "branch": "local/1.0sakura-preview",
+  "sourceFiles": 88
+}

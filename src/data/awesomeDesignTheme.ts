@@ -11,7 +11,20 @@
  *   Strict 4px–8px architectural radius scale (eliminating oversized 24px–48px / 9999px pills).
  */
 
-export type UiThemeId = 'awesome-green' | 'matcha-bamboo' | 'sakura-pink';
+import standardThemes from './sakuraStandardThemes.json';
+
+export const STANDARD_PREVIEW = new URLSearchParams(window.location.search).get('design') === '1.0Sakura';
+export type StandardThemeId = 'sakura-milk' | 'ocean-blue' | 'forest-tea' | 'amber-paper' | 'lavender-mist' | 'graphite-mono' | 'midnight-cyan';
+export type UiThemeId = 'awesome-green' | 'matcha-bamboo' | 'sakura-pink' | 'sakura-classic' | StandardThemeId;
+
+/** Map saved legacy preferences without changing the database during preview. */
+export function resolveUiTheme(theme: UiThemeId): UiThemeId {
+  if (!STANDARD_PREVIEW) return theme === 'sakura-classic' ? 'sakura-pink' : theme;
+  const legacy: Partial<Record<UiThemeId, StandardThemeId>> = {
+    'awesome-green': 'forest-tea', 'matcha-bamboo': 'forest-tea', 'sakura-pink': 'sakura-milk', 'sakura-classic': 'sakura-milk',
+  };
+  return legacy[theme] || theme;
+}
 
 export interface UiThemeMeta {
   id: UiThemeId;
@@ -26,7 +39,7 @@ export interface UiThemeMeta {
   radiusSpec: string;
 }
 
-export const AWESOME_DESIGN_THEMES: UiThemeMeta[] = [
+const LEGACY_DESIGN_THEMES: UiThemeMeta[] = [
   {
     id: 'awesome-green',
     name: '青翠森系 · Awesome Green',
@@ -67,3 +80,7 @@ export const AWESOME_DESIGN_THEMES: UiThemeMeta[] = [
     radiusSpec: '卡片 6px-8px / 按钮与输入框 4px-6px / 标签 4px',
   },
 ];
+
+export const AWESOME_DESIGN_THEMES: UiThemeMeta[] = STANDARD_PREVIEW
+  ? standardThemes as UiThemeMeta[]
+  : LEGACY_DESIGN_THEMES;

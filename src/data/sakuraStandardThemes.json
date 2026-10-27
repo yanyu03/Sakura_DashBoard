@@ -1,0 +1,86 @@
+[
+  {
+    "id": "sakura-milk",
+    "name": "樱花奶昔",
+    "shortLabel": "樱花奶昔",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "浅粉白画布与绯红强调色，温和清晰，适合日常教学协同。",
+    "primaryHex": "#e11d48",
+    "secondaryHex": "#e11d48",
+    "surfaceHex": "#fff7fa",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "ocean-blue",
+    "name": "海盐晴空",
+    "shortLabel": "海盐晴空",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "蓝白理性，适合数据与教务后台。",
+    "primaryHex": "#1c4bb3",
+    "secondaryHex": "#1d4ed8",
+    "surfaceHex": "#f5f9ff",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "forest-tea",
+    "name": "抹茶森林",
+    "shortLabel": "抹茶森林",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "绿白低刺激，适合长时阅读与教研。",
+    "primaryHex": "#10612e",
+    "secondaryHex": "#166534",
+    "surfaceHex": "#f6faf5",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "amber-paper",
+    "name": "琥珀纸张",
+    "shortLabel": "琥珀纸张",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "米白暖橙，适合阅读、档案与教案。",
+    "primaryHex": "#893f07",
+    "secondaryHex": "#92400e",
+    "surfaceHex": "#fffbf4",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "lavender-mist",
+    "name": "薰衣草雾",
+    "shortLabel": "薰衣草雾",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "紫白柔和，适合创意及辅助智能模块。",
+    "primaryHex": "#5e2cb4",
+    "secondaryHex": "#6d28d9",
+    "surfaceHex": "#faf7ff",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "graphite-mono",
+    "name": "石墨极简",
+    "shortLabel": "石墨极简",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "中性灰蓝，适合企业级高密度工作台。",
+    "primaryHex": "#273141",
+    "secondaryHex": "#1e293b",
+    "surfaceHex": "#f8fafc",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  },
+  {
+    "id": "midnight-cyan",
+    "name": "午夜青蓝",
+    "shortLabel": "午夜青蓝",
+    "badge": "1.0Sakura",
+    "sourceRef": "SakuraEdu · 1.0Sakura",
+    "description": "深蓝画布与青色强调，适合夜间备课与数据浏览。",
+    "primaryHex": "#0e7490",
+    "secondaryHex": "#67e8f9",
+    "surfaceHex": "#0b1220",
+    "radiusSpec": "按钮 6px / 卡片 12px"
+  }
+]

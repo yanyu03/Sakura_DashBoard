@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-27T10:41:25.100Z",
+  "originalCoreRecords": 13,
+  "originalIdsPreserved": true,
+  "fixtureCount": 0,
+  "migrations": [
+    {
+      "version": 1,
+      "name": "relational-foundation"
+    },
+    {
+      "version": 2,
+      "name": "accounts-and-sessions"
+    },
+    {
+      "version": 3,
+      "name": "academic-master-data"
+    },
+    {
+      "version": 4,
+      "name": "versioned-master-records"
+    },
+    {
+      "version": 5,
+      "name": "manual-homework-workflow"
+    },
+    {
+      "version": 6,
+      "name": "lesson-content-and-revisions"
+    },
+    {
+      "version": 7,
+      "name": "schedule-approval-workflow"
+    },
+    {
+      "version": 8,
+      "name": "assessment-scores-and-imports"
+    },
+    {
+      "version": 9,
+      "name": "internal-care-records"
+    },
+    {
+      "version": 10,
+      "name": "workspace-notifications"
+    },
+    {
+      "version": 11,
+      "name": "lesson-schedule-links"
+    }
+  ],
+  "integrity": "ok",
+  "foreignKeyViolations": [],
+  "digest": "176206eebbaa03f881b9f786128cb80d93a38e6615107bc08b1e360f013540dd"
+}

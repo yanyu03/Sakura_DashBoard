@@ -1,4 +1,6 @@
-@import "tailwindcss";
+/* Register shared layers before Tailwind; otherwise legacy can outrank components. */
+@layer theme, base, legacy, themes, components, motion, responsive, utilities, accessibility;
+@import "tailwindcss" source(".");
 
 @theme {
   /* Default Theme: Awesome DESIGN.md Green UI (Mintlify / Wise / Spruce Emerald System) */

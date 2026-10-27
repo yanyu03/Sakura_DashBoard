@@ -1,0 +1,33 @@
+{
+  "directory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\migration-test-wLsMeW",
+  "checks": [
+    {
+      "name": "fresh database migrates and has enforceable foreign keys",
+      "status": "PASS"
+    },
+    {
+      "name": "two-teacher two-class fixtures use distinct persisted relations",
+      "status": "PASS"
+    },
+    {
+      "name": "repeated migration preserves fixtures and creates no duplicate history",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy migration preserves custom rows and makes a restorable backup",
+      "status": "PASS"
+    },
+    {
+      "name": "applied migration checksum protects history",
+      "status": "PASS"
+    },
+    {
+      "name": "orphan data blocks upgrade without deleting original records",
+      "status": "PASS"
+    },
+    {
+      "name": "explicit demo reset handles child relations before parent rows",
+      "status": "PASS"
+    }
+  ]
+}

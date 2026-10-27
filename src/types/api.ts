@@ -3,7 +3,8 @@ import {
   StudentAcademicProfile,
   StudentSubmission,
   WorkspaceTab,
-} from './sakura';
+} from "./sakura";
+import type { UiThemeId } from "../data/awesomeDesignTheme";
 
 /**
  * 标准 RESTful / RPC 统一返回包装器
@@ -12,7 +13,7 @@ export interface ApiResponse<T> {
   code: number;
   success: boolean;
   message: string;
-  data: T;
+  data: T | null;
   traceId: string;
   timestamp: string;
   sqlExecuted?: string;
@@ -38,7 +39,7 @@ export interface SakuraBackendConfig {
 /**
  * 开源 svg-captcha 验证码挑战返回契约
  */
-export type CaptchaMode = 'graphic' | 'math' | 'slider';
+export type CaptchaMode = "graphic" | "math" | "slider";
 
 export interface CaptchaChallengeDTO {
   captchaId: string;
@@ -58,6 +59,9 @@ export interface SqliteStatusDTO {
   dbPath: string;
   fileSizeBytes: number;
   fileSizeFormatted: string;
+  walSizeBytes?: number;
+  shmSizeBytes?: number;
+  totalSizeBytes?: number;
   journalMode: string;
   lastModified: string;
   totalTables: number;
@@ -74,7 +78,8 @@ export interface SqliteStatusDTO {
 }
 
 export interface SqliteQueryResultDTO {
-  mode: 'SELECT' | 'MUTATION';
+  mode: "SELECT" | "MUTATION";
+  returnsRows?: boolean;
   rowCount?: number;
   rows?: Record<string, unknown>[];
   changes?: number;
@@ -87,7 +92,7 @@ export interface SqliteQueryResultDTO {
 export interface ApiEndpointSpec {
   id: string;
   module: string;
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   path: string;
   functionName: string;
   summary: string;
@@ -101,19 +106,21 @@ export interface FacultyLoginPayload {
   password?: string;
   captchaId?: string;
   captchaAnswer?: string;
-  loginType: 'account' | 'qrcode' | 'phone' | 'sso';
+  loginType: "account" | "qrcode" | "phone" | "sso";
   keepOnline?: boolean;
 }
 
 export interface FacultyDefaultProfileDTO {
+  demoMode?: boolean;
+  role?: "admin" | "teacher";
   teacherId: string;
   facultyCode: string;
-  password: string;
+  password?: string;
   fullName: string;
   titleRole: string;
   department: string;
   defaultTab: WorkspaceTab;
-  defaultTheme: 'awesome-green' | 'matcha-bamboo' | 'sakura-classic';
+  defaultTheme: UiThemeId;
   defaultClassName: string;
   semesterLabel: string;
   dndEnabled: boolean;
@@ -121,6 +128,9 @@ export interface FacultyDefaultProfileDTO {
 }
 
 export interface FacultySessionDTO {
+  demoMode?: boolean;
+  role?: "admin" | "teacher";
+  csrfToken?: string;
   teacherId: string;
   facultyCode: string;
   fullName: string;
@@ -128,7 +138,7 @@ export interface FacultySessionDTO {
   department: string;
   token: string;
   defaultTab: WorkspaceTab;
-  defaultTheme?: 'awesome-green' | 'matcha-bamboo' | 'sakura-classic';
+  defaultTheme?: UiThemeId;
   defaultClassName?: string;
   semesterLabel?: string;
   dndEnabled?: boolean;
@@ -148,13 +158,13 @@ export interface GradeSubmissionPayload {
   assignmentId: string;
   studentId: string;
   score: number;
-  stamp?: '妙笔生花' | '见解独到' | null;
+  stamp?: "妙笔生花" | "见解独到" | null;
   brushNote?: string;
 }
 
 export interface SaveLessonPlanPayload {
   lessonId?: string;
-  unitCode: 'u1' | 'u2' | 'u3';
+  unitCode: "u1" | "u2" | "u3";
   title: string;
   description: string;
   authorName: string;
@@ -167,138 +177,140 @@ export interface SendParentMessagePayload {
 }
 
 export const SAKURA_API_ENDPOINTS: ApiEndpointSpec[] = [
-  {
-    id: 'security-captcha',
-    module: '安全验证码引擎',
-    method: 'GET',
-    path: '/api/v1/security/captcha',
-    functionName: 'sakuraApi.security.generateCaptcha(mode)',
-    summary: '基于开源 svg-captcha 生成图形噪点/算术矢量/滑块轨迹验证码并写入本地 SQLite',
-    boundTable: 'security_captchas',
-    requestSchema: '?mode=graphic|math|slider',
-    responseSchema: 'ApiResponse<CaptchaChallengeDTO>',
-  },
-  {
-    id: 'auth-login',
-    module: '教师统一认证',
-    method: 'POST',
-    path: '/api/v1/auth/faculty-login',
-    functionName: 'sakuraApi.auth.loginWithCredentials(payload)',
-    summary: '核验 SQLite 验证码票据与教师工号凭证，签发 JWT 会话',
-    boundTable: 'faculty_users, security_captchas',
-    requestSchema: '{ facultyId: string; captchaId?: string; captchaAnswer?: string; loginType: "account"|"qrcode"|"phone" }',
-    responseSchema: 'ApiResponse<FacultySessionDTO>',
-  },
-  {
-    id: 'sqlite-status',
-    module: '本地SQLite备件库',
-    method: 'GET',
-    path: '/api/v1/sqlite/status',
-    functionName: 'sakuraApi.sqlite.getStatus()',
-    summary: '检视纯本地 data/sakura_edu.sqlite 备件文件大小、WAL模式及14张表实时行数',
-    boundTable: 'sqlite_master, sql_audit_logs',
-    requestSchema: 'None',
-    responseSchema: 'ApiResponse<SqliteStatusDTO>',
-  },
-  {
-    id: 'schedule-matrix',
-    module: '课表与排课',
-    method: 'GET',
-    path: '/api/v1/schedules/weekly-matrix',
-    functionName: 'sakuraApi.schedule.getWeeklyTimetable(weekNum, filter)',
-    summary: '拉取指定教学周排课网格矩阵与教室实时温湿度遥测',
-    boundTable: 'timetable_schedules',
-    requestSchema: '?semester=2024-SPRING&weekNum=12&viewFilter=my-schedule',
-    responseSchema: 'ApiResponse<{ weekNum: number; conflictFree: boolean; rows: TimetableRow[] }>',
-  },
-  {
-    id: 'schedule-swap',
-    module: '课表与排课',
-    method: 'POST',
-    path: '/api/v1/schedules/swap-requests',
-    functionName: 'sakuraApi.schedule.submitCourseSwap(payload)',
-    summary: '提交调代课申请并持久化至本地 SQLite 调代课审批表',
-    boundTable: 'course_swap_requests',
-    requestSchema: 'CourseSwapPayload',
-    responseSchema: 'ApiResponse<{ requestId: string; approvalStatus: "APPROVED" }>',
-  },
-  {
-    id: 'homework-list',
-    module: '作业批改中心',
-    method: 'GET',
-    path: '/api/v1/homework/submissions',
-    functionName: 'sakuraApi.homework.getClassSubmissions(className, status)',
-    summary: '从本地 SQLite 查询班级学生答卷列表及AI切片诊断摘要',
-    boundTable: 'homework_submissions',
-    requestSchema: '?className=高二(1)班&status=all',
-    responseSchema: 'ApiResponse<StudentSubmission[]>',
-  },
-  {
-    id: 'homework-grade',
-    module: '作业批改中心',
-    method: 'PATCH',
-    path: '/api/v1/homework/submissions/:id/grade',
-    functionName: 'sakuraApi.homework.submitGrade(payload)',
-    summary: '保存教师终核分数、红笔批注、樱花鼓励印章并更新 SQLite',
-    boundTable: 'homework_submissions',
-    requestSchema: 'GradeSubmissionPayload',
-    responseSchema: 'ApiResponse<{ submissionId: string; finalScore: number }>',
-  },
-  {
-    id: 'student-panorama',
-    module: '学生学情档案',
-    method: 'GET',
-    path: '/api/v1/students',
-    functionName: 'sakuraApi.student.getStudentProfiles(classId, tag)',
-    summary: '从本地 SQLite 获取学生 360° 全景学情、五维能力雷达、大考走势与面批手账',
-    boundTable: 'student_profiles, coaching_journals',
-    requestSchema: '?classId=G2-201&tag=all',
-    responseSchema: 'ApiResponse<StudentAcademicProfile[]>',
-  },
-  {
-    id: 'student-journal',
-    module: '学生学情档案',
-    method: 'POST',
-    path: '/api/v1/students/:id/coaching-journals',
-    functionName: 'sakuraApi.student.addCoachingJournal(studentId, name, content)',
-    summary: '新增教师面批手账备忘录并写入本地 SQLite',
-    boundTable: 'coaching_journals',
-    requestSchema: '{ studentName: string; content: string }',
-    responseSchema: 'ApiResponse<{ journalId: string; dateTitle: string }>',
-  },
-  {
-    id: 'lesson-save',
-    module: '备课教案库',
-    method: 'PUT',
-    path: '/api/v1/lessons/unit-plans',
-    functionName: 'sakuraApi.lesson.saveLessonPlan(payload)',
-    summary: '创建或更新大单元情境化教案并写入本地 SQLite 备件库',
-    boundTable: 'lesson_plans',
-    requestSchema: 'SaveLessonPlanPayload',
-    responseSchema: 'ApiResponse<{ lessonId: string; updatedAt: string }>',
-  },
-  {
-    id: 'exam-slices',
-    module: '考务与成绩分析',
-    method: 'GET',
-    path: '/api/v1/exams/analytics',
-    functionName: 'sakuraApi.exam.getBatchAnalytics(examTitle)',
-    summary: '从 SQLite 查询大题得分率切片、分数段正态阶梯及临界/拔尖焦点生矩阵',
-    boundTable: 'exam_analytics_batches',
-    requestSchema: '?title=2023-2024高二期中联考',
-    responseSchema: 'ApiResponse<ExamAnalyticsBatchDTO>',
-  },
-  {
-    id: 'comm-message',
-    module: '家校沟通社区',
-    method: 'POST',
-    path: '/api/v1/home-school/threads/:threadId/messages',
-    functionName: 'sakuraApi.comm.sendParentMessage(payload)',
-    summary: '发送家校协同私信并持久化至本地 SQLite 消息表',
-    boundTable: 'home_school_messages',
-    requestSchema: 'SendParentMessagePayload',
-    responseSchema: 'ApiResponse<{ messageId: string; sentTime: string }>',
-  },
-];
-
-export type { StudentSubmission, StudentAcademicProfile, ParentChatThread };
+  [
+    "auth-login",
+    "教师认证",
+    "POST",
+    "/api/v1/auth/faculty-login",
+    "核验密码与一次性验证码；签发可撤销的 HttpOnly 会话",
+    "faculty_users,auth_sessions",
+    "facultyId,password,captchaId,captchaAnswer",
+  ],
+  [
+    "academic",
+    "基础资料",
+    "GET",
+    "/api/v1/academic/students",
+    "按任教范围搜索分页；新建与版本化编辑另有 POST/PATCH 端点",
+    "student_profiles,class_enrollments",
+    "classId,q,page,pageSize",
+  ],
+  [
+    "homework",
+    "作业批阅",
+    "POST",
+    "/api/v1/homework/assignments",
+    "创建草稿；发布时锁定名单",
+    "homework_assignments",
+    "class_id,title,max_score,instructions,due_at?",
+  ],
+  [
+    "grade",
+    "作业批阅",
+    "PATCH",
+    "/api/v1/homework/submissions/:id/grade",
+    "版本校验后保存分数、批注与印章；同时保留历史",
+    "homework_submissions,homework_history",
+    "version,score,feedback?,stampType?",
+  ],
+  [
+    "lessons",
+    "教案库",
+    "POST",
+    "/api/v1/lessons/plans",
+    "保存文本教案与作者；PATCH 编辑时校验 version",
+    "lesson_plans,lesson_revisions",
+    "title,body,tags,visibility",
+  ],
+  [
+    "schedule",
+    "课表",
+    "GET",
+    "/api/v1/schedules/entries",
+    "按具体日期读取真实课时；管理员 POST 建立课时",
+    "schedule_entries",
+    "from,to（结束日不含）",
+  ],
+  [
+    "schedule-approve",
+    "调代课",
+    "PATCH",
+    "/api/v1/schedules/changes/:id",
+    "审批时再次校验教师、班级、教室冲突；申请人不能自批",
+    "schedule_changes,schedule_entries",
+    "version,status,review_note?",
+  ],
+  [
+    "exam-preview",
+    "考试成绩",
+    "POST",
+    "/api/v1/exams/batches/:id/import-preview",
+    "校验名册、状态和逐题分数，不写入成绩",
+    "assessment_exams,assessment_questions",
+    "version,rows",
+  ],
+  [
+    "exam-import",
+    "考试成绩",
+    "POST",
+    "/api/v1/exams/batches/:id/import",
+    "预览校验后事务导入；同一请求标识不重复写入",
+    "assessment_results,assessment_marks,assessment_imports",
+    "version,rows,previewHash,request_key",
+  ],
+  [
+    "care",
+    "家校记录",
+    "POST",
+    "/api/v1/care/threads/:id/messages",
+    "保存站内记录或待发送内容；未连接外部投递",
+    "care_messages,care_threads",
+    "content,kind,request_key",
+  ],
+  [
+    "overview",
+    "工作台",
+    "GET",
+    "/api/v1/workspace/overview",
+    "读取权限内的实际待批、名单、课表、关怀与未读记录",
+    "业务规范表",
+    "None",
+  ],
+  [
+    "search",
+    "全局搜索",
+    "GET",
+    "/api/v1/workspace/search",
+    "查询学生、作业、教案和考试并返回资源 ID",
+    "业务规范表",
+    "q",
+  ],
+  [
+    "sqlite-status",
+    "SQLite 管理",
+    "GET",
+    "/api/v1/sqlite/status",
+    "仅管理员；返回实际路径、WAL 状态与应用表计数",
+    "sqlite_master",
+    "None",
+  ],
+  [
+    "sqlite-backup",
+    "SQLite 管理",
+    "GET",
+    "/api/v1/sqlite/backup-download",
+    "仅管理员；在线快照包含已提交的 WAL 数据",
+    "SQLite backup API",
+    "None",
+  ],
+].map(([id, module, method, path, summary, boundTable, requestSchema]) => ({
+  id,
+  module,
+  method: method as ApiEndpointSpec["method"],
+  path,
+  functionName: "sakuraApi.business.request / auth / sqlite",
+  summary,
+  boundTable,
+  requestSchema,
+  responseSchema: "ApiResponse<T>（失败含 traceId）",
+}));

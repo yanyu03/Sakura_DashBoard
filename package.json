@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
+    "dev:standard": "tsx scripts/dev-standard.ts",
     "start": "tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test:sqlite": "tsx scripts/verify-sqlite.ts",
+    "test:migrations": "tsx scripts/verify-migrations.ts",
+    "baseline:business": "tsx scripts/create-business-baseline.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -32,7 +36,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
     "typescript": "^7.0.2"

@@ -1,0 +1,58 @@
+[
+  {
+    "endpoint": "auth/default-profile",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfrrtp-ibz9",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "homework/submissions",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfrteq-6gll",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "students",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfruyu-p6a0",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "lessons/unit-plans",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfrwj0-7xnu",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "schedules/weekly-matrix",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfry2q-2rbg",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "exams/analytics",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfrzms-n4p9",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "home-school/threads",
+    "success": true,
+    "code": 200,
+    "engineTrace": "trace-mvqfs16t-xo4y",
+    "dataPresent": true
+  },
+  {
+    "endpoint": "sqlite/status",
+    "success": true,
+    "code": 200,
+    "engineTrace": "status-1793090487281",
+    "dataPresent": true
+  }
+]

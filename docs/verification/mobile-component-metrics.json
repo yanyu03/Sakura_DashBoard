@@ -1,0 +1,48 @@
+{
+  "buttons": [
+    {
+      "height": 44,
+      "label": "演示加载",
+      "radius": "6px"
+    },
+    {
+      "height": 44,
+      "label": "辅助操作",
+      "radius": "6px"
+    },
+    {
+      "height": 44,
+      "label": "行内操作",
+      "radius": "6px"
+    },
+    {
+      "height": 44,
+      "label": "暂不可用",
+      "radius": "6px"
+    },
+    {
+      "height": 44,
+      "label": "收起任务",
+      "radius": "6px"
+    }
+  ],
+  "cardRadius": "12px",
+  "inputs": [
+    {
+      "height": 44,
+      "radius": "6px"
+    },
+    {
+      "height": 44,
+      "radius": "6px"
+    }
+  ],
+  "overflow": false,
+  "skeleton": "sakura-skeleton-pulse",
+  "stagger": [
+    "0s",
+    "0.04s",
+    "0.08s"
+  ],
+  "width": 390
+}

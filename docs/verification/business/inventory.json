@@ -1,0 +1,2723 @@
+{
+  "events": [
+    {
+      "id": "UI-001",
+      "file": "src/components/DesignStandardPreview.tsx",
+      "line": 44,
+      "event": "onChange",
+      "label": "<select aria-label=\"预览主题\" className=\"sakura-input\" value={theme} onChange={event => setTheme(event.target.value as UiThemeId)}> {AWESOME_DESIGN_THEMES.map(item => <option key={item.id} value={item.id}>{item.name}",
+      "handler": "{event => setTheme(event.target.value as UiThemeId)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-002",
+      "file": "src/components/DesignStandardPreview.tsx",
+      "line": 52,
+      "event": "onClick",
+      "label": "<button className=\"sakura-btn sakura-btn-primary\" type=\"button\" disabled={busy} aria-busy={busy} onClick={() => setBusy(true)}> {busy ? <span className=\"sakura-spinner\" aria-hidden=\"true\" /> : null} ",
+      "handler": "{() => setBusy(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-003",
+      "file": "src/components/DesignStandardPreview.tsx",
+      "line": 73,
+      "event": "onClick",
+      "label": "<button ref={trigger} className=\"sakura-btn sakura-btn-secondary self-start\" type=\"button\" onClick={togglePanel} disabled={visible && state === 'leaving'}>{visible ? '收起任务' : '显示任务'}</button> {visible ?",
+      "handler": "{togglePanel}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-004",
+      "file": "src/App.tsx",
+      "line": 218,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setMobileDrawerOpen(true)} className=\"lg:hidden w-8 h-8 rounded bg-surface-container-low border border-outlin",
+      "handler": "{() => setMobileDrawerOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-005",
+      "file": "src/App.tsx",
+      "line": 226,
+      "event": "onClick",
+      "label": "<div onClick={() => setActiveTab('dashboard-overview')} className=\"flex items-center gap-2 cursor-pointer shrink-0\" > ",
+      "handler": "{() => setActiveTab('dashboard-overview')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-006",
+      "file": "src/App.tsx",
+      "line": 245,
+      "event": "onClick",
+      "label": "<div onClick={() => setActiveTab('schedule-management')} className=\"hidden xl:flex items-center gap-2 px-2.5 py-1 rounded bg-surface-contai",
+      "handler": "{() => setActiveTab('schedule-management')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-007",
+      "file": "src/App.tsx",
+      "line": 263,
+      "event": "onSubmit",
+      "label": "<form onSubmit={handleGlobalSearchSubmit} className=\"hidden md:flex relative items-center\" > ",
+      "handler": "{handleGlobalSearchSubmit}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-008",
+      "file": "src/App.tsx",
+      "line": 271,
+      "event": "onChange",
+      "label": "<input value={globalSearch} onChange={(e) => setGlobalSearch(e.target.value)} className=\"w-40 lg:w-52 xl:w-60 pl-8 pr-2.5 py-1 rounded bg-surface-container-lo",
+      "handler": "{(e) => setGlobalSearch(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-009",
+      "file": "src/App.tsx",
+      "line": 282,
+      "event": "onChange",
+      "label": "<select aria-label=\"界面主题\" value={activeTheme} onChange={(event) => setActiveTheme(event.target.value as UiThemeId)} className=\"rounded-md bg-surface-container-lowest text-on-surface border border-outline-variant px-",
+      "handler": "{(event) => setActiveTheme(event.target.value as UiThemeId)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-010",
+      "file": "src/App.tsx",
+      "line": 294,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => { setActiveTheme(t.id); showToast(`已切换主题：${t.name} (${t.sourceRef})`); }} className={`px-2 py-1 rounded-xs font-label-sm text-[11px] flex items-center",
+      "handler": "{() => {\r\n                        setActiveTheme(t.id);\r\n                        showToast(`已切换主题：${t.name} (${t.sourceRef})`);\r\n                      }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-011",
+      "file": "src/App.tsx",
+      "line": 318,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setNotifOpen(!notifOpen)} className=\"w-8 h-8 rounded bg-surface-container-lowest border border-outline-varia",
+      "handler": "{() => setNotifOpen(!notifOpen)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-012",
+      "file": "src/App.tsx",
+      "line": 330,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveShell('knowledge-base'); showToast('已进入「樱花教务云 · 知识库与业务说明中心」'); }} className=\"w-8 h-8 rounded bg-surface-container-lowest border border-outline-varia",
+      "handler": "{() => {\r\n                  setActiveShell('knowledge-base');\r\n                  showToast('已进入「樱花教务云 · 知识库与业务说明中心」');\r\n                }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-013",
+      "file": "src/App.tsx",
+      "line": 343,
+      "event": "onClick",
+      "label": "<div onClick={handleOpenSettingsModal} className=\"flex items-center gap-2 pl-1.5 py-1 pr-2.5 rounded bg-surface-container",
+      "handler": "{handleOpenSettingsModal}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-014",
+      "file": "src/App.tsx",
+      "line": 381,
+      "event": "onClick",
+      "label": "<button key={item.id} type=\"button\" onClick={() => setActiveTab(item.id)} className={`w-full flex items-center gap-2.5 px-3 py-2 rounded transition-",
+      "handler": "{() => setActiveTab(item.id)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-015",
+      "file": "src/App.tsx",
+      "line": 401,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setClassModeOpen(true)} className=\"w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg ",
+      "handler": "{() => setClassModeOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-016",
+      "file": "src/App.tsx",
+      "line": 411,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleOpenSettingsModal} className=\"w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-l",
+      "handler": "{handleOpenSettingsModal}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-017",
+      "file": "src/App.tsx",
+      "line": 427,
+      "event": "onClick",
+      "label": "<div className=\"fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs\" onClick={() => setMobileDrawerOpen(false)} ></div> <aside className=\"relative w-64 max-w-[80vw] h-full bg-su",
+      "handler": "{() => setMobileDrawerOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-018",
+      "file": "src/App.tsx",
+      "line": 449,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setMobileDrawerOpen(false)} className=\"w-8 h-8 rounded-lg bg-surface-container-low flex items-center j",
+      "handler": "{() => setMobileDrawerOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-019",
+      "file": "src/App.tsx",
+      "line": 458,
+      "event": "onSubmit",
+      "label": "<form onSubmit={handleGlobalSearchSubmit} className=\"relative\"> <span className=\"material-symbols-outlined absolute le",
+      "handler": "{handleGlobalSearchSubmit}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-020",
+      "file": "src/App.tsx",
+      "line": 464,
+      "event": "onChange",
+      "label": "<input value={globalSearch} onChange={(e) => setGlobalSearch(e.target.value)} className=\"w-full pl-8 pr-3 py-1.5 rounded-lg bg-surface-container-low tex",
+      "handler": "{(e) => setGlobalSearch(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-021",
+      "file": "src/App.tsx",
+      "line": 478,
+      "event": "onClick",
+      "label": "<button key={item.id} type=\"button\" onClick={() => { setActiveTab(item.id); setMobileDrawerOpen(false); }} className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg te",
+      "handler": "{() => {\r\n                              setActiveTab(item.id);\r\n                              setMobileDrawerOpen(false);\r\n                            }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-022",
+      "file": "src/App.tsx",
+      "line": 509,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => { setActiveTheme(t.id); showToast(`已切换至：${t.name}`); }} className={`py-1.5 px-1.5 rounded-xs text-[11px] font-label-sm flex it",
+      "handler": "{() => {\r\n                              setActiveTheme(t.id);\r\n                              showToast(`已切换至：${t.name}`);\r\n                            }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-023",
+      "file": "src/App.tsx",
+      "line": 531,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setMobileDrawerOpen(false); setClassModeOpen(true); }} className=\"w-full py-2 px-3 rounded-lg bg-secondary text-on-secondary font-l",
+      "handler": "{() => {\r\n                        setMobileDrawerOpen(false);\r\n                        setClassModeOpen(true);\r\n                      }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-024",
+      "file": "src/App.tsx",
+      "line": 544,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setMobileDrawerOpen(false); setActiveShell('auth'); }} className=\"w-full py-1.5 px-3 rounded-lg bg-surface-container-low text-on-su",
+      "handler": "{() => {\r\n                        setMobileDrawerOpen(false);\r\n                        setActiveShell('auth');\r\n                      }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-025",
+      "file": "src/App.tsx",
+      "line": 617,
+      "event": "onClick",
+      "label": "<button key={item.id} type=\"button\" onClick={() => setActiveTab(item.id)} className={`flex flex-col items-center justify-center gap-0.5 transition-color",
+      "handler": "{() => setActiveTab(item.id)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-026",
+      "file": "src/App.tsx",
+      "line": 635,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setMobileDrawerOpen(true)} className=\"flex flex-col items-center justify-center gap-0.5 text-on-surface-varia",
+      "handler": "{() => setMobileDrawerOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-027",
+      "file": "src/App.tsx",
+      "line": 653,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setNotifOpen(false)} className=\"text-xs text-secondary hover:underline\" > ",
+      "handler": "{() => setNotifOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-028",
+      "file": "src/App.tsx",
+      "line": 661,
+      "event": "onClick",
+      "label": "<div onClick={() => { setActiveTab('homework-center'); setNotifOpen(false); }} className=\"p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container ",
+      "handler": "{() => {\r\n                    setActiveTab('homework-center');\r\n                    setNotifOpen(false);\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-029",
+      "file": "src/App.tsx",
+      "line": 675,
+      "event": "onClick",
+      "label": "<div onClick={() => { setActiveTab('school-home-communication'); setNotifOpen(false); }} className=\"p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container ",
+      "handler": "{() => {\r\n                    setActiveTab('school-home-communication');\r\n                    setNotifOpen(false);\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-030",
+      "file": "src/App.tsx",
+      "line": 689,
+      "event": "onClick",
+      "label": "<div onClick={() => { setActiveTab('lesson-plans'); setNotifOpen(false); }} className=\"p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container ",
+      "handler": "{() => {\r\n                    setActiveTab('lesson-plans');\r\n                    setNotifOpen(false);\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-031",
+      "file": "src/App.tsx",
+      "line": 728,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setClassModeOpen(false)} className=\"w-8 h-8 rounded-lg bg-surface-container-low flex items-center justi",
+      "handler": "{() => setClassModeOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-032",
+      "file": "src/App.tsx",
+      "line": 740,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setClassModeOpen(false); setActiveTab('homework-center'); showToast('已将苏小萌 98分标杆范文投屏至教室大屏'); }} className=\"p-3.5 rounded-xl bg-surface-container-low hover:bg-primary-fixed/60",
+      "handler": "{() => {\r\n                      setClassModeOpen(false);\r\n                      setActiveTab('homework-center');\r\n                      showToast('已将苏小萌 98分标杆范文投屏至教室大屏');\r\n                    }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-033",
+      "file": "src/App.tsx",
+      "line": 760,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setClassModeOpen(false); setActiveTab('lesson-plans'); showToast('已启动《雷雨》45页互动课件全屏讲授模式'); }} className=\"p-3.5 rounded-xl bg-surface-container-low hover:bg-primary-fixed/60",
+      "handler": "{() => {\r\n                      setClassModeOpen(false);\r\n                      setActiveTab('lesson-plans');\r\n                      showToast('已启动《雷雨》45页互动课件全屏讲授模式');\r\n                    }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-034",
+      "file": "src/App.tsx",
+      "line": 780,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setClassModeOpen(false); showToast('已启动全班45人随机樱花点名与5分钟随堂限时微测'); }} className=\"p-3.5 rounded-xl bg-surface-container-low hover:bg-primary-fixed/60",
+      "handler": "{() => {\r\n                      setClassModeOpen(false);\r\n                      showToast('已启动全班45人随机樱花点名与5分钟随堂限时微测');\r\n                    }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-035",
+      "file": "src/App.tsx",
+      "line": 802,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setClassModeOpen(false)} className=\"px-4 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm",
+      "handler": "{() => setClassModeOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-036",
+      "file": "src/App.tsx",
+      "line": 838,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSettingsOpen(false)} className=\"w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-c",
+      "handler": "{() => setSettingsOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-037",
+      "file": "src/App.tsx",
+      "line": 860,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleResetToFactoryDefault} disabled={savingDefaults} className=\"text-[11px] text-sec",
+      "handler": "{handleResetToFactoryDefault}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-038",
+      "file": "src/App.tsx",
+      "line": 876,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.facultyCode} onChange={(e) => setDraftProfile((prev) => ({ ...prev, facultyCode: e.target.value, })) } placeholder=\"例如: admin 或 T2024088\" className=\"w-full ",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          facultyCode: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-039",
+      "file": "src/App.tsx",
+      "line": 893,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.password} onChange={(e) => setDraftProfile((prev) => ({ ...prev, password: e.target.value, })) } placeholder=\"例如: admin\" className=\"w-full px-2.5 py-1",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          password: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-040",
+      "file": "src/App.tsx",
+      "line": 910,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.fullName} onChange={(e) => setDraftProfile((prev) => ({ ...prev, fullName: e.target.value, })) } placeholder=\"例如: 林知夏 老师\" className=\"w-full px-2.5 py-",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          fullName: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-041",
+      "file": "src/App.tsx",
+      "line": 927,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.department} onChange={(e) => setDraftProfile((prev) => ({ ...prev, department: e.target.value, })) } placeholder=\"例如: 高中语文教研组\" className=\"w-full px-2.5 py",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          department: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-042",
+      "file": "src/App.tsx",
+      "line": 944,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.titleRole} onChange={(e) => setDraftProfile((prev) => ({ ...prev, titleRole: e.target.value, })) } placeholder=\"例如: 高二(3)班班主任 · 语文组\" className=\"w-full p",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          titleRole: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-043",
+      "file": "src/App.tsx",
+      "line": 974,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.defaultClassName} onChange={(e) => setDraftProfile((prev) => ({ ...prev, defaultClassName: e.target.value, })) } placeholder=\"例如: 高二(1)班\" className=\"w-full px-2.5 py-",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          defaultClassName: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-044",
+      "file": "src/App.tsx",
+      "line": 991,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={draftProfile.semesterLabel} onChange={(e) => setDraftProfile((prev) => ({ ...prev, semesterLabel: e.target.value, })) } placeholder=\"例如: 2024 春季学期 · 第 12 周\" className=\"w-ful",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          semesterLabel: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-045",
+      "file": "src/App.tsx",
+      "line": 1007,
+      "event": "onChange",
+      "label": "<select value={draftProfile.defaultTab} onChange={(e) => setDraftProfile((prev) => ({ ...prev, defaultTab: e.target.value as WorkspaceTab, })) } className=\"w-full px-2.5 py-1.5 rounded bg-surface-container-lowest border b",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          defaultTab: e.target.value as WorkspaceTab,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-046",
+      "file": "src/App.tsx",
+      "line": 1046,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => { setDraftProfile((prev) => ({ ...prev, defaultTheme: t.id, })); setActiveTheme(t.id); }} className={`p-2 rounded border text-left transition-all cursor-pointer ${ ",
+      "handler": "{() => {\r\n                          setDraftProfile((prev) => ({\r\n                            ...prev,\r\n                            defaultTheme: t.id,\r\n                          }));\r\n                          setActiveTheme(t.id);\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-047",
+      "file": "src/App.tsx",
+      "line": 1081,
+      "event": "onChange",
+      "label": "<input type=\"checkbox\" checked={draftProfile.dndEnabled} onChange={(e) => setDraftProfile((prev) => ({ ...prev, dndEnabled: e.target.checked, })) } className=\"w-4 h-4 rounded accent-primary\" /> ",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          dndEnabled: e.target.checked,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-048",
+      "file": "src/App.tsx",
+      "line": 1098,
+      "event": "onChange",
+      "label": "<input type=\"time\" value={draftProfile.dndStartTime} onChange={(e) => setDraftProfile((prev) => ({ ...prev, dndStartTime: e.target.value, })) } className=\"px-2 py-0.5 rounded bg-surface-container-lowest border border-out",
+      "handler": "{(e) =>\r\n                        setDraftProfile((prev) => ({\r\n                          ...prev,\r\n                          dndStartTime: e.target.value,\r\n                        }))\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-049",
+      "file": "src/App.tsx",
+      "line": 1117,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setSettingsOpen(false); setActiveShell('auth'); showToast('已返回登录门户'); }} className=\"py-2 px-3 rounded-lg bg-error-container text-on-error-container fon",
+      "handler": "{() => {\r\n                      setSettingsOpen(false);\r\n                      setActiveShell('auth');\r\n                      showToast('已返回登录门户');\r\n                    }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-050",
+      "file": "src/App.tsx",
+      "line": 1137,
+      "event": "onClick",
+      "label": "<button type=\"button\" disabled={savingDefaults} onClick={() => handleSaveDefaultProfile(true)} className=\"py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-con",
+      "handler": "{() => handleSaveDefaultProfile(true)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-051",
+      "file": "src/App.tsx",
+      "line": 1149,
+      "event": "onClick",
+      "label": "<button type=\"button\" disabled={savingDefaults} onClick={() => handleSaveDefaultProfile(false)} className=\"py-2 px-4 rounded-lg bg-primary hover:bg-secondary text-on-primary fo",
+      "handler": "{() => handleSaveDefaultProfile(false)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-052",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 194,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => { onChangeTheme(t.id); showToast(`已切换至「${t.name}」(${t.sourceRef})`); }} className={`px-2 py-1 rounded-xs font-label-sm text-xs flex items-center",
+      "handler": "{() => {\r\n                            onChangeTheme(t.id);\r\n                            showToast(`已切换至「${t.name}」(${t.sourceRef})`);\r\n                          }}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-053",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 231,
+      "event": "onClick",
+      "label": "<div onClick={() => handleAccountLogin('homework-center')} className=\"group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-low",
+      "handler": "{() => handleAccountLogin('homework-center')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-054",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 259,
+      "event": "onClick",
+      "label": "<div onClick={() => handleAccountLogin('student-profiles')} className=\"group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-low",
+      "handler": "{() => handleAccountLogin('student-profiles')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-055",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 287,
+      "event": "onClick",
+      "label": "<div onClick={() => handleAccountLogin('lesson-plans')} className=\"group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-low",
+      "handler": "{() => handleAccountLogin('lesson-plans')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-056",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 315,
+      "event": "onClick",
+      "label": "<div onClick={() => handleAccountLogin('school-home-communication')} className=\"group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-low",
+      "handler": "{() => handleAccountLogin('school-home-communication')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-057",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 403,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => setAuthTab(t.id as typeof authTab)} className={`flex-1 py-1.5 px-2 rounded-md font-label-sm text-xs transition-a",
+      "handler": "{() => setAuthTab(t.id as typeof authTab)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-058",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 437,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenDefaultSettingsModal} className=\"px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font",
+      "handler": "{onOpenDefaultSettingsModal}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-059",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 461,
+      "event": "onChange",
+      "label": "<input className=\"w-full pl-9 pr-3 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-body-md text-sm placeholder:text-outline/70 focus:outline-none focus:bg-surface focus:ring-2 focus:ring-primary-containe",
+      "handler": "{(e) => setFacultyId(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-060",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 472,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenDefaultSettingsModal} className=\"text-secondary hover:underline font-label-sm text-xs cursor-p",
+      "handler": "{onOpenDefaultSettingsModal}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-061",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 487,
+      "event": "onChange",
+      "label": "<input className=\"w-full pl-9 pr-9 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-body-md text-sm placeholder:text-outline/70 focus:outline-none focus:bg-surface focus:ring-2 focus:ring-primary-containe",
+      "handler": "{(e) => setPassword(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-062",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 491,
+      "event": "onClick",
+      "label": "<button className=\"absolute right-3 text-outline hover:text-secondary flex items-center cursor-pointer\" onClick={() => setShowPassword(!showPassword)} type=\"button\" > <spa",
+      "handler": "{() => setShowPassword(!showPassword)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-063",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 523,
+      "event": "onClick",
+      "label": "<button key={m.id} type=\"button\" onClick={() => handleSwitchCaptchaMode(m.id as CaptchaMode) } className={`px-2 py-0.5 rounded-xs text-[11px] font-label-sm cursor-",
+      "handler": "{() =>\r\n                                handleSwitchCaptchaMode(m.id as CaptchaMode)\r\n                              }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-064",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 553,
+      "event": "onChange",
+      "label": "<input className=\"w-full pl-8 pr-2.5 py-2 rounded bg-surface-container-lowest border border-outline-variant/35 text-on-surface font-mono text-sm font-bold tracking-wider placeholder:font-sans placeholder:font-normal placeholder:text-xs placeholder:te",
+      "handler": "{(e) => {\r\n                                setCaptchaInput(e.target.value);\r\n                                setCaptchaError(null);\r\n                              }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-065",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 562,
+      "event": "onClick",
+      "label": "<div onClick={() => fetchNewCaptcha(captchaMode, false)} title=\"点击刷新开源 svg-captcha 矢量验证码\" classNam",
+      "handler": "{() => fetchNewCaptcha(captchaMode, false)}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-066",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 585,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => fetchNewCaptcha(captchaMode, false)} title=\"换一张验证码\" className=\"w-9 h-[40px] ro",
+      "handler": "{() => fetchNewCaptcha(captchaMode, false)}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-067",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 628,
+      "event": "onChange",
+      "label": "<input type=\"range\" min={0} max={240} value={sliderValue} onChange={(e) => { const val = Number(e.target.value); setSliderValue(val); setCaptchaInput(String(val)); setCaptchaError(null); }} className=\"w-full accent-primary cursor-pointer\" ",
+      "handler": "{(e) => {\r\n                                const val = Number(e.target.value);\r\n                                setSliderValue(val);\r\n                                setCaptchaInput(String(val));\r\n                                setCaptchaError(null);\r\n                              }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-068",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 659,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { if (captchaMode === 'slider') { const tx = captchaChallenge.sliderTargetX || 168; setSliderValue(tx); setCaptchaInput(String(tx)); } else { setCaptchaInput(captchaChallenge.demoHint); } setCaptchaError(null); }}",
+      "handler": "{() => {\r\n                              if (captchaMode === 'slider') {\r\n                                const tx =\r\n                                  captchaChallenge.sliderTargetX || 168;\r\n                                setSliderValue(tx);\r\n                                setCaptchaInput(String(tx));\r\n                              } else {\r\n                                setCaptchaInput(captchaChallenge.demoHint);\r\n                              }\r\n                              setCaptchaError(null);\r\n                            }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-069",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 683,
+      "event": "onChange",
+      "label": "<input checked={keepOnline} onChange={(e) => setKeepOnline(e.target.checked)} className=\"w-4 h-4 rounded text-secondary accent-secondary focus:ring-0\"",
+      "handler": "{(e) => setKeepOnline(e.target.checked)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-070",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 693,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenDefaultSettingsModal} className=\"text-secondary hover:text-on-secondary-container flex items-cen",
+      "handler": "{onOpenDefaultSettingsModal}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-071",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 705,
+      "event": "onClick",
+      "label": "<button onClick={() => handleAccountLogin()} className={`${STANDARD_PREVIEW ? 'sakura-btn sakura-btn-primary ' : ''}w-ful",
+      "handler": "{() => handleAccountLogin()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-072",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 720,
+      "event": "onClick",
+      "label": "<div onClick={() => handleAccountLogin()} className=\"p-3 bg-surface-container-low rounded-lg shadow-inner inline-block",
+      "handler": "{() => handleAccountLogin()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-073",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 738,
+      "event": "onClick",
+      "label": "<button type=\"button\" className=\"font-label-sm text-xs text-secondary hover:underline cursor-pointer\" onClick={() => setAuthTab('account')} > 返回教工号登录 </button> ",
+      "handler": "{() => setAuthTab('account')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-074",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 760,
+      "event": "onChange",
+      "label": "<input className=\"w-full pl-10 pr-3.5 py-2.5 rounded-lg bg-surface-container-low border border-outline-variant/25 text-on-surface font-body-md text-sm focus:outline-none focus:bg-surface\" placeholder=\"请输入已在校办登记的手机号\" type=\"tel\" value={phoneNum} onChan",
+      "handler": "{(e) => setPhoneNum(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-075",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 778,
+      "event": "onChange",
+      "label": "<input className=\"w-full pl-10 pr-3 py-2.5 rounded-lg bg-surface-container-low border border-outline-variant/25 text-on-surface font-body-md text-sm focus:outline-none focus:bg-surface\" placeholder=\"6 位短信验证码\" type=\"text\" value={smsCode} onChange={(e)",
+      "handler": "{(e) => setSmsCode(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-076",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 783,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('短信验证码已发送至 138****8421，请注意查收') } className=\"px-4 py-2.5 rounded-lg bg-primary-fixed text-on-primary-fixed",
+      "handler": "{() =>\r\n                            showToast('短信验证码已发送至 138****8421，请注意查收')\r\n                          }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-077",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 793,
+      "event": "onClick",
+      "label": "<button onClick={() => handleAccountLogin()} className=\"w-full mt-2 py-2.5 px-6 rounded-lg bg-secondary text-on-secondary",
+      "handler": "{() => handleAccountLogin()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-078",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 820,
+      "event": "onClick",
+      "label": "<button key={btn.label} onClick={() => handleAccountLogin()} className=\"py-1.5 px-2 rounded bg-surface-container-low hover:bg-surface-con",
+      "handler": "{() => handleAccountLogin()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-079",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 839,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenKnowledgeBase} className=\"hover:text-secondary transition-colors cursor-pointer\" ",
+      "handler": "{onOpenKnowledgeBase}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-080",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 847,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenKnowledgeBase} className=\"hover:text-secondary transition-colors cursor-pointer\" ",
+      "handler": "{onOpenKnowledgeBase}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-081",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 855,
+      "event": "onClick",
+      "label": "<button className=\"flex items-center gap-1 text-secondary hover:underline cursor-pointer\" onClick={handleOpenEnvModal} type=\"button\" > <span className=\"mater",
+      "handler": "{handleOpenEnvModal}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-082",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 887,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEnvModalOpen(false)} className=\"w-8 h-8 rounded bg-surface-container-low flex items-center justify-cent",
+      "handler": "{() => setEnvModalOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-083",
+      "file": "src/components/AuthPortalView.tsx",
+      "line": 915,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEnvModalOpen(false)} className=\"w-full py-2.5 rounded bg-primary text-on-primary font-label-md text-xs fo",
+      "handler": "{() => setEnvModalOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-084",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 39,
+      "event": "onClick",
+      "label": "<div onClick={onReturnToWorkspace} className=\"flex items-center gap-space-sm cursor-pointer\" > ",
+      "handler": "{onReturnToWorkspace}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-085",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 79,
+      "event": "onClick",
+      "label": "<button key={item.id} type=\"button\" onClick={() => { setTopTab(item.id as typeof topTab); showToast(`已切换至「${item.label}」频道`); }} className={`px-space-md py-1.5 rounded-full transition-all font-label-md text-la",
+      "handler": "{() => {\r\n                    setTopTab(item.id as typeof topTab);\r\n                    showToast(`已切换至「${item.label}」频道`);\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-086",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 97,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenSqlBlueprint} className=\"px-3 py-2 rounded-lg bg-primary text-on-primary text-xs font-semibold whitespace-nowrap\"",
+      "handler": "{onOpenSqlBlueprint}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-087",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 107,
+      "event": "onChange",
+      "label": "<input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className=\"w-full bg-transparent border-0 outline-none font-body-sm text-body-sm t",
+      "handler": "{(e) => setSearchQuery(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-088",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 119,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onReturnToWorkspace} className=\"flex items-center gap-1.5 px-3 sm:px-space-md py-1.5 sm:py-2 rounded-full",
+      "handler": "{onReturnToWorkspace}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-089",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 130,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setHelpModalOpen(true)} className=\"w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-low flex items-",
+      "handler": "{() => setHelpModalOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-090",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 168,
+      "event": "onChange",
+      "label": "<input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className=\"w-full bg-transparent border-0 outline-none font-body-sm text-body-sm",
+      "handler": "{(e) => setSearchQuery(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-091",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 176,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onReturnToWorkspace} className=\"px-3.5 py-1.5 rounded-full bg-primary-container text-inverse-surface ho",
+      "handler": "{onReturnToWorkspace}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-092",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 221,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveDoc('new-teacher-guide'); showToast('已切换阅读：《新教师3分钟上手手账》'); }} className={`w-full text-left block py-1.5 px-2 rounded-lg transition-color",
+      "handler": "{() => {\r\n                          setActiveDoc('new-teacher-guide');\r\n                          showToast('已切换阅读：《新教师3分钟上手手账》');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-093",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 235,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveDoc('workspace-map'); showToast('已切换阅读：《工作台功能速览大图》'); }} className={`w-full text-left block py-1.5 px-2 rounded-lg transition-color",
+      "handler": "{() => {\r\n                          setActiveDoc('workspace-map');\r\n                          showToast('已切换阅读：《工作台功能速览大图》');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-094",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 269,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveDoc('schedule-rules'); showToast('已切换阅读：《课表弹性避让编排准则》'); }} className=\"w-full text-left block py-1.5 px-2 rounded-lg hover:text-second",
+      "handler": "{() => {\r\n                          setActiveDoc('schedule-rules');\r\n                          showToast('已切换阅读：《课表弹性避让编排准则》');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-095",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 279,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveDoc('unit-lesson-sync'); showToast('已切换阅读：《大单元备课教案同步规范》'); }} className=\"w-full text-left block py-1.5 px-2 rounded-lg hover:text-second",
+      "handler": "{() => {\r\n                          setActiveDoc('unit-lesson-sync');\r\n                          showToast('已切换阅读：《大单元备课教案同步规范》');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-096",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 304,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveDoc('ai-grading-sop'); scrollToSection('flow-overview'); }} className=\"w-full flex items-center justify-between py-2 px-3 rounded-xl b",
+      "handler": "{() => {\r\n                          setActiveDoc('ai-grading-sop');\r\n                          scrollToSection('flow-overview');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-097",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 317,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => scrollToSection('stamp-incentive')} className=\"w-full text-left block py-1.5 px-3 rounded-lg text-on-surface-v",
+      "handler": "{() => scrollToSection('stamp-incentive')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-098",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 324,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => scrollToSection('faq-section')} className=\"w-full text-left block py-1.5 px-3 rounded-lg text-on-surface-v",
+      "handler": "{() => scrollToSection('faq-section')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-099",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 341,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已展开「${g.label}」章节目录`)} className=\"w-full flex items-center justify-between px-3 py-2 text-on-surf",
+      "handler": "{() => showToast(`已展开「${g.label}」章节目录`)}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-100",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 503,
+      "event": "onClick",
+      "label": "<div key={s.step} onClick={() => showToast(`步骤 ${s.step}：${s.title} — ${s.desc}`) } className=\"p-3.5 rounded-2xl bg-surface-container-low relative flex flex-c",
+      "handler": "{() =>\r\n                          showToast(`步骤 ${s.step}：${s.title} — ${s.desc}`)\r\n                        }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-101",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 677,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setLiked(!liked); setLikeCount((c) => (liked ? c - 1 : c + 1)); showToast(liked ? '已取消点赞' : '感谢您的超赞樱花心反馈 🌸'); }} className={`px-3.5 py-1.5 rounded-full transition-all flex items-center ga",
+      "handler": "{() => {\r\n                          setLiked(!liked);\r\n                          setLikeCount((c) => (liked ? c - 1 : c + 1));\r\n                          showToast(liked ? '已取消点赞' : '感谢您的超赞樱花心反馈 🌸');\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-102",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 695,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setBookmarked(!bookmarked); showToast( bookmarked ? '已移出常用收藏' : '已加入林知夏老师的常用教研收藏夹' ); }} className={`px-3.5 py-1.5 rounded-full transition-all flex items-center ga",
+      "handler": "{() => {\r\n                          setBookmarked(!bookmarked);\r\n                          showToast(\r\n                            bookmarked ? '已移出常用收藏' : '已加入林知夏老师的常用教研收藏夹'\r\n                          );\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-103",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 716,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在生成《SOP-EDU-2024 AI批改规范》高清 PDF 手册...') } className=\"px-4 py-2 rounded-full bg-secondary text-on-secondary font-label-md",
+      "handler": "{() =>\r\n                      showToast('正在生成《SOP-EDU-2024 AI批改规范》高清 PDF 手册...')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-104",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 751,
+      "event": "onClick",
+      "label": "<button key={toc.id} type=\"button\" onClick={() => scrollToSection(toc.id as typeof activeAnchor) } className={`w-full flex items-center gap-2 py-2 px-3 rounded-xl transition",
+      "handler": "{() =>\r\n                          scrollToSection(toc.id as typeof activeAnchor)\r\n                        }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-105",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 781,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在打开《期中联考赋分换算对照表》...') } className=\"w-full text-left p-3 rounded-2xl bg-surface-container-low hover:b",
+      "handler": "{() =>\r\n                        showToast('正在打开《期中联考赋分换算对照表》...')\r\n                      }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-106",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 800,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在打开《家校沟通防骚扰模式白皮书》...') } className=\"w-full text-left p-3 rounded-2xl bg-surface-container-low hover:b",
+      "handler": "{() =>\r\n                        showToast('正在打开《家校沟通防骚扰模式白皮书》...')\r\n                      }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-107",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 841,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setHelpModalOpen(true)} className=\"py-2 px-2.5 rounded-xl bg-surface-container-lowest text-on-surface ",
+      "handler": "{() => setHelpModalOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-108",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 851,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已为您创建高优先级教务保障工单 #TK-20240516') } className=\"py-2 px-2.5 rounded-xl bg-surface-container-lowest text-on-surface ",
+      "handler": "{() =>\r\n                      showToast('已为您创建高优先级教务保障工单 #TK-20240516')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-109",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 864,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已开始下载《2024春季教师全景手账 PDF (42.8MB)》') } className=\"w-full py-2 rounded-xl bg-surface-container-high/60 hover:bg-surface-",
+      "handler": "{() =>\r\n                    showToast('已开始下载《2024春季教师全景手账 PDF (42.8MB)》')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-110",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 902,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已跳转至教务手册目录')} className=\"font-label-md text-label-md text-on-surface-variant hover:text-on-surfa",
+      "handler": "{() => showToast('已跳转至教务手册目录')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-111",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 909,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已跳转至评分标准体系')} className=\"font-label-md text-label-md text-on-surface-variant hover:text-on-surfa",
+      "handler": "{() => showToast('已跳转至评分标准体系')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-112",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 916,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已跳转至教师交流社群')} className=\"font-label-md text-label-md text-on-surface-variant hover:text-on-surfa",
+      "handler": "{() => showToast('已跳转至教师交流社群')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-113",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 923,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setHelpModalOpen(true)} className=\"font-label-md text-label-md text-on-surface-variant hover:text-on-surfa",
+      "handler": "{() => setHelpModalOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-114",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 966,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setHelpModalOpen(false)} className=\"w-8 h-8 rounded-full bg-surface-container-low flex items-center justify",
+      "handler": "{() => setHelpModalOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-115",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 979,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={helpQuestion} onChange={(e) => setHelpQuestion(e.target.value)} placeholder=\"输入您的教务操作疑问...\" className=\"flex-1 px-4 py-2.5 rounded",
+      "handler": "{(e) => setHelpQuestion(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-116",
+      "file": "src/components/KnowledgeBaseView.tsx",
+      "line": 985,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { if (!helpQuestion.trim()) return; showToast('已收到提问，教务知识库已为您匹配对应章节规范'); setHelpQuestion(''); setHelpModalOpen(false); }} className=\"px-4 py-2.5 rounded-full bg-secondary text-on-secondary font-label-sm t",
+      "handler": "{() => {\r\n                  if (!helpQuestion.trim()) return;\r\n                  showToast('已收到提问，教务知识库已为您匹配对应章节规范');\r\n                  setHelpQuestion('');\r\n                  setHelpModalOpen(false);\r\n                }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-117",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 218,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onClose} aria-label=\"关闭 SQLite 控制台\" className=\"w-8 h-8 rounded bg-surface-cont",
+      "handler": "{onClose}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-118",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 262,
+      "event": "onClick",
+      "label": "<button key={t.id} type=\"button\" onClick={() => setActiveTab(t.id as typeof activeTab)} className={`px-3 py-1.5 rounded font-label-sm text-xs flex items-center gap-1.5 ",
+      "handler": "{() => setActiveTab(t.id as typeof activeTab)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-119",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 335,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleReseedSqlite} className=\"flex-1 py-1.5 px-2.5 rounded bg-surface-container-low hover:bg-su",
+      "handler": "{handleReseedSqlite}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-120",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 345,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={refreshSqliteStatus} className=\"py-1.5 px-2.5 rounded bg-primary-fixed text-on-primary-fixed font",
+      "handler": "{refreshSqliteStatus}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-121",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 374,
+      "event": "onClick",
+      "label": "<button key={tblName} type=\"button\" onClick={() => { const nextSql = `SELECT * FROM ${tblName} LIMIT 20;`; setCustomSql(nextSql); handleExecuteLiveSql(nextSql); }} className=\"p-2 rounded bg-surface-container-low hover:bg-primary-fixed/5",
+      "handler": "{() => {\r\n                            const nextSql = `SELECT * FROM ${tblName} LIMIT 20;`;\r\n                            setCustomSql(nextSql);\r\n                            handleExecuteLiveSql(nextSql);\r\n                          }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-122",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 410,
+      "event": "onClick",
+      "label": "<button key={q.label} type=\"button\" onClick={() => { setCustomSql(q.sql); handleExecuteLiveSql(q.sql); }} className=\"px-2 py-1 rounded bg-surface-container-low hover:bg-surface-con",
+      "handler": "{() => {\r\n                          setCustomSql(q.sql);\r\n                          handleExecuteLiveSql(q.sql);\r\n                        }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-123",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 426,
+      "event": "onChange",
+      "label": "<textarea rows={2} value={customSql} onChange={(e) => setCustomSql(e.target.value)} className=\"flex-1 p-2.5 rounded bg-[#14231A] text-[#DCFCE7] font-mono text-xs ",
+      "handler": "{(e) => setCustomSql(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-124",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 433,
+      "event": "onClick",
+      "label": "<button type=\"button\" disabled={queryLoading} onClick={() => handleExecuteLiveSql(customSql)} className=\"px-4 py-2 rounded bg-primary text-on-primary font-headline-sm text-",
+      "handler": "{() => handleExecuteLiveSql(customSql)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-125",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 520,
+      "event": "onClick",
+      "label": "<button key={tbl.tableName} type=\"button\" onClick={() => setSelectedTable(tbl.tableName)} className={`p-3 rounded-lg border text-left transition-all shrink-0 w-60 lg:",
+      "handler": "{() => setSelectedTable(tbl.tableName)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-126",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 560,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopyText( currentTable.ddl, `${currentTable.tableName} DDL` ) } className=\"px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-con",
+      "handler": "{() =>\r\n                        handleCopyText(\r\n                          currentTable.ddl,\r\n                          `${currentTable.tableName} DDL`\r\n                        )\r\n                      }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-127",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 592,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopyText( currentTable.sampleQuery, `${currentTable.tableName} 查询模板` ) } className=\"text-xs text-secondary hover:underline cursor-pointer\" ",
+      "handler": "{() =>\r\n                        handleCopyText(\r\n                          currentTable.sampleQuery,\r\n                          `${currentTable.tableName} 查询模板`\r\n                        )\r\n                      }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-128",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 652,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleDryRunEndpoint(ep.id)} className=\"px-3 py-1.5 rounded bg-secondary text-on-secondary font-label-sm ",
+      "handler": "{() => handleDryRunEndpoint(ep.id)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-129",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 746,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleDryRunEndpoint('security-captcha')} className=\"px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container",
+      "handler": "{() => handleDryRunEndpoint('security-captcha')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-130",
+      "file": "src/components/SqlApiArchitectureModal.tsx",
+      "line": 803,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onClose} className=\"px-4 py-1.5 rounded bg-secondary text-on-secondary font-label-sm text-xs cu",
+      "handler": "{onClose}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-131",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 50,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('homework-center')} className=\"flex-1 sm:flex-initial px-3.5 py-2 rounded-lg bg-gradient-to-r from-primary",
+      "handler": "{() => onNavigateTab('homework-center')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-132",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 60,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={onOpenKnowledgeBase} className=\"flex-1 sm:flex-initial px-3.5 py-2 rounded-lg bg-surface-container-low hove",
+      "handler": "{onOpenKnowledgeBase}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-133",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 74,
+      "event": "onClick",
+      "label": "<div onClick={() => onNavigateTab('schedule-management')} className=\"bg-surface-container-lowest rounded-xl p-3.5 shadow-[0_2px_12px_rgba(143,73,8",
+      "handler": "{() => onNavigateTab('schedule-management')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-134",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 99,
+      "event": "onClick",
+      "label": "<div onClick={() => onNavigateTab('homework-center')} className=\"bg-surface-container-lowest rounded-xl p-3.5 shadow-[0_2px_12px_rgba(143,73,8",
+      "handler": "{() => onNavigateTab('homework-center')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-135",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 124,
+      "event": "onClick",
+      "label": "<div onClick={() => onNavigateTab('exam-analytics')} className=\"bg-surface-container-lowest rounded-xl p-3.5 shadow-[0_2px_12px_rgba(143,73,8",
+      "handler": "{() => onNavigateTab('exam-analytics')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-136",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 147,
+      "event": "onClick",
+      "label": "<div onClick={() => onNavigateTab('school-home-communication')} className=\"bg-surface-container-lowest rounded-xl p-3.5 shadow-[0_2px_12px_rgba(143,73,8",
+      "handler": "{() => onNavigateTab('school-home-communication')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-137",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 200,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('homework-center')} className=\"px-3 py-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm t",
+      "handler": "{() => onNavigateTab('homework-center')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-138",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 232,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('student-profiles')} className=\"px-3 py-1.5 rounded-lg bg-primary-container text-on-primary-container",
+      "handler": "{() => onNavigateTab('student-profiles')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-139",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 264,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('lesson-plans')} className=\"px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font",
+      "handler": "{() => onNavigateTab('lesson-plans')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-140",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 296,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('exam-analytics')} className=\"px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font",
+      "handler": "{() => onNavigateTab('exam-analytics')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-141",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 317,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('schedule-management')} className=\"text-xs text-secondary font-label-sm hover:underline cursor-pointer white",
+      "handler": "{() => onNavigateTab('schedule-management')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-142",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 379,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已预加载 14:00 高二(3)班讲评课件与优秀范文墙') } className=\"px-2.5 py-1 rounded-md bg-surface-container-lowest text-secondary font-",
+      "handler": "{() =>\r\n                  showToast('已预加载 14:00 高二(3)班讲评课件与优秀范文墙')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-143",
+      "file": "src/components/views/DashboardOverviewView.tsx",
+      "line": 419,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => onNavigateTab('school-home-communication')} className=\"text-xs font-label-sm text-secondary underline cursor-pointer whitespace-",
+      "handler": "{() => onNavigateTab('school-home-communication')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-144",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 40,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={async () => { const next = selectedExam.includes('期中') ? '2023-2024学年第二学期 高二年级第2次月考 (语文)' : '2023-2024学年第二学期 高二年级期中联合大考 (语文)'; setSelectedExam(next); const res = await sakuraApi.exam.getBatchAnalytics(next); showToast(r",
+      "handler": "{async () => {\r\n              const next =\r\n                selectedExam.includes('期中')\r\n                  ? '2023-2024学年第二学期 高二年级第2次月考 (语文)'\r\n                  : '2023-2024学年第二学期 高二年级期中联合大考 (语文)';\r\n              setSelectedExam(next);\r\n              const res = await sakuraApi.exam.getBatchAnalytics(next);\r\n              showToast(res.message);\r\n            }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-145",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 98,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在导出《高二(1)班期中联考质量分析诊断 PDF》...') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low tex",
+      "handler": "{() =>\r\n              showToast('正在导出《高二(1)班期中联考质量分析诊断 PDF》...')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-146",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 110,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已通过一对一私密通道向 45 位学生家长推送个人成绩单') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low tex",
+      "handler": "{() =>\r\n              showToast('已通过一对一私密通道向 45 位学生家长推送个人成绩单')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-147",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 122,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已打开下阶段模拟大考教学楼西区第 3 考场监考座次表') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low tex",
+      "handler": "{() =>\r\n              showToast('已打开下阶段模拟大考教学楼西区第 3 考场监考座次表')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-148",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 134,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已为全班 45 人生成千人千面《期中语文靶向智能错题集》') } className=\"flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-primary text-on-primary",
+      "handler": "{() =>\r\n              showToast('已为全班 45 人生成千人千面《期中语文靶向智能错题集》')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-149",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 577,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已向苏小萌下发《晚唐律诗格律与比较鉴赏拓展卷》') } className=\"text-primary font-bold underline cursor-pointer\" ",
+      "handler": "{() =>\r\n                      showToast('已向苏小萌下发《晚唐律诗格律与比较鉴赏拓展卷》')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-150",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 618,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已为周子涵安排周四大课间导师一对一文言特训约谈') } className=\"text-secondary font-bold underline cursor-pointer\" ",
+      "handler": "{() =>\r\n                      showToast('已为周子涵安排周四大课间导师一对一文言特训约谈')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-151",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 659,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已将许嘉琪现代文满分答卷切片加入下节课投屏表扬队列') } className=\"text-tertiary font-bold underline cursor-pointer\" ",
+      "handler": "{() =>\r\n                      showToast('已将许嘉琪现代文满分答卷切片加入下节课投屏表扬队列')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-152",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 728,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已向全班 45 人分发《高中文言实词120例冲刺》晨读包') } className=\"px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-",
+      "handler": "{() =>\r\n                    showToast('已向全班 45 人分发《高中文言实词120例冲刺》晨读包')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-153",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 745,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已向周子涵等 6 位同学定向派发《文言实词与断句》靶向任务卡') } className=\"px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] f",
+      "handler": "{() =>\r\n                    showToast('已向周子涵等 6 位同学定向派发《文言实词与断句》靶向任务卡')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-154",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 758,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在生成高二(1)班文言实词与断句靶向补偿卷 (A4排版)...') } className=\"flex-1 py-1.5 px-3 rounded-full bg-secondary text-on-secondary font-lab",
+      "handler": "{() =>\r\n                  showToast('正在生成高二(1)班文言实词与断句靶向补偿卷 (A4排版)...')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-155",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 768,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleRefreshAIInsight} className=\"py-1.5 px-3 rounded-full bg-surface-container-high text-on-surface font",
+      "handler": "{handleRefreshAIInsight}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-156",
+      "file": "src/components/views/ExamAnalyticsView.tsx",
+      "line": 848,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在进入高二语文组双评网阅工作台 (剩余 60 份)...') } className=\"text-secondary font-bold text-xs hover:underline flex items-center gap-",
+      "handler": "{() =>\r\n                  showToast('正在进入高二语文组双评网阅工作台 (剩余 60 份)...')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-157",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 182,
+      "event": "onClick",
+      "label": "<button key={cls.name} type=\"button\" onClick={async () => { setSelectedClass(cls.name); await sakuraApi.homework.getClassSubmissions(cls.name, statusFilter); showToast(`已切换至 ${cls.name} 作业批阅池`); }} className={`px-3 py-1 rounded-md font-label-sm text-",
+      "handler": "{async () => {\r\n                    setSelectedClass(cls.name);\r\n                    await sakuraApi.homework.getClassSubmissions(cls.name, statusFilter);\r\n                    showToast(`已切换至 ${cls.name} 作业批阅池`);\r\n                  }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-158",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 262,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleBatchAIPreGrade} className=\"px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-primary-container to-seconda",
+      "handler": "{handleBatchAIPreGrade}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-159",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 277,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已开启批量批注模式：可对全班共性失分点一键下发微课订正卡') } className=\"px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container ",
+      "handler": "{() =>\r\n              showToast('已开启批量批注模式：可对全班共性失分点一键下发微课订正卡')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-160",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 289,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已向未交作业的 2 位同学发送平板与家校端温馨提醒') } className=\"px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container ",
+      "handler": "{() =>\r\n              showToast('已向未交作业的 2 位同学发送平板与家校端温馨提醒')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-161",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 301,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在导出《赤壁赋》第四课时主观卷全班批阅归档报告...') } className=\"w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text",
+      "handler": "{() =>\r\n              showToast('正在导出《赤壁赋》第四课时主观卷全班批阅归档报告...')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-162",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 324,
+      "event": "onClick",
+      "label": "<button key={tab.id} type=\"button\" onClick={() => setMobilePanel(tab.id as typeof mobilePanel)} className={`py-2 px-2 rounded-lg font-label-sm text-xs flex items-center justify-cen",
+      "handler": "{() => setMobilePanel(tab.id as typeof mobilePanel)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-163",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 359,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已按提交时间与赋分潜能自动筛选')} className=\"w-7 h-7 rounded-full bg-surface-container-low flex items-center justi",
+      "handler": "{() => showToast('已按提交时间与赋分潜能自动筛选')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-164",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 368,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setSubmissions((prev) => [...prev].reverse()); showToast('已切换学生名录排序方向'); }} className=\"w-7 h-7 rounded-full bg-surface-container-low flex items-center justi",
+      "handler": "{() => {\r\n                    setSubmissions((prev) => [...prev].reverse());\r\n                    showToast('已切换学生名录排序方向');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-165",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 392,
+      "event": "onClick",
+      "label": "<button key={tab.id} type=\"button\" onClick={() => setStatusFilter(tab.id as typeof statusFilter) } className={`py-1 rounded-full font-label-sm text-label-sm transition-all cursor-",
+      "handler": "{() =>\r\n                    setStatusFilter(tab.id as typeof statusFilter)\r\n                  }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-166",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 414,
+      "event": "onClick",
+      "label": "<div key={student.id} onClick={() => handleSelectStudent(student)} className={`p-space-sm rounded-lg cursor-pointer relative overflow-hidden transi",
+      "handler": "{() => handleSelectStudent(student)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-167",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 530,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveBrush('pen'); showToast('已切换至：朱砂红笔批注模式'); }} className={`w-7 h-7 rounded-full flex items-center justify-center transition-all",
+      "handler": "{() => {\r\n                    setActiveBrush('pen');\r\n                    showToast('已切换至：朱砂红笔批注模式');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-168",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 547,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveBrush('highlight'); showToast('已切换至：樱花高光记号笔'); }} className={`w-7 h-7 rounded-full flex items-center justify-center transition-all",
+      "handler": "{() => {\r\n                    setActiveBrush('highlight');\r\n                    showToast('已切换至：樱花高光记号笔');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-169",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 564,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveBrush('note'); showToast('可在答卷任意文句上方插入气泡便签'); }} className={`w-7 h-7 rounded-full flex items-center justify-center transition-all",
+      "handler": "{() => {\r\n                    setActiveBrush('note');\r\n                    showToast('可在答卷任意文句上方插入气泡便签');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-170",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 581,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setActiveBrush('mic'); showToast('已就绪：长按或点击即可录制林知夏老师的温情语音评语'); }} className={`w-7 h-7 rounded-full flex items-center justify-center transition-all",
+      "handler": "{() => {\r\n                    setActiveBrush('mic');\r\n                    showToast('已就绪：长按或点击即可录制林知夏老师的温情语音评语');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-171",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 600,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleApplyStamp('妙笔生花')} className={`px-2.5 py-1 rounded-full text-label-sm font-label-sm flex items-cent",
+      "handler": "{() => handleApplyStamp('妙笔生花')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-172",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 611,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleApplyStamp('见解独到')} className={`px-2.5 py-1 rounded-full text-label-sm font-label-sm flex items-cent",
+      "handler": "{() => handleApplyStamp('见解独到')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-173",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 624,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已放大答卷字迹至 125% 高清视图')} className=\"w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex",
+      "handler": "{() => showToast('已放大答卷字迹至 125% 高清视图')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-174",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 633,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setPageIdx((p) => (p === 1 ? 2 : 1))} className=\"w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface flex",
+      "handler": "{() => setPageIdx((p) => (p === 1 ? 2 : 1))}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-175",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 642,
+      "event": "onClick",
+      "label": "<span onClick={() => setPageIdx((p) => (p === 1 ? 2 : 1))} className=\"font-label-sm text-label-sm px-2 text-on-surface-variant font-medium ",
+      "handler": "{() => setPageIdx((p) => (p === 1 ? 2 : 1))}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-176",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 735,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setIsPlayingAudio(!isPlayingAudio); if (!isPlayingAudio) { showToast( `正在播放林知夏老师对 ${activeStudent.name} 的语音评语 (${activeStudent.audioNote.duration})` ); } }} className=\"w-8 h-8 rounded-full bg-secondary text-on-s",
+      "handler": "{() => {\r\n                        setIsPlayingAudio(!isPlayingAudio);\r\n                        if (!isPlayingAudio) {\r\n                          showToast(\r\n                            `正在播放林知夏老师对 ${activeStudent.name} 的语音评语 (${activeStudent.audioNote.duration})`\r\n                          );\r\n                        }\r\n                      }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-177",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 838,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast( `已将「${activeStudent.aiDiagnostic.recommendedPractice}」推送至 ${activeStudent.name} 的个人学习端` ) } className=\"px-3 py-1 rounded-lg bg-primary-container hover:bg-primary hover:text",
+      "handler": "{() =>\r\n                    showToast(\r\n                      `已将「${activeStudent.aiDiagnostic.recommendedPractice}」推送至 ${activeStudent.name} 的个人学习端`\r\n                    )\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-178",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 861,
+      "event": "onChange",
+      "label": "<input className=\"w-16 h-10 text-center font-headline-sm text-2xl font-bold text-secondary bg-surface-container-lowest rounded-lg shadow-inner border border-outline-variant/25 focus:ring-2 focus:ring-secondary focus:outline-none\" type=\"text\" value={s",
+      "handler": "{(e) => setScoreInput(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-179",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 870,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleReturnForRevision} className=\"flex-1 py-1.5 px-2 rounded-md bg-surface-container-lowest text-on-sur",
+      "handler": "{handleReturnForRevision}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-180",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 877,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleSubmitAndNext} className=\"flex-1 py-1.5 px-2 rounded-md bg-secondary text-on-secondary font-lab",
+      "handler": "{handleSubmitAndNext}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-181",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 1046,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已开启苏小萌、陆天宇优秀范文教室智慧黑板轮播') } className=\"text-xs text-secondary hover:underline flex items-center gap-0.5 font",
+      "handler": "{() =>\r\n                    showToast('已开启苏小萌、陆天宇优秀范文教室智慧黑板轮播')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-182",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 1073,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已将苏小萌 98分卷关联至《赤壁赋》备课教案样卷库') } className=\"px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-conta",
+      "handler": "{() =>\r\n                      showToast('已将苏小萌 98分卷关联至《赤壁赋》备课教案样卷库')\r\n                    }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-183",
+      "file": "src/components/views/HomeworkCenterView.tsx",
+      "line": 1089,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast( `正在将 ${activeStudent.name} 的答卷及批注无线投屏至高二(1)班多媒体一体机...` ) } className=\"w-full py-2 rounded-full bg-gradient-to-r from-secondary to-primary text-",
+      "handler": "{() =>\r\n                showToast(\r\n                  `正在将 ${activeStudent.name} 的答卷及批注无线投屏至高二(1)班多媒体一体机...`\r\n                )\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-184",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 107,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('当前教材版本：统编高中语文 · 必修下册 (2024春季版)') } className=\"flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-fixed text-on",
+      "handler": "{() =>\r\n                showToast('当前教材版本：统编高中语文 · 必修下册 (2024春季版)')\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-185",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 126,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已切换预览：选择性必修上册（备课组联合共研库）') } className=\"hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-co",
+      "handler": "{() =>\r\n                showToast('已切换预览：选择性必修上册（备课组联合共研库）')\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-186",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 145,
+      "event": "onChange",
+      "label": "<input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} className=\"w-full pl-9 pr-14 py-1.5 rounded-lg bg-surface-container-low border borde",
+      "handler": "{(e) => setSearchInput(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-187",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 159,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEditingLesson({ title: '新建大单元情境化教案 · 统编必修下册', desc: '请在此录入大单元核心素养目标、情境任务单及课时切片...', author: '林知夏', }) } className=\"flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-primary-container tex",
+      "handler": "{() =>\r\n                setEditingLesson({\r\n                  title: '新建大单元情境化教案 · 统编必修下册',\r\n                  desc: '请在此录入大单元核心素养目标、情境任务单及课时切片...',\r\n                  author: '林知夏',\r\n                })\r\n              }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-188",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 175,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('支持拖拽上传 PPTX、Word 导学案、朗诵音频及微课视频') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low h",
+      "handler": "{() =>\r\n                showToast('支持拖拽上传 PPTX、Word 导学案、朗诵音频及微课视频')\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-189",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 187,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已与高二语文备课组云端网盘完成双向增量同步 (34.2GB)') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low h",
+      "handler": "{() =>\r\n                showToast('已与高二语文备课组云端网盘完成双向增量同步 (34.2GB)')\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-190",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 235,
+      "event": "onClick",
+      "label": "<button key={cat.id} type=\"button\" onClick={() => setActiveCategory(cat.id as typeof activeCategory)} className={`px-3 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 t",
+      "handler": "{() => setActiveCategory(cat.id as typeof activeCategory)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-191",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 289,
+      "event": "onClick",
+      "label": "<button key={u.id} type=\"button\" onClick={() => { setActiveUnit(u.id as typeof activeUnit); showToast(`已切换单元导引：${u.label}`); }} className={`px-2.5 py-1 rounded-md transition-all whitespace-nowrap shrink",
+      "handler": "{() => {\r\n                          setActiveUnit(u.id as typeof activeUnit);\r\n                          showToast(`已切换单元导引：${u.label}`);\r\n                        }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-192",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 310,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已打开 2024 春季学期高二语文全册大单元教学大纲总表') } className=\"flex items-center gap-1 text-secondary font-label-sm text-xs hover:opac",
+      "handler": "{() =>\r\n                  showToast('已打开 2024 春季学期高二语文全册大单元教学大纲总表')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-193",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 413,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已将《${plan.title}》分享至高二语文备课组群`) } className=\"w-8 h-8 rounded-full bg-surface-container-low hover:bg-surface-co",
+      "handler": "{() =>\r\n                        showToast(`已将《${plan.title}》分享至高二语文备课组群`)\r\n                      }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-194",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 425,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已启动《${plan.title}》配套PPT教室一体机无线投屏`) } className=\"px-space-sm py-1.5 rounded-full bg-secondary-fixed text-on-second",
+      "handler": "{() =>\r\n                        showToast(`已启动《${plan.title}》配套PPT教室一体机无线投屏`)\r\n                      }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-195",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 435,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEditingLesson({ id: plan.id, title: plan.title, desc: plan.summary, author: plan.authorName, }) } className=\"px-space-md py-1.5 rounded-full bg-primary-container text-on-prim",
+      "handler": "{() =>\r\n                        setEditingLesson({\r\n                          id: plan.id,\r\n                          title: plan.title,\r\n                          desc: plan.summary,\r\n                          author: plan.authorName,\r\n                        })\r\n                      }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-196",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 457,
+      "event": "onClick",
+      "label": "<div onClick={() => setEditingLesson({ title: '《窦娥冤》悲剧精神建构与元曲文言虚实字词速记', desc: '以【滚绣球】曲牌为抓手，拆解古代戏剧天地人神共鸣的超现实浪漫主义，配套词频对比表格与高考常考变体题库。', author: '林知夏', }) } className=\"bg-surface-container-low/50 hover:bg-surface-container-low rounded-xl p-4",
+      "handler": "{() =>\r\n                setEditingLesson({\r\n                  title: '《窦娥冤》悲剧精神建构与元曲文言虚实字词速记',\r\n                  desc: '以【滚绣球】曲牌为抓手，拆解古代戏剧天地人神共鸣的超现实浪漫主义，配套词频对比表格与高考常考变体题库。',\r\n                  author: '林知夏',\r\n                })\r\n              }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-197",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 530,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已将该 AI 思维导图与提问链插入《雷雨》主备教案第2课时') } className=\"px-2.5 py-1 rounded-full bg-primary-container text-on-primary-contain",
+      "handler": "{() =>\r\n                    showToast('已将该 AI 思维导图与提问链插入《雷雨》主备教案第2课时')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-198",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 542,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopilotAsk('重新提炼')} className=\"px-2 py-1 rounded-full bg-surface-container-lowest text-on-surface-va",
+      "handler": "{() => handleCopilotAsk('重新提炼')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-199",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 555,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopilotAsk('生成小组角色扮演分工单')} className=\"px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-la",
+      "handler": "{() => handleCopilotAsk('生成小组角色扮演分工单')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-200",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 562,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopilotAsk('提炼文言情境虚词题')} className=\"px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-la",
+      "handler": "{() => handleCopilotAsk('提炼文言情境虚词题')}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-201",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 571,
+      "event": "onChange",
+      "label": "<input value={copilotPrompt} onChange={(e) => setCopilotPrompt(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleCopilotAsk",
+      "handler": "{(e) => setCopilotPrompt(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-202",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 572,
+      "event": "onKeyDown",
+      "label": "<input value={copilotPrompt} onChange={(e) => setCopilotPrompt(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleCopilotAsk(); }} className=\"w-full pl-3 pr-8 py-1.5 rounded-full bg-surface-container text-on-sur",
+      "handler": "{(e) => {\r\n                    if (e.key === 'Enter') handleCopilotAsk();\r\n                  }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-203",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 581,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleCopilotAsk()} className=\"absolute right-1.5 w-6 h-6 rounded-full bg-secondary text-on-secondar",
+      "handler": "{() => handleCopilotAsk()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-204",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 624,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已开始下载《高二期中语文答题技巧母题.docx》') } className=\"w-7 h-7 rounded-full bg-surface-container-lowest text-secondary flex ",
+      "handler": "{() =>\r\n                    showToast('已开始下载《高二期中语文答题技巧母题.docx》')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-205",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 650,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已同步张晓琳老师最新绘制的《雷雨》人物谱系白板图') } className=\"w-7 h-7 rounded-full bg-surface-container-lowest text-on-surface-vari",
+      "handler": "{() =>\r\n                    showToast('已同步张晓琳老师最新绘制的《雷雨》人物谱系白板图')\r\n                  }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-206",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 667,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在打开高二语文备课组共享网盘...')} className=\"font-label-sm text-[11px] text-secondary hover:underline flex items-cen",
+      "handler": "{() => showToast('正在打开高二语文备课组共享网盘...')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-207",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 715,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setMemoNote( '“今日高二(1)班对《雷雨》潜台词的舞台走位复盘非常投入，苏小萌与林沐风的即兴对白展现了极佳的戏剧张力！”' ); showToast('已添加一条新的课堂闪念便签 🌸'); }} className=\"px-space-sm py-1 rounded-full bg-secondary text-on-secondary font-label",
+      "handler": "{() => {\r\n                  setMemoNote(\r\n                    '“今日高二(1)班对《雷雨》潜台词的舞台走位复盘非常投入，苏小萌与林沐风的即兴对白展现了极佳的戏剧张力！”'\r\n                  );\r\n                  showToast('已添加一条新的课堂闪念便签 🌸');\r\n                }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-208",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 748,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEditingLesson(null)} className=\"w-8 h-8 rounded-full bg-surface-container-low flex items-center justify",
+      "handler": "{() => setEditingLesson(null)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-209",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 758,
+      "event": "onChange",
+      "label": "<input type=\"text\" value={editingLesson.title} onChange={(e) => setEditingLesson({ ...editingLesson, title: e.target.value }) } className=\"w-full px-4 py-2 rounded-2xl bg-surface-container-low font-headline-sm ",
+      "handler": "{(e) =>\r\n                  setEditingLesson({ ...editingLesson, title: e.target.value })\r\n                }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-210",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 766,
+      "event": "onChange",
+      "label": "<textarea rows={4} value={editingLesson.desc} onChange={(e) => setEditingLesson({ ...editingLesson, desc: e.target.value }) } className=\"w-full p-3 rounded-2xl bg-surface-container-low font-body-sm text-xs te",
+      "handler": "{(e) =>\r\n                  setEditingLesson({ ...editingLesson, desc: e.target.value })\r\n                }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-211",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 779,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setEditingLesson(null)} className=\"px-4 py-2 rounded-full bg-surface-container-low text-on-surface-varia",
+      "handler": "{() => setEditingLesson(null)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-212",
+      "file": "src/components/views/LessonPlansView.tsx",
+      "line": 786,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={async () => { const res = await sakuraApi.lesson.saveLessonPlan({ lessonId: editingLesson.id, unitCode: activeUnit, title: editingLesson.title, description: editingLesson.desc, authorName: editingLesson.author, }); cons",
+      "handler": "{async () => {\r\n                    const res = await sakuraApi.lesson.saveLessonPlan({\r\n                      lessonId: editingLesson.id,\r\n                      unitCode: activeUnit,\r\n                      title: editingLesson.title,\r\n                      description: editingLesson.desc,\r\n                      authorName: editingLesson.author,\r\n                    });\r\n                    const listRes = await sakuraApi.lesson.getLessonPlans();\r\n                    if (listRes.success && Array.isArray(listRes.data)) {\r\n                      setLessonPlans(listRes.data);\r\n                    }\r\n                    showToast(res.message);\r\n                    setEditingLesson(null);\r\n                  }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-213",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 590,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleWeekChange(Math.max(11, weekNum - 1))} className=\"w-7 h-7 rounded-md flex items-center justify-center text-on-surface-varia",
+      "handler": "{() => handleWeekChange(Math.max(11, weekNum - 1))}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-214",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 614,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleWeekChange(Math.min(13, weekNum + 1))} className=\"w-7 h-7 rounded-md flex items-center justify-center text-on-surface-varia",
+      "handler": "{() => handleWeekChange(Math.min(13, weekNum + 1))}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-215",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 656,
+      "event": "onClick",
+      "label": "<button key={pill.id} type=\"button\" onClick={() => handleFilterChange(pill.id as typeof viewFilter, pill.label) } className={`px-2.5 sm:px-3 py-1.5 rounded-md font-label-sm text-xs transition-all ",
+      "handler": "{() =>\r\n                  handleFilterChange(pill.id as typeof viewFilter, pill.label)\r\n                }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-216",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 683,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSwapModalOpen(true)} className=\"flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-surface-contain",
+      "handler": "{() => setSwapModalOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-217",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 693,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('正在生成第 12 周高二语文办公桌垫版 A4 周历打印预览...') } className=\"hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-contain",
+      "handler": "{() =>\r\n              showToast('正在生成第 12 周高二语文办公桌垫版 A4 周历打印预览...')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-218",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 705,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={async () => { const res = await sakuraApi.schedule.syncCalendarToDevice(weekNum); showToast(res.message); }} className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-container hover:b",
+      "handler": "{async () => {\r\n              const res = await sakuraApi.schedule.syncCalendarToDevice(weekNum);\r\n              showToast(res.message);\r\n            }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-219",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 726,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setMobileDisplayMode('day-list')} className={`px-2.5 py-1 rounded-md ${ mobileDisplayMode === 'day-li",
+      "handler": "{() => setMobileDisplayMode('day-list')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-220",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 737,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setMobileDisplayMode('full-grid')} className={`px-2.5 py-1 rounded-md ${ mobileDisplayMode === 'full-g",
+      "handler": "{() => setMobileDisplayMode('full-grid')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-221",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 757,
+      "event": "onClick",
+      "label": "<button key={day.label} type=\"button\" onClick={() => setMobileDayIdx(idx)} className={`py-1.5 px-1 rounded-lg flex flex-col items-center text-center transi",
+      "handler": "{() => setMobileDayIdx(idx)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-222",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 808,
+      "event": "onClick",
+      "label": "<div key={row.periodId} onClick={() => cell.cardType !== 'empty' && setSelectedLessonSnapshot({ title: cell.title, subtitle: cell.subtitle, room: cell.room, status: cell.tag, }) } className={`p-3 rounded-xl border flex items-start justify-between gap",
+      "handler": "{() =>\r\n                    cell.cardType !== 'empty' &&\r\n                    setSelectedLessonSnapshot({\r\n                      title: cell.title,\r\n                      subtitle: cell.subtitle,\r\n                      room: cell.room,\r\n                      status: cell.tag,\r\n                    })\r\n                  }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-223",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 990,
+      "event": "onClick",
+      "label": "<div onClick={() => setSelectedLessonSnapshot({ title: cell.title, subtitle: cell.subtitle, room: cell.room, status: cell.tag, }) } className={`w-full h-full rounded-lg border p-2 flex flex-col just",
+      "handler": "{() =>\r\n                                  setSelectedLessonSnapshot({\r\n                                    title: cell.title,\r\n                                    subtitle: cell.subtitle,\r\n                                    room: cell.room,\r\n                                    status: cell.tag,\r\n                                  })\r\n                                }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-224",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1034,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={(e) => { e.stopPropagation(); showToast( `已向 ${cell.room} 全班学生终端下发《长恨歌》随堂限时微测` ); }} className=\"px-2 py-0.5 rounded bg-secondary text-on-secondar",
+      "handler": "{(e) => {\r\n                                        e.stopPropagation();\r\n                                        showToast(\r\n                                          `已向 ${cell.room} 全班学生终端下发《长恨歌》随堂限时微测`\r\n                                        );\r\n                                      }}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-225",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1173,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已将《古代文人志趣比较赏析》讲评课件预投屏至多媒体西阶一') } className=\"py-2 px-3 rounded-lg bg-secondary text-on-secondary font-label-sm text-",
+      "handler": "{() =>\r\n                  showToast('已将《古代文人志趣比较赏析》讲评课件预投屏至多媒体西阶一')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-226",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1185,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已开启高二(3)班 42 人人脸与电子胸牌无感签到') } className=\"py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-containe",
+      "handler": "{() =>\r\n                  showToast('已开启高二(3)班 42 人人脸与电子胸牌无感签到')\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-227",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1209,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSwapModalOpen(true)} className=\"font-label-sm text-xs text-primary hover:underline cursor-pointer\" ",
+      "handler": "{() => setSwapModalOpen(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-228",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1356,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSelectedLessonSnapshot(null)} className=\"w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-c",
+      "handler": "{() => setSelectedLessonSnapshot(null)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-229",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1387,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setSelectedLessonSnapshot(null); showToast('已打开对应课时导学案与板书投屏预览'); }} className=\"flex-1 py-2 rounded-lg bg-secondary text-on-secondary font-label-sm tex",
+      "handler": "{() => {\r\n                  setSelectedLessonSnapshot(null);\r\n                  showToast('已打开对应课时导学案与板书投屏预览');\r\n                }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-230",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1397,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSelectedLessonSnapshot(null)} className=\"px-4 py-2 rounded-lg bg-surface-container-high text-on-surface font-lab",
+      "handler": "{() => setSelectedLessonSnapshot(null)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-231",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1417,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSwapModalOpen(false)} className=\"w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-c",
+      "handler": "{() => setSwapModalOpen(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-232",
+      "file": "src/components/views/ScheduleManagementView.tsx",
+      "line": 1445,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={async () => { setSwapModalOpen(false); const res = await sakuraApi.schedule.submitCourseSwap({ applicantTeacherId: 'fac-lin-zhixia', targetTeacherName: '李老师 (英语组)', sourcePeriodDesc: '周五 上午第 3-4 节', targetPeriodDesc: '周",
+      "handler": "{async () => {\r\n                setSwapModalOpen(false);\r\n                const res = await sakuraApi.schedule.submitCourseSwap({\r\n                  applicantTeacherId: 'fac-lin-zhixia',\r\n                  targetTeacherName: '李老师 (英语组)',\r\n                  sourcePeriodDesc: '周五 上午第 3-4 节',\r\n                  targetPeriodDesc: '周三 下午第 5 节',\r\n                  reason: '教研活动调课',\r\n                });\r\n                showToast(res.message);\r\n              }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-233",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 133,
+      "event": "onClick",
+      "label": "<button key={ch.id} type=\"button\" onClick={() => { setActiveChannel(ch.id as typeof activeChannel); showToast(`已切换至「${ch.label}」`); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-label-sm text-",
+      "handler": "{() => {\r\n                    setActiveChannel(ch.id as typeof activeChannel);\r\n                    showToast(`已切换至「${ch.label}」`);\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-234",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 173,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已打开发布班级通知与期中表彰喜报模板编辑器') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hov",
+      "handler": "{() =>\r\n              showToast('已打开发布班级通知与期中表彰喜报模板编辑器')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-235",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 185,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已发起本周五晚 19:30 高二(1)班春季线上家长会预约回执') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hov",
+      "handler": "{() =>\r\n              showToast('已发起本周五晚 19:30 高二(1)班春季线上家长会预约回执')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-236",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 197,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已向全班 45 户家庭批量派发《第12周樱花成长电子相册》🌸') } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary-fixed text-on-s",
+      "handler": "{() =>\r\n              showToast('已向全班 45 户家庭批量派发《第12周樱花成长电子相册》🌸')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-237",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 209,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('已生成并发送《高二(1)班第12周温情周总结家校信》') } className=\"flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-primary text-on-primary",
+      "handler": "{() =>\r\n              showToast('已生成并发送《高二(1)班第12周温情周总结家校信》')\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-238",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 234,
+      "event": "onClick",
+      "label": "<button key={tab.id} type=\"button\" onClick={() => setMobilePanel(tab.id as typeof mobilePanel)} className={`py-2 px-2 rounded-lg font-label-sm text-xs flex items-center justify-cen",
+      "handler": "{() => setMobilePanel(tab.id as typeof mobilePanel)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-239",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 263,
+      "event": "onChange",
+      "label": "<input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className=\"w-full pl-10 pr-space-md py-2 rounded-full bg-surface-container-low tex",
+      "handler": "{(e) => setSearchQuery(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-240",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 273,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setTabFilter('all')} className={`flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-center tra",
+      "handler": "{() => setTabFilter('all')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-241",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 284,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setTabFilter('unread')} className={`flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-center tra",
+      "handler": "{() => setTabFilter('unread')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-242",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 298,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setTabFilter('praise')} className={`flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-center tra",
+      "handler": "{() => setTabFilter('praise')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-243",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 309,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setTabFilter('visit')} className={`flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-center tra",
+      "handler": "{() => setTabFilter('visit')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-244",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 328,
+      "event": "onClick",
+      "label": "<div key={thread.id} onClick={() => { setSelectedThreadId(thread.id); setMobilePanel('chat'); }} className={`p-space-md rounded-2xl cursor-pointer transition-all ${ ",
+      "handler": "{() => {\r\n                    setSelectedThreadId(thread.id);\r\n                    setMobilePanel('chat');\r\n                  }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-245",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 470,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast( `正在通过校园隐私保护专线呼叫 ${activeThread.parentName}...` ) } className=\"w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-contai",
+      "handler": "{() =>\r\n                  showToast(\r\n                    `正在通过校园隐私保护专线呼叫 ${activeThread.parentName}...`\r\n                  )\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-246",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 484,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已向 ${activeThread.parentName} 发起线上微视频家访邀请`) } className=\"w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-contai",
+      "handler": "{() =>\r\n                  showToast(`已向 ${activeThread.parentName} 发起线上微视频家访邀请`)\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-247",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 496,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { showToast(`正在调阅 ${activeThread.studentName} 的 360° 全景学情档案`); onNavigateToStudentProfile?.(); }} className=\"w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-contai",
+      "handler": "{() => {\r\n                  showToast(`正在调阅 ${activeThread.studentName} 的 360° 全景学情档案`);\r\n                  onNavigateToStudentProfile?.();\r\n                }}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-248",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 577,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleSendMessage( `已为您附送 ${activeThread.studentName} 本周《赤壁赋》主观题答卷诊断与五维能力雷达切片报告 📊` ) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-l",
+      "handler": "{() =>\r\n                  handleSendMessage(\r\n                    `已为您附送 ${activeThread.studentName} 本周《赤壁赋》主观题答卷诊断与五维能力雷达切片报告 📊`\r\n                  )\r\n                }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-249",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 591,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleSendMessage( `孩子近期课堂专注度与文学思辨表现极佳，特颁发一枚樱花表扬勋章！🌸`, true ) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-l",
+      "handler": "{() =>\r\n                  handleSendMessage(\r\n                    `孩子近期课堂专注度与文学思辨表现极佳，特颁发一枚樱花表扬勋章！🌸`,\r\n                    true\r\n                  )\r\n                }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-250",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 606,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已向 ${activeThread.parentName} 发送周五放学后 17:30 校园接待室面谈预约卡`) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-l",
+      "handler": "{() =>\r\n                  showToast(`已向 ${activeThread.parentName} 发送周五放学后 17:30 校园接待室面谈预约卡`)\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-251",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 618,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleSendMessage( `已向您发送《古文观止·高二春季拓展晨读选编 PDF》，供孩子周末自主品读 📖` ) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-l",
+      "handler": "{() =>\r\n                  handleSendMessage(\r\n                    `已向您发送《古文观止·高二春季拓展晨读选编 PDF》，供孩子周末自主品读 📖`\r\n                  )\r\n                }",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-252",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 632,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setReplyText( '感谢家长的悉心配合！孩子的点滴进步离不开我们家校同心同行，明天早读我再来听孩子试讲初稿~ 🌸' ) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-l",
+      "handler": "{() =>\r\n                  setReplyText(\r\n                    '感谢家长的悉心配合！孩子的点滴进步离不开我们家校同心同行，明天早读我再来听孩子试讲初稿~ 🌸'\r\n                  )\r\n                }",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-253",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 649,
+      "event": "onChange",
+      "label": "<textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { ",
+      "handler": "{(e) => setReplyText(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-254",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 650,
+      "event": "onKeyDown",
+      "label": "<textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }} className=\"flex-1 bg-transparent border-0 px-space-sm py-1 font-body-",
+      "handler": "{(e) => {\r\n                  if (e.key === 'Enter' && !e.shiftKey) {\r\n                    e.preventDefault();\r\n                    handleSendMessage();\r\n                  }\r\n                }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-255",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 662,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => handleSendMessage()} className=\"h-10 px-space-md rounded-full bg-primary hover:bg-primary/90 text-on-pr",
+      "handler": "{() => handleSendMessage()}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-256",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 772,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setTodos((prev) => [ ...prev, { id: `t-${Date.now()}`, icon: 'verified', color: 'text-secondary', title: '周六 10:00 国学演讲大赛赛前鼓励电访', badge: '新增待办', badgeStyle: 'bg-primary-fixed text-on-primary-fixed-variant', desc",
+      "handler": "{() => {\r\n                  setTodos((prev) => [\r\n                    ...prev,\r\n                    {\r\n                      id: `t-${Date.now()}`,\r\n                      icon: 'verified',\r\n                      color: 'text-secondary',\r\n                      title: '周六 10:00 国学演讲大赛赛前鼓励电访',\r\n                      badge: '新增待办',\r\n                      badgeStyle: 'bg-primary-fixed text-on-primary-fixed-variant',\r\n                      desc: '对象：苏小萌家长 · 确认比赛出场顺序与礼服准备',\r\n                    },\r\n                  ]);\r\n                  showToast('已新增一条家访手账待办提醒 🌸');\r\n                }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-257",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 796,
+      "event": "onClick",
+      "label": "<div key={todo.id} onClick={() => showToast(`已标记待办事项「${todo.title}」`)} className=\"p-space-sm rounded-xl bg-surface-container-low flex items-start gap-s",
+      "handler": "{() => showToast(`已标记待办事项「${todo.title}」`)}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-258",
+      "file": "src/components/views/SchoolHomeCommView.tsx",
+      "line": 867,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { setMomentLiked(!momentLiked); setMomentLikes((c) => (momentLiked ? c - 1 : c + 1)); }} className=\"text-secondary font-medium flex items-center gap-1 cursor-pointer\" ",
+      "handler": "{() => {\r\n                      setMomentLiked(!momentLiked);\r\n                      setMomentLikes((c) => (momentLiked ? c - 1 : c + 1));\r\n                    }}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-259",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 134,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast('当前查看：高二(1)班 全员45人学情全景库')} className=\"flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg b",
+      "handler": "{() => showToast('当前查看：高二(1)班 全员45人学情全景库')}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-260",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 161,
+      "event": "onChange",
+      "label": "<input className=\"w-full bg-surface-container-low pl-8 pr-3 py-1.5 rounded-lg border border-outline-variant/20 font-body-sm text-xs text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all\" placehol",
+      "handler": "{(e) => setSearchText(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-261",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 169,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setActiveTag('all')} className={`px-2.5 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 tra",
+      "handler": "{() => setActiveTag('all')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-262",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 183,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setActiveTag('progress')} className={`px-2.5 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 tra",
+      "handler": "{() => setActiveTag('progress')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-263",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 195,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setActiveTag('coaching')} className={`px-2.5 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 tra",
+      "handler": "{() => setActiveTag('coaching')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-264",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 207,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setActiveTag('competition')} className={`px-2.5 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 tra",
+      "handler": "{() => setActiveTag('competition')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-265",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 219,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setActiveTag('care')} className={`px-2.5 py-1 rounded-md font-label-sm text-xs flex items-center gap-1 tra",
+      "handler": "{() => setActiveTag('care')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-266",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 236,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`正在导出《${activeProfile.name} · 2024春季学期个人成长手册 PDF》...`) } className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hov",
+      "handler": "{() =>\r\n              showToast(`正在导出《${activeProfile.name} · 2024春季学期个人成长手册 PDF》...`)\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-267",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 248,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { showToast(`正在为您打开与 ${activeProfile.name} 家长的协同沟通通道`); onNavigateToChat?.(); }} className=\"flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hov",
+      "handler": "{() => {\r\n              showToast(`正在为您打开与 ${activeProfile.name} 家长的协同沟通通道`);\r\n              onNavigateToChat?.();\r\n            }}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-268",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 261,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已为 ${activeProfile.name} 等重点学生批量颁发本周樱花成长勋章 🌸`) } className=\"flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-secondary text-on-secon",
+      "handler": "{() =>\r\n              showToast(`已为 ${activeProfile.name} 等重点学生批量颁发本周樱花成长勋章 🌸`)\r\n            }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-269",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 286,
+      "event": "onClick",
+      "label": "<button key={tab.id} type=\"button\" onClick={() => setMobilePanel(tab.id as typeof mobilePanel)} className={`py-2 px-2 rounded-lg font-label-sm text-xs flex items-center justify-cen",
+      "handler": "{() => setMobilePanel(tab.id as typeof mobilePanel)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-270",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 321,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSortMode('focus')} className={`px-2 py-0.5 rounded-full font-label-sm text-label-sm cursor-pointer ${",
+      "handler": "{() => setSortMode('focus')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-271",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 332,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setSortMode('no')} className={`px-2 py-0.5 rounded-full font-label-sm text-label-sm cursor-pointer ${",
+      "handler": "{() => setSortMode('no')}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-272",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 351,
+      "event": "onClick",
+      "label": "<div key={stu.id} onClick={() => handleSelectProfile(stu)} className={`p-2.5 rounded-2xl cursor-pointer transition-all relative overflow-hi",
+      "handler": "{() => handleSelectProfile(stu)}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-273",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 480,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => { const zzh = profiles.find((p) => p.id === 'zhou-zihan'); if (zzh) handleSelectProfile(zzh); showToast('已为您切换至周子涵的学情档案与面批手账'); }} className=\"w-6 h-6 rounded-full bg-surface-container-lowest text-secondary flex it",
+      "handler": "{() => {\r\n                const zzh = profiles.find((p) => p.id === 'zhou-zihan');\r\n                if (zzh) handleSelectProfile(zzh);\r\n                showToast('已为您切换至周子涵的学情档案与面批手账');\r\n              }}",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-274",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 545,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已打开 ${activeProfile.name} 的个性化成长标签编辑器`) } className=\"px-3 py-1.5 rounded-md bg-surface-container-low hover:bg-surface-contai",
+      "handler": "{() =>\r\n                  showToast(`已打开 ${activeProfile.name} 的个性化成长标签编辑器`)\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-275",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 580,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`查看 ${activeProfile.name} 本学期全部荣誉勋章墙`) } className=\"font-label-sm text-label-sm text-secondary hover:underline flex items-c",
+      "handler": "{() =>\r\n                  showToast(`查看 ${activeProfile.name} 本学期全部荣誉勋章墙`)\r\n                }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-276",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 963,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setNewJournalModal(true)} className=\"flex items-center gap-0.5 text-xs text-secondary font-label-sm hover:un",
+      "handler": "{() => setNewJournalModal(true)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-277",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1059,
+      "event": "onChange",
+      "label": "<input className=\"flex-1 bg-surface-container-low pl-3 pr-2 py-1.5 rounded-full text-body-sm text-[12px] text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container\" placeholder=\"给家长快速留言反馈...\" type=\"text\" value={quickReply}",
+      "handler": "{(e) => setQuickReply(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-278",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1060,
+      "event": "onKeyDown",
+      "label": "<input className=\"flex-1 bg-surface-container-low pl-3 pr-2 py-1.5 rounded-full text-body-sm text-[12px] text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container\" placeholder=\"给家长快速留言反馈...\" type=\"text\" value={quickReply}",
+      "handler": "{(e) => {\r\n                  if (e.key === 'Enter') handleSendParentQuickMsg();\r\n                }}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-279",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1066,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleSendParentQuickMsg} className=\"w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center j",
+      "handler": "{handleSendParentQuickMsg}",
+      "classification": "已接线，业务规则待验收"
+    },
+    {
+      "id": "UI-280",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1093,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => showToast(`已将「${activeProfile.careKitTitle}」一键推送至 ${activeProfile.name} 的学习平板`) } className=\"px-2.5 py-1 rounded-full bg-surface-container-lowest text-secondary font-",
+      "handler": "{() =>\r\n                showToast(`已将「${activeProfile.careKitTitle}」一键推送至 ${activeProfile.name} 的学习平板`)\r\n              }",
+      "classification": "演示/未完成"
+    },
+    {
+      "id": "UI-281",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1114,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setNewJournalModal(false)} className=\"w-8 h-8 rounded-full bg-surface-container-low flex items-center justify",
+      "handler": "{() => setNewJournalModal(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-282",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1123,
+      "event": "onChange",
+      "label": "<textarea rows={4} value={newJournalText} onChange={(e) => setNewJournalText(e.target.value)} placeholder=\"记录本次课后个别指导或阶段习作面批要点...\" className=\"w-full rounded-2xl bg",
+      "handler": "{(e) => setNewJournalText(e.target.value)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-283",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1130,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={() => setNewJournalModal(false)} className=\"px-4 py-2 rounded-full bg-surface-container-low text-on-surface-variant",
+      "handler": "{() => setNewJournalModal(false)}",
+      "classification": "真实界面交互"
+    },
+    {
+      "id": "UI-284",
+      "file": "src/components/views/StudentProfilesView.tsx",
+      "line": 1137,
+      "event": "onClick",
+      "label": "<button type=\"button\" onClick={handleAddJournal} className=\"px-5 py-2 rounded-full bg-secondary text-on-secondary font-label-sm\" ",
+      "handler": "{handleAddJournal}",
+      "classification": "已接线，业务规则待验收"
+    }
+  ],
+  "endpoints": [
+    {
+      "id": "API-001",
+      "method": "GET",
+      "path": "/api/v1/security/captcha",
+      "line": 44,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-002",
+      "method": "POST",
+      "path": "/api/v1/security/captcha/verify",
+      "line": 132,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-003",
+      "method": "GET",
+      "path": "/api/v1/auth/default-profile",
+      "line": 193,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-004",
+      "method": "PUT",
+      "path": "/api/v1/auth/default-profile",
+      "line": 249,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-005",
+      "method": "POST",
+      "path": "/api/v1/auth/faculty-login",
+      "line": 358,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-006",
+      "method": "GET",
+      "path": "/api/v1/auth/env-check",
+      "line": 507,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-007",
+      "method": "GET",
+      "path": "/api/v1/schedules/weekly-matrix",
+      "line": 529,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-008",
+      "method": "POST",
+      "path": "/api/v1/schedules/swap-requests",
+      "line": 552,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-009",
+      "method": "GET",
+      "path": "/api/v1/homework/submissions",
+      "line": 594,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-010",
+      "method": "PATCH",
+      "path": "/api/v1/homework/submissions/:id/grade",
+      "line": 637,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-011",
+      "method": "PATCH",
+      "path": "/api/v1/homework/submissions/:id/stamp",
+      "line": 663,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-012",
+      "method": "GET",
+      "path": "/api/v1/students",
+      "line": 696,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-013",
+      "method": "POST",
+      "path": "/api/v1/students/:id/coaching-journals",
+      "line": 752,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-014",
+      "method": "GET",
+      "path": "/api/v1/lessons/unit-plans",
+      "line": 788,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-015",
+      "method": "PUT",
+      "path": "/api/v1/lessons/unit-plans",
+      "line": 828,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-016",
+      "method": "GET",
+      "path": "/api/v1/exams/analytics",
+      "line": 855,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-017",
+      "method": "GET",
+      "path": "/api/v1/home-school/threads",
+      "line": 884,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-018",
+      "method": "POST",
+      "path": "/api/v1/home-school/threads/:threadId/messages",
+      "line": 943,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-019",
+      "method": "GET",
+      "path": "/api/v1/sqlite/status",
+      "line": 994,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-020",
+      "method": "POST",
+      "path": "/api/v1/sqlite/query",
+      "line": 1006,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-021",
+      "method": "POST",
+      "path": "/api/v1/sqlite/reseed",
+      "line": 1066,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-022",
+      "method": "GET",
+      "path": "/api/v1/sqlite/backup-download",
+      "line": 1082,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    },
+    {
+      "id": "API-023",
+      "method": "GET",
+      "path": "*",
+      "line": 1113,
+      "classification": "真实 SQLite 接口；权限/业务规则见阶段待办"
+    }
+  ]
+}

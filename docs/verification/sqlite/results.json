@@ -1,0 +1,308 @@
+{
+  "testedAt": "2026-10-27T10:40:28.652Z",
+  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-CEbgOi",
+  "checks": [
+    {
+      "name": "engine / initialization and migrated physical schema",
+      "status": "PASS",
+      "detail": {
+        "version": {
+          "version": "3.53.4"
+        },
+        "tables": [
+          "academic_classes",
+          "academic_terms",
+          "assessment_exams",
+          "assessment_imports",
+          "assessment_marks",
+          "assessment_questions",
+          "assessment_results",
+          "auth_sessions",
+          "business_notifications",
+          "care_contacts",
+          "care_messages",
+          "care_threads",
+          "care_todos",
+          "class_enrollments",
+          "coaching_journals",
+          "course_swap_requests",
+          "courses",
+          "exam_analytics_batches",
+          "faculty_users",
+          "home_school_messages",
+          "home_school_threads",
+          "homework_assignments",
+          "homework_history",
+          "homework_submissions",
+          "lesson_homework",
+          "lesson_plans",
+          "lesson_revisions",
+          "login_attempts",
+          "schedule_changes",
+          "schedule_entries",
+          "schema_migrations",
+          "security_captchas",
+          "sql_audit_logs",
+          "student_profiles",
+          "teaching_assignments",
+          "timetable_schedules"
+        ]
+      }
+    },
+    {
+      "name": "engine / integrity and foreign-key check",
+      "status": "PASS"
+    },
+    {
+      "name": "engine / parameterized Unicode CRUD",
+      "status": "PASS"
+    },
+    {
+      "name": "engine / primary-key and NOT NULL constraints",
+      "status": "PASS"
+    },
+    {
+      "name": "engine / transaction commit and rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "engine / WAL concurrent reader and writer",
+      "status": "PASS"
+    },
+    {
+      "name": "engine / repeated initialization preserves records",
+      "status": "PASS"
+    },
+    {
+      "name": "auth / anonymous requests cannot read or administer SQLite",
+      "status": "PASS"
+    },
+    {
+      "name": "auth / actual credentials issue HttpOnly session without password disclosure",
+      "status": "PASS"
+    },
+    {
+      "name": "auth / CSRF validation and expired challenges are enforced",
+      "status": "PASS"
+    },
+    {
+      "name": "auth / teacher scope prevents cross-class access and administration",
+      "status": "PASS"
+    },
+    {
+      "name": "auth / logout invalidates server session",
+      "status": "PASS"
+    },
+    {
+      "name": "academic / create master records and persist linked student data",
+      "status": "PASS"
+    },
+    {
+      "name": "API / independent process reads persisted data",
+      "status": "PASS"
+    },
+    {
+      "name": "API / actual database path and journal mode",
+      "status": "PASS",
+      "detail": {
+        "engine": "SQLite 3.53.4",
+        "dbPath": ".local-data/sqlite-verification-CEbgOi/sakura_edu.sqlite",
+        "fileSizeBytes": 471040,
+        "walSizeBytes": 716912,
+        "totalSizeBytes": 1220720
+      }
+    },
+    {
+      "name": "API / SELECT and PRAGMA return physical rows",
+      "status": "PASS"
+    },
+    {
+      "name": "API / CTE and comment-prefixed SELECT return rows",
+      "status": "PASS"
+    },
+    {
+      "name": "API / isolated SQL CRUD and RETURNING",
+      "status": "PASS"
+    },
+    {
+      "name": "API / invalid and empty SQL fail without damaging connection",
+      "status": "PASS"
+    },
+    {
+      "name": "API / common JSON errors and unknown endpoints are structured",
+      "status": "PASS"
+    },
+    {
+      "name": "API / grading rejects missing records and invalid scores without writing",
+      "status": "PASS"
+    },
+    {
+      "name": "academic / audit failure rolls back a master-data mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "homework / draft publish submit grade return resubmit and statistics",
+      "status": "PASS"
+    },
+    {
+      "name": "homework / audit failure rolls back creation",
+      "status": "PASS"
+    },
+    {
+      "name": "API / lesson write is visible in SQLite and subsequent reads",
+      "status": "PASS"
+    },
+    {
+      "name": "lessons / owner privacy revisions links archive and stale edits",
+      "status": "PASS"
+    },
+    {
+      "name": "schedule / conflict validation and approval are atomic",
+      "status": "PASS"
+    },
+    {
+      "name": "exams / preview import statistics missing scores and duplicate requests",
+      "status": "PASS"
+    },
+    {
+      "name": "care / shared contacts messages unread todos and journal ownership",
+      "status": "PASS"
+    },
+    {
+      "name": "workspace / aggregates search and notification state are scoped",
+      "status": "PASS"
+    },
+    {
+      "name": "API / grading persists in physical columns and list response",
+      "status": "PASS"
+    },
+    {
+      "name": "API / process restart preserves successful writes",
+      "status": "PASS",
+      "detail": {
+        "stoppedPid": 41696,
+        "restartedPid": 36632
+      }
+    },
+    {
+      "name": "backup / downloaded database integrity and committed writes",
+      "status": "PASS",
+      "detail": {
+        "bytes": 815104
+      }
+    },
+    {
+      "name": "backup / active WAL reader does not lose committed writes",
+      "status": "PASS",
+      "detail": {
+        "bytes": 815104
+      }
+    },
+    {
+      "name": "backup / concurrent requests produce independent valid snapshots",
+      "status": "PASS",
+      "detail": {
+        "copies": 3,
+        "bytes": [
+          815104,
+          815104,
+          815104
+        ]
+      }
+    },
+    {
+      "name": "client / unavailable SQLite never reports fake successful operations",
+      "status": "PASS"
+    },
+    {
+      "name": "external / unconfigured AI rejects instead of fabricating results",
+      "status": "PASS"
+    },
+    {
+      "name": "API / isolated reseed restores baseline and remains consistent",
+      "status": "PASS"
+    }
+  ],
+  "observations": {
+    "foreignKeyDefinitions": 54,
+    "explicitIndexes": [
+      {
+        "name": "idx_student_class_category"
+      },
+      {
+        "name": "idx_schedule_teacher_week"
+      },
+      {
+        "name": "idx_submission_assignment_status"
+      },
+      {
+        "name": "idx_submission_student"
+      },
+      {
+        "name": "idx_assignment_class"
+      },
+      {
+        "name": "idx_exam_class_date"
+      },
+      {
+        "name": "idx_journal_student"
+      },
+      {
+        "name": "idx_thread_student"
+      },
+      {
+        "name": "idx_message_thread"
+      },
+      {
+        "name": "idx_enrollment_class"
+      },
+      {
+        "name": "idx_audit_trace"
+      },
+      {
+        "name": "idx_sessions_user_expiry"
+      },
+      {
+        "name": "idx_login_account_time"
+      },
+      {
+        "name": "idx_teaching_class"
+      },
+      {
+        "name": "idx_submission_assignment_student"
+      },
+      {
+        "name": "idx_homework_history_submission"
+      },
+      {
+        "name": "idx_schedule_time"
+      },
+      {
+        "name": "idx_care_messages_thread"
+      },
+      {
+        "name": "idx_notifications_user"
+      },
+      {
+        "name": "idx_schedule_lesson"
+      }
+    ],
+    "anonymousSqlConsole": 401,
+    "missingGradeResponse": {
+      "status": 404,
+      "json": {
+        "code": 404,
+        "success": false,
+        "message": "提交记录不存在",
+        "data": null,
+        "traceId": "642f0c09-1e05-429a-b4d2-eb1280aacd42",
+        "timestamp": "2026-10-27T10:40:28.561Z"
+      },
+      "setCookie": null
+    },
+    "filterNonexistentClassCount": 0,
+    "documentationDdlDialect": "Runtime authority: server/database/legacySchema.ts plus checksum-verified migrations 1-11. src/database/schema.sql is retained historical reference only."
+  },
+  "passed": 38,
+  "failed": 0
+}

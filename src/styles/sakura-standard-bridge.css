@@ -1,0 +1,119 @@
+/* Generated semantic bridge; do not change the product layout. */
+[data-design-standard="1.0Sakura"] {
+  --color-background: var(--sakura-surface-canvas);
+  --color-surface: var(--sakura-surface-canvas);
+  --color-surface-bright: var(--sakura-surface-card);
+  --color-surface-dim: var(--sakura-surface-accent);
+  --color-surface-container-lowest: var(--sakura-surface-card);
+  --color-surface-container-low: var(--sakura-surface-muted);
+  --color-surface-container: var(--sakura-surface-accent);
+  --color-surface-container-high: var(--sakura-surface-accent);
+  --color-surface-container-highest: var(--sakura-border-default);
+  --color-surface-variant: var(--sakura-surface-accent);
+  --color-on-background: var(--sakura-text-primary);
+  --color-on-surface: var(--sakura-text-primary);
+  --color-on-surface-variant: var(--sakura-text-secondary);
+  --color-inverse-surface: var(--sakura-text-primary);
+  --color-inverse-on-surface: var(--sakura-surface-card);
+  --color-outline: var(--sakura-text-muted);
+  --color-outline-variant: var(--sakura-border-default);
+  --color-surface-tint: var(--sakura-text-brand);
+  --color-primary: var(--sakura-button-primary-bg);
+  --color-on-primary: var(--sakura-button-primary-text);
+  --color-primary-container: var(--sakura-primary-100);
+  --color-on-primary-container: var(--sakura-primary-800);
+  --color-inverse-primary: var(--sakura-primary-300);
+  --color-primary-fixed: var(--sakura-primary-100);
+  --color-primary-fixed-dim: var(--sakura-primary-200);
+  --color-on-primary-fixed: var(--sakura-primary-900);
+  --color-on-primary-fixed-variant: var(--sakura-primary-800);
+  --color-secondary: var(--sakura-button-primary-bg);
+  --color-on-secondary: var(--sakura-button-primary-text);
+  --color-secondary-container: var(--sakura-primary-100);
+  --color-on-secondary-container: var(--sakura-primary-800);
+  --color-secondary-fixed: var(--sakura-primary-100);
+  --color-secondary-fixed-dim: var(--sakura-primary-200);
+  --color-on-secondary-fixed: var(--sakura-primary-900);
+  --color-on-secondary-fixed-variant: var(--sakura-primary-800);
+  --color-tertiary: var(--sakura-text-brand);
+  --color-on-tertiary: var(--sakura-button-primary-text);
+  --color-tertiary-container: var(--sakura-surface-accent);
+  --color-on-tertiary-container: var(--sakura-text-primary);
+  --color-tertiary-fixed: var(--sakura-surface-muted);
+  --color-tertiary-fixed-dim: var(--sakura-surface-accent);
+  --color-on-tertiary-fixed: var(--sakura-text-primary);
+  --color-on-tertiary-fixed-variant: var(--sakura-text-secondary);
+  --color-error: var(--sakura-danger);
+  --color-on-error: var(--sakura-text-inverse);
+  --color-error-container: var(--sakura-danger-bg);
+  --color-on-error-container: var(--sakura-danger);
+  --radius-xs: var(--sakura-radius-xs);
+  --radius-sm: var(--sakura-radius-sm);
+  --radius-md: var(--sakura-radius-md);
+  --radius-lg: var(--sakura-radius-sm);
+  --radius-xl: var(--sakura-radius-lg);
+  --radius-2xl: var(--sakura-radius-xl);
+  --radius-3xl: var(--sakura-radius-xl);
+}
+[data-design-standard="1.0Sakura"][data-theme="midnight-cyan"] {
+  --color-primary-container: var(--sakura-surface-accent);
+  --color-primary-fixed: var(--sakura-surface-accent);
+  --color-primary-fixed-dim: var(--sakura-surface-accent);
+  --color-on-primary-container: var(--sakura-text-primary);
+  --color-on-primary-fixed: var(--sakura-text-primary);
+  --color-on-primary-fixed-variant: var(--sakura-text-primary);
+  --color-secondary-container: var(--sakura-surface-accent);
+  --color-secondary-fixed: var(--sakura-surface-accent);
+  --color-secondary-fixed-dim: var(--sakura-surface-accent);
+  --color-on-secondary-container: var(--sakura-text-primary);
+  --color-on-secondary-fixed: var(--sakura-text-primary);
+  --color-on-secondary-fixed-variant: var(--sakura-text-primary);
+  --color-tertiary-container: var(--sakura-surface-accent);
+  --color-tertiary-fixed: var(--sakura-surface-accent);
+  --color-tertiary-fixed-dim: var(--sakura-surface-accent);
+  --color-on-tertiary-container: var(--sakura-text-primary);
+  --color-on-tertiary-fixed: var(--sakura-text-primary);
+  --color-on-tertiary-fixed-variant: var(--sakura-text-primary);
+}
+[data-design-standard="1.0Sakura"] .sakura-btn {
+  min-height: var(--sakura-control-height);
+  border-radius: var(--sakura-radius-sm);
+  transition-property: background-color, color, border-color, box-shadow, transform;
+  transition-duration: var(--sakura-duration-fast);
+  transition-timing-function: var(--sakura-ease-standard);
+}
+[data-design-standard="1.0Sakura"] .sakura-input { border-radius: var(--sakura-radius-sm); }
+[data-design-standard="1.0Sakura"] .sakura-btn-primary {
+  background: var(--sakura-button-primary-bg);
+  color: var(--sakura-button-primary-text);
+}
+[data-design-standard="1.0Sakura"] .sakura-btn-primary:hover { background: var(--sakura-primary-700); }
+[data-design-standard="1.0Sakura"][data-theme="midnight-cyan"] .sakura-btn-primary:hover { background: #155e75; }
+[data-design-standard="1.0Sakura"][data-theme="midnight-cyan"] .sakura-btn-secondary {
+  background: var(--sakura-surface-muted);
+  color: var(--sakura-text-primary);
+  border-color: var(--sakura-border-default);
+}
+[data-design-standard="1.0Sakura"][data-theme="midnight-cyan"] .sakura-btn-secondary:hover,
+[data-design-standard="1.0Sakura"][data-theme="midnight-cyan"] .sakura-btn-ghost:hover {
+  background: var(--sakura-surface-accent);
+  color: var(--sakura-text-primary);
+}
+/* All existing utilities also honor the standard's reduced-motion contract. */
+@media (prefers-reduced-motion: reduce) {
+  [data-design-standard="1.0Sakura"] *,
+  [data-design-standard="1.0Sakura"] *::before,
+  [data-design-standard="1.0Sakura"] *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  [data-design-standard="1.0Sakura"] button { transform: none !important; }
+}
+/* Legacy decorative status pings are not actual pending requests. */
+[data-design-standard="1.0Sakura"] .animate-ping,
+[data-design-standard="1.0Sakura"] .animate-pulse { animation: none; }
+@media (max-width: 767px) {
+  [data-design-standard="1.0Sakura"] .sakura-btn,
+  [data-design-standard="1.0Sakura"] .sakura-input { min-height: var(--sakura-touch-target); }
+}

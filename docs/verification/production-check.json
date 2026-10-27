@@ -1,0 +1,8 @@
+{
+  "buttonBg": "rgb(225, 29, 72)",
+  "cardRadius": "12px",
+  "focusVisible": true,
+  "outline": "rgb(251, 113, 133) solid 2px",
+  "skeleton": "sakura-skeleton-pulse",
+  "stylesheetCount": 4
+}

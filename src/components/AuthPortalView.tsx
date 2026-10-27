@@ -1,13 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { AWESOME_DESIGN_THEMES, UiThemeId } from '../data/awesomeDesignTheme';
-import { sakuraApi } from '../services/sakuraApiService';
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  AWESOME_DESIGN_THEMES,
+  UiThemeId,
+  STANDARD_PREVIEW,
+} from "../data/awesomeDesignTheme";
+import { sakuraApi } from "../services/sakuraApiService";
 import {
   CaptchaChallengeDTO,
   CaptchaMode,
   FacultyDefaultProfileDTO,
   FacultySessionDTO,
-} from '../types/api';
-import { WorkspaceTab } from '../types/sakura';
+} from "../types/api";
+import { WorkspaceTab } from "../types/sakura";
 
 interface AuthPortalViewProps {
   activeTheme: UiThemeId;
@@ -16,7 +20,7 @@ interface AuthPortalViewProps {
   onOpenDefaultSettingsModal: () => void;
   onLoginSuccess: (
     session: FacultySessionDTO,
-    explicitTab?: WorkspaceTab
+    explicitTab?: WorkspaceTab,
   ) => void;
   onOpenKnowledgeBase: () => void;
   onOpenSqlBlueprint?: () => void;
@@ -32,35 +36,39 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
   onOpenKnowledgeBase,
   showToast,
 }) => {
-  const [authTab, setAuthTab] = useState<'account' | 'qrcode' | 'phone'>('account');
-  const [facultyId, setFacultyId] = useState(defaultProfile.facultyCode || 'admin');
-  const [password, setPassword] = useState(defaultProfile.password || 'admin');
+  const [authTab, setAuthTab] = useState<"account" | "qrcode" | "phone">(
+    "account",
+  );
+  const [facultyId, setFacultyId] = useState(
+    defaultProfile.facultyCode || "admin",
+  );
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   // Sync input fields whenever saved defaultProfile updates
   useEffect(() => {
-    setFacultyId(defaultProfile.facultyCode || 'admin');
-    setPassword(defaultProfile.password || 'admin');
-  }, [defaultProfile.facultyCode, defaultProfile.password]);
+    setFacultyId(defaultProfile.facultyCode || "admin");
+  }, [defaultProfile.facultyCode]);
 
   // Security Captcha state
-  const [captchaMode, setCaptchaMode] = useState<CaptchaMode>('graphic');
-  const [captchaChallenge, setCaptchaChallenge] = useState<CaptchaChallengeDTO | null>(null);
-  const [captchaInput, setCaptchaInput] = useState('');
+  const [captchaMode, setCaptchaMode] = useState<CaptchaMode>("graphic");
+  const [captchaChallenge, setCaptchaChallenge] =
+    useState<CaptchaChallengeDTO | null>(null);
+  const [captchaInput, setCaptchaInput] = useState("");
   const [sliderValue, setSliderValue] = useState(0);
   const [captchaLoading, setCaptchaLoading] = useState(false);
   const [captchaError, setCaptchaError] = useState<string | null>(null);
 
   const [keepOnline, setKeepOnline] = useState(true);
-  const [phoneNum, setPhoneNum] = useState('13800138421');
-  const [smsCode, setSmsCode] = useState('829401');
+  const [phoneNum, setPhoneNum] = useState("13800138421");
+  const [smsCode, setSmsCode] = useState("829401");
   const [envModalOpen, setEnvModalOpen] = useState(false);
   const [envStatusData, setEnvStatusData] = useState<{
     gatewayLatencyMs: number;
     ocrDriverVersion: string;
   }>({
-    gatewayLatencyMs: 4,
-    ocrDriverVersion: 'v4.2',
+    gatewayLatencyMs: 0,
+    ocrDriverVersion: "未检测",
   });
 
   const currentThemeMeta =
@@ -75,23 +83,23 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
         const res = await sakuraApi.security.generateCaptcha(targetMode);
         if (res.success && res.data) {
           setCaptchaChallenge(res.data);
-          if (targetMode === 'slider') {
+          if (targetMode === "slider") {
             const targetX = res.data.sliderTargetX || 168;
             setSliderValue(autoFillDemo ? targetX : 12);
             setCaptchaInput(String(autoFillDemo ? targetX : 12));
           } else {
-            setCaptchaInput(autoFillDemo ? res.data.demoHint : '');
+            setCaptchaInput(autoFillDemo ? res.data.demoHint || "" : "");
           }
-        }
+        } else setCaptchaError(res.message);
       } finally {
         setCaptchaLoading(false);
       }
     },
-    [captchaMode]
+    [captchaMode],
   );
 
   useEffect(() => {
-    fetchNewCaptcha('graphic', true);
+    fetchNewCaptcha("graphic", true);
   }, [fetchNewCaptcha]);
 
   const handleSwitchCaptchaMode = (nextMode: CaptchaMode) => {
@@ -101,16 +109,24 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
 
   const handleAccountLogin = async (explicitTab?: WorkspaceTab) => {
     if (!facultyId.trim()) {
-      showToast('请输入您的在职教师工号或校园邮箱');
+      showToast("请输入您的在职教师工号或校园邮箱");
+      return;
+    }
+    if (!password) {
+      showToast("请输入登录密码");
       return;
     }
 
-    if (authTab === 'account') {
+    if (authTab !== "account") {
+      showToast("该登录方式尚未开通，请使用账号登录");
+      return;
+    }
+    if (authTab === "account") {
       const answerToSubmit =
-        captchaMode === 'slider' ? String(sliderValue) : captchaInput.trim();
+        captchaMode === "slider" ? String(sliderValue) : captchaInput.trim();
       if (!answerToSubmit) {
-        setCaptchaError('请先完成安全验证码填写或滑块对齐');
-        showToast('请完成安全验证码校验');
+        setCaptchaError("请先完成安全验证码填写或滑块对齐");
+        showToast("请完成安全验证码校验");
         return;
       }
     }
@@ -120,8 +136,8 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
       password,
       captchaId: captchaChallenge?.captchaId,
       captchaAnswer:
-        authTab === 'account'
-          ? captchaMode === 'slider'
+        authTab === "account"
+          ? captchaMode === "slider"
             ? String(sliderValue)
             : captchaInput.trim()
           : undefined,
@@ -130,8 +146,8 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
     });
 
     if (!res.success || res.code !== 200 || !res.data) {
-      setCaptchaError(res.message || '认证校验未通过，请重试');
-      showToast(res.message || '认证校验未通过，请重试');
+      setCaptchaError(res.message || "认证校验未通过，请重试");
+      showToast(res.message || "认证校验未通过，请重试");
       fetchNewCaptcha(captchaMode, false);
       return;
     }
@@ -141,11 +157,12 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
   };
 
   const handleOpenEnvModal = async () => {
+    const started = performance.now();
     const res = await sakuraApi.auth.checkTerminalEnvironment();
     if (res.success && res.data) {
       setEnvStatusData({
-        gatewayLatencyMs: res.data.gatewayLatencyMs || 4,
-        ocrDriverVersion: res.data.ocrDriverVersion || 'v4.2',
+        gatewayLatencyMs: Math.max(1, Math.round(performance.now() - started)),
+        ocrDriverVersion: res.data.ocrDriverVersion || "未连接",
       });
     }
     setEnvModalOpen(true);
@@ -197,8 +214,8 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                           }}
                           className={`px-2 py-1 rounded-xs font-label-sm text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                             active
-                              ? 'bg-primary text-on-primary font-bold shadow-2xs'
-                              : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
+                              ? "bg-primary text-on-primary font-bold shadow-2xs"
+                              : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low"
                           }`}
                         >
                           <span
@@ -228,7 +245,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
               <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3 my-4 lg:my-auto max-w-2xl">
                 {/* Feature 1 */}
                 <div
-                  onClick={() => handleAccountLogin('homework-center')}
+                  onClick={() => handleAccountLogin("homework-center")}
                   className="group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md shadow-xs hover:shadow-md border border-outline-variant/25 transition-all flex items-start gap-3"
                 >
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform">
@@ -242,21 +259,21 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <h3 className="font-headline-sm text-sm sm:text-base text-on-surface font-bold">
-                        智能批阅工坊
+                        人工批阅工坊
                       </h3>
                       <span className="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold">
-                        AI 辅助
+                        本地保存
                       </span>
                     </div>
                     <p className="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">
-                      笔迹还原与温情评语库，主观题批改效率提升 65%，留更多时间给孩子。
+                      作业发布、提交登记、人工评分与订正历史，形成可追溯的教学记录。
                     </p>
                   </div>
                 </div>
 
                 {/* Feature 2 */}
                 <div
-                  onClick={() => handleAccountLogin('student-profiles')}
+                  onClick={() => handleAccountLogin("student-profiles")}
                   className="group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md shadow-xs hover:shadow-md border border-outline-variant/25 transition-all flex items-start gap-3"
                 >
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary shrink-0 group-hover:scale-105 transition-transform">
@@ -270,21 +287,21 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <h3 className="font-headline-sm text-sm sm:text-base text-on-surface font-bold">
-                        全景学情画像
+                        学生学情档案
                       </h3>
                       <span className="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold">
-                        精准分层
+                        真实档案
                       </span>
                     </div>
                     <p className="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">
-                      雷达图透视知识盲区与专注波动，让因材施教充满科学温度与底气。
+                      真实名册、考试轨迹和辅导记录，按任教班级查看学生情况。
                     </p>
                   </div>
                 </div>
 
                 {/* Feature 3 */}
                 <div
-                  onClick={() => handleAccountLogin('lesson-plans')}
+                  onClick={() => handleAccountLogin("lesson-plans")}
                   className="group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md shadow-xs hover:shadow-md border border-outline-variant/25 transition-all flex items-start gap-3"
                 >
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary shrink-0 group-hover:scale-105 transition-transform">
@@ -298,21 +315,23 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <h3 className="font-headline-sm text-sm sm:text-base text-on-surface font-bold">
-                        一键备课灵感
+                        文本教案库
                       </h3>
                       <span className="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">
-                        名师资源
+                        版本留存
                       </span>
                     </div>
                     <p className="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">
-                      十万份精选教案与生动课件切片，轻松拖拽生成个性化教学流。
+                      保存与编辑教案正文，保留修改版本，按标签检索并关联作业。
                     </p>
                   </div>
                 </div>
 
                 {/* Feature 4 */}
                 <div
-                  onClick={() => handleAccountLogin('school-home-communication')}
+                  onClick={() =>
+                    handleAccountLogin("school-home-communication")
+                  }
                   className="group cursor-pointer p-3.5 sm:p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md shadow-xs hover:shadow-md border border-outline-variant/25 transition-all flex items-start gap-3"
                 >
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shrink-0 group-hover:scale-105 transition-transform">
@@ -329,11 +348,11 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         温情家校共育
                       </h3>
                       <span className="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed text-[10px] font-bold">
-                        双向免扰
+                        站内记录
                       </span>
                     </div>
                     <p className="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">
-                      定时生成班级成长简报，下班后智能免打扰，构建清爽和谐沟通场。
+                      记录家校交流、安排关怀待办与免打扰；外部家长投递尚未连接。
                     </p>
                   </div>
                 </div>
@@ -345,7 +364,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-lowest/95 border border-outline-variant/30 text-on-surface text-xs">
                     <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
                     <span className="font-semibold">
-                      校园内网安全认证通道已就绪
+                      本地账号认证通道已就绪
                     </span>
                   </div>
                   <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high/60 text-on-surface-variant text-xs">
@@ -393,18 +412,20 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                 {/* Segmented Tab Bar */}
                 <div className="mt-3 p-1 bg-surface-container-low rounded-lg flex gap-1 border border-outline-variant/20">
                   {[
-                    { id: 'account', label: '教工号登录' },
-                    { id: 'qrcode', label: '企微/钉钉扫码' },
-                    { id: 'phone', label: '手机快捷验证' },
+                    { id: "account", label: "教工号登录" },
+                    { id: "qrcode", label: "企微/钉钉扫码" },
+                    { id: "phone", label: "手机快捷验证" },
                   ].map((t) => (
                     <button
                       key={t.id}
                       type="button"
+                      disabled={t.id !== "account"}
+                      title={t.id !== "account" ? "尚未开通" : undefined}
                       onClick={() => setAuthTab(t.id as typeof authTab)}
                       className={`flex-1 py-1.5 px-2 rounded-md font-label-sm text-xs transition-all cursor-pointer whitespace-nowrap ${
                         authTab === t.id
-                          ? 'bg-surface-container-lowest text-secondary font-bold shadow-2xs'
-                          : 'text-on-surface-variant hover:text-on-surface'
+                          ? "bg-surface-container-lowest text-secondary font-bold shadow-2xs"
+                          : "text-on-surface-variant hover:text-on-surface"
                       }`}
                     >
                       {t.label}
@@ -415,7 +436,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
 
               {/* Middle Segment: Forms Container */}
               <div className="my-auto">
-                {authTab === 'account' && (
+                {authTab === "account" && (
                   <div className="space-y-2.5 transition-all duration-300">
                     {/* Current Saved User-Group Default Identity Strip */}
                     <div className="px-3 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between gap-2 text-xs">
@@ -446,7 +467,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                       <label className="font-label-sm text-xs text-on-surface font-semibold flex items-center justify-between">
                         <span>教工号 / 管理员账号</span>
                         <span className="text-on-surface-variant font-normal text-[11px]">
-                          当前默认账号: {defaultProfile.facultyCode} · 密码: {defaultProfile.password}
+                          演示账号: {defaultProfile.facultyCode}
                         </span>
                       </label>
                       <div className="relative flex items-center">
@@ -472,7 +493,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                           onClick={onOpenDefaultSettingsModal}
                           className="text-secondary hover:underline font-label-sm text-xs cursor-pointer"
                         >
-                          修改默认账号/密码？
+                          个人偏好设置
                         </button>
                       </label>
                       <div className="relative flex items-center">
@@ -481,8 +502,8 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         </span>
                         <input
                           className="w-full pl-9 pr-9 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-body-md text-sm placeholder:text-outline/70 focus:outline-none focus:bg-surface focus:ring-2 focus:ring-primary-container transition-all"
-                          placeholder={`请输入登录密码 (默认 ${defaultProfile.password})`}
-                          type={showPassword ? 'text' : 'password'}
+                          placeholder="请输入登录密码"
+                          type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
@@ -492,7 +513,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                           type="button"
                         >
                           <span className="material-symbols-outlined text-lg">
-                            {showPassword ? 'visibility_off' : 'visibility'}
+                            {showPassword ? "visibility_off" : "visibility"}
                           </span>
                         </button>
                       </div>
@@ -513,20 +534,21 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         {/* Captcha Mode Selector */}
                         <div className="inline-flex items-center gap-1 bg-surface-container-lowest p-0.5 rounded border border-outline-variant/25">
                           {[
-                            { id: 'graphic', label: '图形验证' },
-                            { id: 'math', label: '算术验证' },
-                            { id: 'slider', label: '滑块拼图' },
+                            { id: "graphic", label: "图形验证" },
+                            { id: "math", label: "算术验证" },
+                            { id: "slider", label: "滑块拼图" },
                           ].map((m) => (
                             <button
                               key={m.id}
                               type="button"
+                              disabled={m.id === "slider"}
                               onClick={() =>
                                 handleSwitchCaptchaMode(m.id as CaptchaMode)
                               }
                               className={`px-2 py-0.5 rounded-xs text-[11px] font-label-sm cursor-pointer transition-all ${
                                 captchaMode === m.id
-                                  ? 'bg-primary text-on-primary font-semibold'
-                                  : 'text-on-surface-variant hover:text-on-surface'
+                                  ? "bg-primary text-on-primary font-semibold"
+                                  : "text-on-surface-variant hover:text-on-surface"
                               }`}
                             >
                               {m.label}
@@ -535,7 +557,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         </div>
                       </div>
 
-                      {captchaMode !== 'slider' ? (
+                      {captchaMode !== "slider" ? (
                         <div className="flex items-center gap-2">
                           <div className="relative flex-1 flex items-center">
                             <span className="absolute left-3 text-primary material-symbols-outlined text-base">
@@ -544,9 +566,9 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                             <input
                               className="w-full pl-8 pr-2.5 py-2 rounded bg-surface-container-lowest border border-outline-variant/35 text-on-surface font-mono text-sm font-bold tracking-wider placeholder:font-sans placeholder:font-normal placeholder:text-xs placeholder:text-outline/70 focus:outline-none focus:ring-2 focus:ring-primary"
                               placeholder={
-                                captchaMode === 'math'
-                                  ? '输入计算结果'
-                                  : '输入4位图形码'
+                                captchaMode === "math"
+                                  ? "输入计算结果"
+                                  : "输入4位图形码"
                               }
                               type="text"
                               value={captchaInput}
@@ -565,8 +587,15 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                           >
                             {captchaLoading || !captchaChallenge ? (
                               <span className="text-[11px] text-on-surface-variant flex items-center gap-1">
-                                <span className="material-symbols-outlined text-sm animate-spin">
-                                  sync
+                                <span
+                                  aria-hidden="true"
+                                  className={
+                                    STANDARD_PREVIEW
+                                      ? "sakura-spinner"
+                                      : "material-symbols-outlined text-sm animate-spin"
+                                  }
+                                >
+                                  {STANDARD_PREVIEW ? null : "sync"}
                                 </span>
                                 生成中...
                               </span>
@@ -596,7 +625,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         <div className="space-y-1.5 pt-0.5">
                           <div className="flex items-center justify-between text-[11px]">
                             <span className="text-on-surface-variant">
-                              拖动滑块对齐安全靶位坐标:{' '}
+                              拖动滑块对齐安全靶位坐标:{" "}
                               <strong className="font-mono text-primary">
                                 {sliderTargetX}px
                               </strong>
@@ -604,12 +633,12 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                             <span
                               className={`font-mono font-bold ${
                                 sliderMatched
-                                  ? 'text-emerald-700'
-                                  : 'text-secondary'
+                                  ? "text-emerald-700"
+                                  : "text-secondary"
                               }`}
                             >
-                              当前: {sliderValue}px{' '}
-                              {sliderMatched ? '✓ 已对齐' : ''}
+                              当前: {sliderValue}px{" "}
+                              {sliderMatched ? "✓ 已对齐" : ""}
                             </span>
                           </div>
                           <div className="relative h-8 rounded bg-surface-container-lowest border border-outline-variant/35 flex items-center px-2">
@@ -653,11 +682,11 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                           </span>
                         )}
 
-                        {captchaChallenge && (
+                        {captchaChallenge?.demoHint && (
                           <button
                             type="button"
                             onClick={() => {
-                              if (captchaMode === 'slider') {
+                              if (captchaMode === "slider") {
                                 const tx =
                                   captchaChallenge.sliderTargetX || 168;
                                 setSliderValue(tx);
@@ -703,7 +732,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                     {/* Primary Hero Action CTA Button */}
                     <button
                       onClick={() => handleAccountLogin()}
-                      className="w-full mt-1 py-2.5 px-6 rounded-lg bg-primary hover:bg-secondary text-on-primary font-headline-sm text-sm sm:text-base font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className={`${STANDARD_PREVIEW ? "sakura-btn sakura-btn-primary " : ""}w-full mt-1 py-2.5 px-6 rounded-lg bg-primary hover:bg-secondary text-on-primary font-headline-sm text-sm sm:text-base font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer`}
                       type="button"
                     >
                       <span className="material-symbols-outlined text-lg">
@@ -714,7 +743,7 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                   </div>
                 )}
 
-                {authTab === 'qrcode' && (
+                {authTab === "qrcode" && (
                   <div className="flex flex-col items-center justify-center py-6 text-center space-y-3">
                     <div
                       onClick={() => handleAccountLogin()}
@@ -735,14 +764,14 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                     <button
                       type="button"
                       className="font-label-sm text-xs text-secondary hover:underline cursor-pointer"
-                      onClick={() => setAuthTab('account')}
+                      onClick={() => setAuthTab("account")}
                     >
                       返回教工号登录
                     </button>
                   </div>
                 )}
 
-                {authTab === 'phone' && (
+                {authTab === "phone" && (
                   <div className="space-y-3 py-2">
                     <div className="space-y-1">
                       <label className="font-label-sm text-xs text-on-surface font-semibold">
@@ -781,7 +810,9 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                         <button
                           type="button"
                           onClick={() =>
-                            showToast('短信验证码已发送至 138****8421，请注意查收')
+                            showToast(
+                              "短信验证码已发送至 138****8421，请注意查收",
+                            )
                           }
                           className="px-4 py-2.5 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-sm text-xs font-semibold hover:bg-primary-container transition-colors whitespace-nowrap cursor-pointer"
                         >
@@ -790,6 +821,8 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                       </div>
                     </div>
                     <button
+                      disabled
+                      title="尚未开通"
                       onClick={() => handleAccountLogin()}
                       className="w-full mt-2 py-2.5 px-6 rounded-lg bg-secondary text-on-secondary font-headline-sm text-base font-bold shadow-sm hover:brightness-105 transition-all cursor-pointer"
                       type="button"
@@ -811,12 +844,26 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {[
-                    { icon: 'forum', label: '企业微信', color: 'text-secondary' },
-                    { icon: 'vpn_key', label: 'CA数字证书', color: 'text-primary' },
-                    { icon: 'school', label: '钉钉教育版', color: 'text-secondary' },
+                    {
+                      icon: "forum",
+                      label: "企业微信",
+                      color: "text-secondary",
+                    },
+                    {
+                      icon: "vpn_key",
+                      label: "CA数字证书",
+                      color: "text-primary",
+                    },
+                    {
+                      icon: "school",
+                      label: "钉钉教育版",
+                      color: "text-secondary",
+                    },
                   ].map((btn) => (
                     <button
                       key={btn.label}
+                      disabled
+                      title="尚未开通"
                       onClick={() => handleAccountLogin()}
                       className="py-1.5 px-2 rounded bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-xs flex items-center justify-center gap-1 transition-colors cursor-pointer whitespace-nowrap border border-outline-variant/20"
                       type="button"
@@ -887,24 +934,32 @@ export const AuthPortalView: React.FC<AuthPortalViewProps> = ({
                 onClick={() => setEnvModalOpen(false)}
                 className="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface cursor-pointer"
               >
-                <span className="material-symbols-outlined text-base">close</span>
+                <span className="material-symbols-outlined text-base">
+                  close
+                </span>
               </button>
             </div>
             <div className="space-y-2 text-xs">
               <div className="p-3 rounded bg-surface-container-low flex items-center justify-between">
-                <span className="text-on-surface-variant">校园内网连接状态</span>
+                <span className="text-on-surface-variant">
+                  校园内网连接状态
+                </span>
                 <span className="font-label-sm text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
-                  {envStatusData.gatewayLatencyMs} ms (极速响应)
+                  {envStatusData.gatewayLatencyMs} ms（本次请求实测）
                 </span>
               </div>
               <div className="p-3 rounded bg-surface-container-low flex items-center justify-between">
-                <span className="text-on-surface-variant">OCR 高拍仪与手写板驱动</span>
+                <span className="text-on-surface-variant">
+                  OCR 高拍仪与手写板驱动
+                </span>
                 <span className="font-label-sm text-secondary bg-secondary-fixed px-2 py-0.5 rounded">
-                  已就绪 {envStatusData.ocrDriverVersion}
+                  {envStatusData.ocrDriverVersion}
                 </span>
               </div>
               <div className="p-3 rounded bg-surface-container-low flex items-center justify-between">
-                <span className="text-on-surface-variant">教室多媒体投屏协议</span>
+                <span className="text-on-surface-variant">
+                  教室多媒体投屏协议
+                </span>
                 <span className="font-label-sm text-primary bg-primary-fixed px-2 py-0.5 rounded font-semibold">
                   支持无线一体机直连
                 </span>

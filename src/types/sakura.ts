@@ -117,6 +117,7 @@ export interface StudentAcademicProfile {
 }
 
 export interface ParentChatThread {
+  topicTag?: string;
   id: string;
   parentName: string;
   studentName: string;

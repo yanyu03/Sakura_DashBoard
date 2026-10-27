@@ -1,0 +1,72 @@
+[
+  {
+    "button": "rgb(225, 29, 72)",
+    "canvas": "#fff7fa",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "sakura-milk"
+  },
+  {
+    "button": "rgb(28, 75, 179)",
+    "canvas": "#f5f9ff",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "ocean-blue"
+  },
+  {
+    "button": "rgb(16, 97, 46)",
+    "canvas": "#f6faf5",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "forest-tea"
+  },
+  {
+    "button": "rgb(137, 63, 7)",
+    "canvas": "#fffbf4",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "amber-paper"
+  },
+  {
+    "button": "rgb(94, 44, 180)",
+    "canvas": "#faf7ff",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "lavender-mist"
+  },
+  {
+    "button": "rgb(39, 49, 65)",
+    "canvas": "#f8fafc",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "graphite-mono"
+  },
+  {
+    "button": "rgb(14, 116, 144)",
+    "canvas": "#0b1220",
+    "duration": "0.12s",
+    "height": 38,
+    "overflow": false,
+    "radius": "6px",
+    "text": "rgb(255, 255, 255)",
+    "theme": "midnight-cyan"
+  }
+]

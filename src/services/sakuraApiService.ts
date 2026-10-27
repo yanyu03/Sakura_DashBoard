@@ -23,9 +23,11 @@ import {
 /**
  * SakuraEdu 统一后端接口与本地 SQLite 备件库服务层 (Service & Repository Layer)
  * - 默认开启 useRemoteBackend: true，直连本地 Express + better-sqlite3 (`data/sakura_edu.sqlite`) 纯本地备件库与 `svg-captcha` 开源安全验证码系统。
- * - 若网络或静态托管环境不可达，自动平滑降级至前端内存备件库，确保 100% 高可用零报错。
+ * - 真实模式必须取得服务端响应；内存示例只在显式关闭远程模式时使用。
  */
 class SakuraApiService {
+  constructor(){try{localStorage.removeItem('sakura_default_profile');}catch{/* Node tests have no browser storage. */}}
+  private csrfToken='';
   private config: SakuraBackendConfig = {
     baseUrl: '/api/v1',
     useRemoteBackend: true,
@@ -88,32 +90,48 @@ class SakuraApiService {
     path: string,
     options: RequestInit,
     meta: { fn: string; method: string; endpoint: string; fallbackSql: string },
-    fallbackData: () => T,
+    fallbackData: (() => T) | null,
     fallbackMsg: string
   ): Promise<ApiResponse<T>> {
     if (this.config.useRemoteBackend) {
       try {
         const res = await fetch(`${this.config.baseUrl}${path}`, {
           ...options,
+          signal: options.signal || AbortSignal.timeout(this.config.timeoutMs),
           headers: {
             'Content-Type': 'application/json',
+            ...(this.csrfToken ? {'X-CSRF-Token':this.csrfToken} : {}),
             ...(options.headers || {}),
           },
         });
         const json = (await res.json()) as ApiResponse<T>;
         if (json && typeof json.code === 'number') {
+          if(json.code===401&&typeof window!=='undefined'&& !['/auth/default-profile','/auth/faculty-login'].includes(path))window.dispatchEvent(new Event('sakura-session-expired'));
+          if(json.data&&typeof json.data==='object'&&'csrfToken' in json.data)this.csrfToken=String(json.data.csrfToken);
           this.recordLog(json.traceId || `sqlite-${Date.now().toString(36)}`, {
             fn: meta.fn,
             method: meta.method,
             endpoint: meta.endpoint,
             sql: json.sqlExecuted || meta.fallbackSql,
-            engine: 'SQLite3 (data/sakura_edu.sqlite)',
+            engine: 'SQLite3 (local API)',
           });
           return json;
         }
       } catch {
         // Smooth fallback if offline
       }
+    }
+    // Runtime requests must never turn transport failure into a successful demo write.
+    // Fallback data is available only when a caller explicitly selects memory/demo mode.
+    if (fallbackData === null || this.config.useRemoteBackend) {
+      return {
+        code: 503,
+        success: false,
+        message: '未获得本地 SQLite 的有效响应，请检查服务后确认操作结果。',
+        data: null,
+        traceId: `sqlite-unavailable-${Date.now().toString(36)}`,
+        timestamp: new Date().toISOString(),
+      };
     }
     return this.wrapFallbackResponse(fallbackData(), fallbackMsg, {
       fn: meta.fn,
@@ -194,32 +212,7 @@ class SakuraApiService {
           endpoint: '/api/v1/sqlite/status',
           fallbackSql: `SELECT name FROM sqlite_master WHERE type='table';`,
         },
-        () => ({
-          engine: 'SQLite3 (better-sqlite3 Local Embedded Backup)',
-          dbPath: '/app/applet/data/sakura_edu.sqlite',
-          fileSizeBytes: 98304,
-          fileSizeFormatted: '96.0 KB',
-          journalMode: 'wal',
-          lastModified: new Date().toISOString(),
-          totalTables: 14,
-          tableCounts: {
-            security_captchas: 4,
-            faculty_users: 2,
-            academic_classes: 3,
-            student_profiles: 5,
-            timetable_schedules: 6,
-            course_swap_requests: 1,
-            homework_assignments: 1,
-            homework_submissions: 6,
-            lesson_plans: 4,
-            exam_analytics_batches: 1,
-            coaching_journals: 4,
-            home_school_threads: 5,
-            home_school_messages: 7,
-            sql_audit_logs: 12,
-          },
-          recentAuditLogs: [],
-        }),
+        null,
         '本地 SQLite 备件库运行正常'
       );
     },
@@ -237,11 +230,7 @@ class SakuraApiService {
           endpoint: '/api/v1/sqlite/query',
           fallbackSql: sql,
         },
-        () => ({
-          mode: 'SELECT',
-          rowCount: 1,
-          rows: [{ info: 'Fallback response', sql }],
-        }),
+        null,
         'SQL 执行完成'
       );
     },
@@ -258,7 +247,7 @@ class SakuraApiService {
           endpoint: '/api/v1/sqlite/reseed',
           fallbackSql: 'BEGIN TRANSACTION; -- Reseed all 14 local SQLite tables; COMMIT;',
         },
-        () => ({ reseeded: true, tableCounts: {} }),
+        null,
         '本地 SQLite 备件库已一键恢复出厂基准数据'
       );
     },
@@ -272,6 +261,11 @@ class SakuraApiService {
   // 1. 教师统一认证与默认用户组配置模块函数集 (auth)
   // ===========================================================================
   public auth = {
+    logout: async () => {
+      const result=await this.requestSqliteApi<{loggedOut:boolean}>('/auth/logout',{method:'POST'},{fn:'logout',method:'POST',endpoint:'/api/v1/auth/logout',fallbackSql:''},null,'');
+      if(result.success)this.csrfToken='';
+      return result;
+    },
     getDefaultProfile: async (): Promise<ApiResponse<FacultyDefaultProfileDTO>> => {
       const sql = `SELECT * FROM faculty_users WHERE id = 'fac-admin' LIMIT 1;`;
       return this.requestSqliteApi<FacultyDefaultProfileDTO>(
@@ -284,16 +278,10 @@ class SakuraApiService {
           fallbackSql: sql,
         },
         () => {
-          try {
-            const cached = localStorage.getItem('sakura_default_profile');
-            if (cached) return JSON.parse(cached) as FacultyDefaultProfileDTO;
-          } catch {
-            // ignore
-          }
           return {
             teacherId: 'fac-admin',
             facultyCode: 'admin',
-            password: 'admin',
+            password: '',
             fullName: '林知夏 老师',
             titleRole: '高二(3)班班主任 · 语文组',
             department: '高中语文教研组',
@@ -312,11 +300,6 @@ class SakuraApiService {
     saveDefaultProfile: async (
       payload: Partial<FacultyDefaultProfileDTO>
     ): Promise<ApiResponse<FacultyDefaultProfileDTO>> => {
-      try {
-        localStorage.setItem('sakura_default_profile', JSON.stringify(payload));
-      } catch {
-        // ignore
-      }
       const sql = `UPDATE faculty_users SET faculty_code = '${payload.facultyCode || 'admin'}', full_name = '${payload.fullName || '林知夏 老师'}', title_role = '${payload.titleRole || ''}', department = '${payload.department || ''}', default_tab = '${payload.defaultTab || 'homework-center'}', default_theme = '${payload.defaultTheme || 'awesome-green'}' WHERE id = 'fac-admin';`;
       return this.requestSqliteApi<FacultyDefaultProfileDTO>(
         '/auth/default-profile',
@@ -333,7 +316,7 @@ class SakuraApiService {
         () => ({
           teacherId: 'fac-admin',
           facultyCode: payload.facultyCode || 'admin',
-          password: payload.password || 'admin',
+          password: '',
           fullName: payload.fullName || '林知夏 老师',
           titleRole: payload.titleRole || '高二(3)班班主任 · 语文组',
           department: payload.department || '高中语文教研组',
@@ -410,6 +393,15 @@ class SakuraApiService {
         '终端环境自检通过'
       );
     },
+  };
+
+  public business = {
+    request: async (resource:string,method='GET',payload?:Record<string,unknown>) => this.requestSqliteApi<any>(resource,{method,...(payload?{body:JSON.stringify(payload)}:{})},{fn:'business.request',method,endpoint:`/api/v1${resource}`,fallbackSql:''},null,''),
+  };
+
+  public academic = {
+    list: async (resource:string,query='') => this.requestSqliteApi<any>(`/academic/${resource}${query?`?${query}`:''}`,{method:'GET'},{fn:'academic.list',method:'GET',endpoint:`/api/v1/academic/${resource}`,fallbackSql:''},null,''),
+    save: async (resource:string,payload:Record<string,unknown>,id?:string) => this.requestSqliteApi<any>(`/academic/${resource}${id?`/${encodeURIComponent(id)}`:''}`,{method:id?'PATCH':'POST',body:JSON.stringify(payload)},{fn:'academic.save',method:id?'PATCH':'POST',endpoint:`/api/v1/academic/${resource}`,fallbackSql:''},null,''),
   };
 
   // ===========================================================================
