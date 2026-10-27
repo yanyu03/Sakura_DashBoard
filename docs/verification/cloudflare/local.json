@@ -1,0 +1,42 @@
+{
+  "testedAt": "2026-10-27T11:26:29.476Z",
+  "base": "http://127.0.0.1:3003",
+  "checks": [
+    {
+      "name": "assets and anonymous boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "production captcha credentials HttpOnly and CSRF",
+      "status": "PASS"
+    },
+    {
+      "name": "managed SQLite schema and query restrictions",
+      "status": "PASS"
+    },
+    {
+      "name": "nested master-data transactions and constraint mapping",
+      "status": "PASS"
+    },
+    {
+      "name": "publish submit grade correction and optimistic conflict",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson revision and course scheduling",
+      "status": "PASS"
+    },
+    {
+      "name": "care messages idempotency and live aggregates",
+      "status": "PASS"
+    },
+    {
+      "name": "SQL backup restores with foreign keys intact",
+      "status": "PASS"
+    },
+    {
+      "name": "logout revokes cloud session",
+      "status": "PASS"
+    }
+  ]
+}

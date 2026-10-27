@@ -1,0 +1,26 @@
+{
+  "testedAt": "2026-10-27T11:29:35.679Z",
+  "base": "http://127.0.0.1:3003",
+  "checks": [
+    {
+      "name": "assets and anonymous boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "production captcha credentials HttpOnly and CSRF",
+      "status": "PASS"
+    },
+    {
+      "name": "managed SQLite schema and query restrictions",
+      "status": "PASS"
+    },
+    {
+      "name": "Durable SQLite records survived runtime restart",
+      "status": "PASS"
+    },
+    {
+      "name": "logout revokes cloud session",
+      "status": "PASS"
+    }
+  ]
+}

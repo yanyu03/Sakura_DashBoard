@@ -1,8 +1,8 @@
 import type { Express, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { classAccess, reply } from "./business";
 import { HttpError, text } from "./http";
-export function registerWorkspace(app: Express, db: Database.Database) {
+export function registerWorkspace(app: Express, db: DatabaseConnection) {
   const visible = (res: Response, classId: string) => {
     try {
       classAccess(db, res, classId);

@@ -1,9 +1,9 @@
 import type { Express, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { createHash, randomUUID } from "node:crypto";
 import { HttpError, text, number } from "./http";
 import { classAccess, exactDate, mutate, reply, version } from "./business";
-export function registerExams(app: Express, db: Database.Database) {
+export function registerExams(app: Express, db: DatabaseConnection) {
   const get = (id: unknown, res: Response) => {
     const row = db
       .prepare("SELECT * FROM assessment_exams WHERE id=?")

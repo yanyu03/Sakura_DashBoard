@@ -1,6 +1,6 @@
 import { notifyChange } from "./notificationEvents";
 import type { Request, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { HttpError } from "./http";
 
 export const reply = (res: Response, data: unknown, message = "已加载") =>
@@ -16,7 +16,7 @@ export const reply = (res: Response, data: unknown, message = "已加载") =>
 export function mutate(
   req: Request,
   res: Response,
-  db: Database.Database,
+  db: DatabaseConnection,
   operation: () => unknown,
   message = "已保存",
 ) {
@@ -37,7 +37,7 @@ export function mutate(
   })();
   return reply(res, result, message);
 }
-export function classAccess(db: Database.Database, res: Response, id: string) {
+export function classAccess(db: DatabaseConnection, res: Response, id: string) {
   const row = db
     .prepare("SELECT * FROM academic_classes WHERE id=?")
     .get(id) as Record<string, any> | undefined;

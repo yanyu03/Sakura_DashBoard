@@ -1,9 +1,9 @@
 import type { Express, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { HttpError, text } from "./http";
 import { classAccess, exactDate, mutate, reply, version } from "./business";
-export function registerSchedules(app: Express, db: Database.Database) {
+export function registerSchedules(app: Express, db: DatabaseConnection) {
   const admin = (res: Response) => {
     if (res.locals.user.role !== "admin")
       throw new HttpError(403, "需要管理员审批权限");

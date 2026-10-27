@@ -1,11 +1,11 @@
 import type { Express, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { HttpError, text } from "./http";
 import { classAccess, mutate, reply, version } from "./business";
 import { notificationTime } from "./notificationTime";
 export { notificationTime } from "./notificationTime";
-export function registerCare(app: Express, db: Database.Database) {
+export function registerCare(app: Express, db: DatabaseConnection) {
   const student = (id: unknown, res: Response) => {
     const row = db
       .prepare("SELECT * FROM student_profiles WHERE id=?")

@@ -1,6 +1,6 @@
 import { notifyChange } from "./notificationEvents";
 import type { Express, Response, Request } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { HttpError, text, pagination } from "./http";
 import { exactDate } from "./business";
@@ -20,7 +20,7 @@ const reply = (res: Response, data: unknown, message = "已加载基础资料") 
 function mutation(
   req: Request,
   res: Response,
-  db: Database.Database,
+  db: DatabaseConnection,
   operation: (respond: (data: unknown, message?: string) => void) => void,
 ) {
   let response: { data: unknown; message: string } | undefined;
@@ -43,7 +43,7 @@ function mutation(
   return reply(res, response!.data, response!.message);
 }
 
-export function registerAcademic(app: Express, db: Database.Database) {
+export function registerAcademic(app: Express, db: DatabaseConnection) {
   const admin = (res: Response) => {
     if (res.locals.user.role !== "admin")
       throw new HttpError(403, "需要管理员权限");

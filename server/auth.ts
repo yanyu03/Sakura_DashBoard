@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import svgCaptcha from "svg-captcha";
+import type {CaptchaProvider} from "./dbContract";
 import { HttpError, text } from "./http";
 import { verifyPassword } from "./passwords";
 
@@ -59,7 +59,7 @@ const sessionCookie = (token: string, maxAge: number) =>
   `${cookieName}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${process.env.COOKIE_SECURE === "true" ? "; Secure" : ""}`;
 const mutations = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
-export function registerAuth(app: Express, db: Database.Database) {
+export function registerAuth(app: Express, db: DatabaseConnection, svgCaptcha:CaptchaProvider) {
   app.use("/api/v1", (req, _res, next) => {
     try {
       if (

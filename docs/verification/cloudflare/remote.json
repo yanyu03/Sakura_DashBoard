@@ -1,0 +1,29 @@
+{
+  "testedAt": "2026-10-27T11:47:56.431Z",
+  "base": "https://sakura.250221.xyz",
+  "deploymentVersion": "f66de02c-ffec-4a70-a023-05bb4312a74a",
+  "status": "PARTIAL",
+  "checks": [
+    {
+      "name": "assets and anonymous boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "production captcha credentials HttpOnly and CSRF",
+      "status": "PASS"
+    },
+    {
+      "name": "managed SQLite schema and query restrictions",
+      "status": "PASS"
+    },
+    {
+      "name": "logout revokes cloud session",
+      "status": "INCOMPLETE",
+      "reason": "Local proxy TLS handshake failed"
+    }
+  ],
+  "accessPolicy": "Tests ran under a temporary hostname exception. Exception has been removed at user request; original WAF policy retained.",
+  "localBusinessChecks": 9,
+  "localSqliteChecks": 38,
+  "migrationChecks": 7
+}

@@ -13,7 +13,12 @@
     "lint": "tsc --noEmit",
     "test:sqlite": "tsx scripts/verify-sqlite.ts",
     "test:migrations": "tsx scripts/verify-migrations.ts",
-    "baseline:business": "tsx scripts/create-business-baseline.ts"
+    "baseline:business": "tsx scripts/create-business-baseline.ts",
+    "cf:types": "wrangler types --strict-vars=false",
+    "cf:check": "npm run cf:types && tsc --noEmit -p cloudflare/tsconfig.json",
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "npm run build && npm run cf:check && wrangler deploy",
+    "test:cloudflare": "tsx scripts/verify-cloudflare.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -39,6 +44,7 @@
     "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "wrangler": "^4.153.0"
   }
 }

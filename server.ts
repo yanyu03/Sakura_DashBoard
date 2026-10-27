@@ -1,3 +1,4 @@
+import svgCaptcha from "svg-captcha";
 import { registerWorkspace } from "./server/workspace";
 import { registerCare } from "./server/care";
 import { registerExams } from "./server/exams";
@@ -69,7 +70,7 @@ async function startServer() {
     });
   }
 
-  registerAuth(app, sqliteDb);
+  registerAuth(app, sqliteDb, svgCaptcha);
   registerAcademic(app, sqliteDb);
   registerHomework(app, sqliteDb);
   registerLessons(app, sqliteDb);

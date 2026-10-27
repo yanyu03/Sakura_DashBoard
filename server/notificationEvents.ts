@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import type Database from "better-sqlite3";
+import type {DatabaseConnection} from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { notificationTime } from "./notificationTime";
 export function notifyChange(
-  db: Database.Database,
+  db: DatabaseConnection,
   req: Request,
   res: Response,
   result: unknown,

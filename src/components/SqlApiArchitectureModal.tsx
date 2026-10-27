@@ -108,7 +108,7 @@ export function SqlApiArchitectureModal({
                 href="/api/v1/sqlite/backup-download"
                 download
               >
-                下载在线 SQLite 备份
+                {status?.backupFormat === "sql" ? "下载 SQLite SQL 备份" : "下载在线 SQLite 备份"}
               </a>
             </div>
             {status ? (

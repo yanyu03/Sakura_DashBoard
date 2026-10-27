@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-10-27T10:40:28.652Z",
-  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-CEbgOi",
+  "testedAt": "2026-10-27T11:26:49.643Z",
+  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-9Uh2Dp",
   "checks": [
     {
       "name": "engine / initialization and migrated physical schema",
@@ -106,10 +106,10 @@
       "status": "PASS",
       "detail": {
         "engine": "SQLite 3.53.4",
-        "dbPath": ".local-data/sqlite-verification-CEbgOi/sakura_edu.sqlite",
+        "dbPath": ".local-data/sqlite-verification-9Uh2Dp/sakura_edu.sqlite",
         "fileSizeBytes": 471040,
-        "walSizeBytes": 716912,
-        "totalSizeBytes": 1220720
+        "walSizeBytes": 712792,
+        "totalSizeBytes": 1216600
       }
     },
     {
@@ -180,22 +180,22 @@
       "name": "API / process restart preserves successful writes",
       "status": "PASS",
       "detail": {
-        "stoppedPid": 41696,
-        "restartedPid": 36632
+        "stoppedPid": 61796,
+        "restartedPid": 50856
       }
     },
     {
       "name": "backup / downloaded database integrity and committed writes",
       "status": "PASS",
       "detail": {
-        "bytes": 815104
+        "bytes": 823296
       }
     },
     {
       "name": "backup / active WAL reader does not lose committed writes",
       "status": "PASS",
       "detail": {
-        "bytes": 815104
+        "bytes": 823296
       }
     },
     {
@@ -204,9 +204,9 @@
       "detail": {
         "copies": 3,
         "bytes": [
-          815104,
-          815104,
-          815104
+          823296,
+          823296,
+          823296
         ]
       }
     },
@@ -295,8 +295,8 @@
         "success": false,
         "message": "提交记录不存在",
         "data": null,
-        "traceId": "642f0c09-1e05-429a-b4d2-eb1280aacd42",
-        "timestamp": "2026-10-27T10:40:28.561Z"
+        "traceId": "265d8164-9633-4bbe-9859-d7950dbc63c0",
+        "timestamp": "2026-10-27T11:26:49.572Z"
       },
       "setCookie": null
     },

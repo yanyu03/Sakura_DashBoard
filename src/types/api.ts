@@ -55,6 +55,7 @@ export interface CaptchaChallengeDTO {
  * 本地 SQLite 备件库运行状态与表统计契约
  */
 export interface SqliteStatusDTO {
+  backupFormat?: "sql" | "sqlite";
   engine: string;
   dbPath: string;
   fileSizeBytes: number;

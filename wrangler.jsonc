@@ -1,0 +1,57 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sakura-dashboard",
+  "account_id": "3db21a9be03258f819017ca5c2b055d6",
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [{ "pattern": "sakura.250221.xyz", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/"],
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SCHOOL",
+        "class_name": "SakuraSchool",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["SakuraSchool"],
+    },
+  ],
+  "vars": {
+    "NODE_ENV": "production",
+    "COOKIE_SECURE": "true",
+    "SAKURA_DEMO_MODE": "false",
+    "SAKURA_ALLOW_SQL_WRITES": "false",
+  },
+  "secrets": {
+    "required": ["SAKURA_ADMIN_PASSWORD_HASH"],
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+  },
+  "ratelimits": [
+    {
+      "name": "AUTH_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 30,
+        "period": 60,
+      },
+    },
+  ],
+  "alias": {
+    "iconv-lite": "./cloudflare/utf8.ts",
+  },
+}
