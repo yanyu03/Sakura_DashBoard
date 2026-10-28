@@ -48,11 +48,11 @@ function svg(text: string) {
     .split("")
     .map(
       (letter, i) =>
-        `<text x="${18 + i * 24}" y="34" transform="rotate(${randomInt(-12, 13)} ${18 + i * 24} 34)" fill="#194b3a" font-family="sans-serif" font-size="26" font-weight="bold">${letter}</text>`,
+        `<text x="${18 + i * 24}" y="34" transform="rotate(${randomInt(-5, 6)} ${18 + i * 24} 34)" fill="#194b3a" font-family="sans-serif" font-size="26" font-weight="bold">${letter}</text>`,
     )
     .join("");
   const noise = Array.from(
-    { length: 4 },
+    { length: 1 },
     () =>
       `<path d="M${randomInt(0, 160)} ${randomInt(0, 48)}L${randomInt(0, 160)} ${randomInt(0, 48)}" stroke="#9dafaa" fill="none"/>`,
   ).join("");
@@ -60,7 +60,7 @@ function svg(text: string) {
 }
 export const edgeCaptcha: CaptchaProvider = {
   create() {
-    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789",
+    const alphabet = "23456789",
       text = Array.from(
         randomBytes(4),
         (n) => alphabet[n % alphabet.length],

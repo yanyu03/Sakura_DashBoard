@@ -261,6 +261,7 @@ class SakuraApiService {
   // 1. 教师统一认证与默认用户组配置模块函数集 (auth)
   // ===========================================================================
   public auth = {
+    register: async (payload: {facultyCode:string;email:string;fullName:string;password:string;confirmPassword:string;captchaId:string;captchaAnswer:string}) => this.requestSqliteApi<{facultyCode:string}>('/auth/register', {method:'POST',body:JSON.stringify(payload)}, {fn:'register',method:'POST',endpoint:'/api/v1/auth/register',fallbackSql:''}, null, ''),
     logout: async () => {
       const result=await this.requestSqliteApi<{loggedOut:boolean}>('/auth/logout',{method:'POST'},{fn:'logout',method:'POST',endpoint:'/api/v1/auth/logout',fallbackSql:''},null,'');
       if(result.success)this.csrfToken='';

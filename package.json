@@ -18,7 +18,8 @@
     "cf:check": "npm run cf:types && tsc --noEmit -p cloudflare/tsconfig.json",
     "cf:dev": "wrangler dev",
     "cf:deploy": "npm run build && npm run cf:check && wrangler deploy",
-    "test:cloudflare": "tsx scripts/verify-cloudflare.ts"
+    "test:cloudflare": "tsx scripts/verify-cloudflare.ts",
+    "test:auth": "tsx scripts/verify-auth-registration.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

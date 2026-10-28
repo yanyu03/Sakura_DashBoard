@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-27T11:26:29.476Z",
+  "testedAt": "2026-10-28T07:38:49.715Z",
   "base": "http://127.0.0.1:3003",
   "checks": [
     {
@@ -12,6 +12,10 @@
     },
     {
       "name": "managed SQLite schema and query restrictions",
+      "status": "PASS"
+    },
+    {
+      "name": "public graphic registration creates a restricted teacher account",
       "status": "PASS"
     },
     {

@@ -85,6 +85,79 @@ await check("managed SQLite schema and query restrictions", async () => {
   );
 });
 if (!readOnly) {
+  await check(
+    "public graphic registration creates a restricted teacher account",
+    async () => {
+      const challenge = (await api("security/captcha?mode=graphic")).json.data;
+      const answer = Array.from(
+        challenge.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g),
+        (m: any) => m[1],
+      ).join("");
+      assert.match(answer, /^[a-z0-9]{4}$/i);
+      const account = `signup_${Date.now()}`;
+      const payload = {
+        facultyCode: account,
+        fullName: "注册验证教师",
+        email: `${account}@example.invalid`,
+        password: "signup-fixture-password",
+        confirmPassword: "signup-fixture-password",
+        captchaId: challenge.captchaId,
+        captchaAnswer: answer.toLowerCase(),
+        role: "admin",
+      };
+      assert.equal((await api("auth/register", "POST", payload)).status, 200);
+      assert.equal(
+        (
+          await api("auth/register", "POST", {
+            ...payload,
+            facultyCode: account + "b",
+            email: `b${account}@example.invalid`,
+          })
+        ).status,
+        422,
+      );
+      const fresh = (await api("security/captcha?mode=graphic")).json.data;
+      const nextAnswer = Array.from(
+        fresh.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g),
+        (m: any) => m[1],
+      ).join("");
+      const login = await api("auth/faculty-login", "POST", {
+        facultyId: account,
+        password: payload.password,
+        loginType: "account",
+        captchaId: fresh.captchaId,
+        captchaAnswer: nextAnswer,
+      });
+      assert.equal(login.status, 200);
+      assert.equal(login.json.data.role, "teacher");
+      const teacherCookie = login.response.headers
+        .get("set-cookie")!
+        .split(";")[0];
+      assert.equal(
+        (
+          await fetch(`${base}/api/v1/sqlite/status`, {
+            headers: { Cookie: teacherCookie },
+          })
+        ).status,
+        403,
+      );
+      assert.equal(
+        (
+          await fetch(`${base}/api/v1/auth/logout`, {
+            method: "POST",
+            headers: {
+              Cookie: teacherCookie,
+              Origin: base,
+              "Content-Type": "application/json",
+              "X-CSRF-Token": login.json.data.csrfToken,
+            },
+            body: "{}",
+          })
+        ).status,
+        200,
+      );
+    },
+  );
   const code = `CF-${Date.now()}`;
   let student = "",
     klass = "",

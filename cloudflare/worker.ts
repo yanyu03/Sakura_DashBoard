@@ -211,6 +211,7 @@ export default {
     if (url.pathname.startsWith("/api/")) {
       if (
         url.pathname.startsWith("/api/v1/auth/faculty-login") ||
+        url.pathname === '/api/v1/auth/register' ||
         url.pathname.startsWith("/api/v1/security/captcha")
       ) {
         const ip = request.headers.get("CF-Connecting-IP") || "unknown";

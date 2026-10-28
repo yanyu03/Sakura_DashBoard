@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-10-27T11:26:49.643Z",
-  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-9Uh2Dp",
+  "testedAt": "2026-10-28T07:34:42.818Z",
+  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-pR1X5N",
   "checks": [
     {
       "name": "engine / initialization and migrated physical schema",
@@ -106,7 +106,7 @@
       "status": "PASS",
       "detail": {
         "engine": "SQLite 3.53.4",
-        "dbPath": ".local-data/sqlite-verification-9Uh2Dp/sakura_edu.sqlite",
+        "dbPath": ".local-data/sqlite-verification-pR1X5N/sakura_edu.sqlite",
         "fileSizeBytes": 471040,
         "walSizeBytes": 712792,
         "totalSizeBytes": 1216600
@@ -180,8 +180,8 @@
       "name": "API / process restart preserves successful writes",
       "status": "PASS",
       "detail": {
-        "stoppedPid": 61796,
-        "restartedPid": 50856
+        "stoppedPid": 28528,
+        "restartedPid": 28740
       }
     },
     {
@@ -295,8 +295,8 @@
         "success": false,
         "message": "提交记录不存在",
         "data": null,
-        "traceId": "265d8164-9633-4bbe-9859-d7950dbc63c0",
-        "timestamp": "2026-10-27T11:26:49.572Z"
+        "traceId": "4f022a7e-0104-4075-ac40-b730dad2592d",
+        "timestamp": "2026-10-28T07:34:42.735Z"
       },
       "setCookie": null
     },
