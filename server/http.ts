@@ -2,6 +2,7 @@ import type { ErrorRequestHandler } from "express";
 import { randomUUID } from "node:crypto";
 
 export class HttpError extends Error {
+  retryAfterSeconds?: number;
   constructor(
     public status: number,
     message: string,
@@ -76,6 +77,11 @@ export const apiErrorHandler: ErrorRequestHandler = (
     success: false,
     message,
     data: null,
+    ...(error instanceof HttpError &&
+    error.status === 429 &&
+    Number.isSafeInteger(error.retryAfterSeconds)
+      ? { retryAfterSeconds: error.retryAfterSeconds }
+      : {}),
     traceId: res.locals.requestId || randomUUID(),
     timestamp: new Date().toISOString(),
   });

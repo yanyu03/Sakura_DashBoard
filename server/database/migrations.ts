@@ -1,4 +1,6 @@
 import { migrateLessonSchedules } from "./lessonScheduleMigration";
+import { migrateIdentityHierarchy } from './identityHierarchyMigration';
+import {migrateAuthProtection} from './authProtectionMigration';
 import { migrateWorkspace } from "./workspaceMigration";
 import { migrateCare } from "./careMigration";
 import { migrateExams } from "./examMigration";
@@ -327,4 +329,6 @@ export function migrateDatabase(
   migrateCare(db, databasePath);
   migrateWorkspace(db, databasePath);
   migrateLessonSchedules(db, databasePath);
+  migrateIdentityHierarchy(db, databasePath);
+  migrateAuthProtection(db, databasePath);
 }

@@ -15,10 +15,10 @@ const ledger = db
   .prepare(
     "SELECT version,name,checksum FROM schema_migrations ORDER BY version",
   )
-  .all();
+  .all() as {version:number;name:string;checksum:string}[];
 const schema = {
   version: 1,
-  sourceMigrationVersion: 11,
+  sourceMigrationVersion: Math.max(0,...ledger.map(row=>row.version)),
   tables: objects.filter((o) => o.type === "table").map((o) => o.name),
   statements: objects.map((o) => o.sql),
   ledger,

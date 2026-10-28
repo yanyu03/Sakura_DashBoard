@@ -210,6 +210,14 @@ try {
       cookie = "";
     },
   );
+  await check("administrators cannot access SQL, status or database backup", async () => {
+    const login=await api('auth/faculty-login','POST',{facultyId:'admin',password:'admin',loginType:'account',...await challenge()});
+    assert.equal(login.status,200); cookie=login.cookie!.split(';')[0];csrf=login.data.data.csrfToken;
+    for(const [route,method,body] of [['sqlite/status','GET',undefined],['sqlite/query','POST',{sql:'SELECT 1'}],['sqlite/backup-download','GET',undefined],['sqlite/reseed','POST',{}]] as const){
+      assert.equal((await api(route,method,body)).status,403);
+    }
+    assert.equal((await api('auth/logout','POST',{})).status,200);cookie='';csrf='';
+  });
   await check("public registration has server-side throttling", async () => {
     let limited = false;
     for (let i = 0; i < 32; i++) {

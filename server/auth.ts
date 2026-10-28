@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import type { CaptchaProvider } from "./dbContract";
 import { HttpError, text } from "./http";
 import { hashPassword, verifyPassword } from "./passwords";
+import { withAuthProtection } from "./authProtection";
 
 export type AuthUser = {
   id: string;
@@ -63,6 +64,7 @@ export function registerAuth(
   app: Express,
   db: DatabaseConnection,
   svgCaptcha: CaptchaProvider,
+  options: { trustCloudflare?: boolean } = {},
 ) {
   app.use("/api/v1", (req, _res, next) => {
     try {
@@ -154,155 +156,164 @@ export function registerAuth(
       "验证码已生成",
     );
   });
-  app.post("/api/v1/auth/register", (req, res) => {
-    const account = text(req.body.facultyCode, "用户名", {
-      max: 32,
-    }).toLowerCase();
-    const email = text(req.body.email, "邮箱", { max: 128 }).toLowerCase();
-    const fullName = text(req.body.fullName, "姓名", { max: 80 });
-    const password = text(req.body.password, "密码", { max: 128 });
-    if (!/^[a-z0-9_]{3,32}$/.test(account))
-      throw new HttpError(422, "用户名为 3–32 位字母、数字或下划线");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      throw new HttpError(422, "请输入有效邮箱");
-    if (password.length < 8) throw new HttpError(422, "密码至少 8 位");
-    if (password !== req.body.confirmPassword)
-      throw new HttpError(422, "两次输入的密码不一致");
-    const key = `register:${req.get("cf-connecting-ip") || req.ip || "local"}`;
-    const recent = db
-      .prepare(
-        "SELECT COUNT(*) AS n FROM login_attempts WHERE account=? AND attempted_at>?",
-      )
-      .get(key, Date.now() - 600000) as { n: number };
-    if (recent.n >= 30) throw new HttpError(429, "注册尝试过多，请稍后重试");
-    db.prepare(
-      "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,0)",
-    ).run(key, Date.now());
-    db.transaction(() => {
-      const cap = db
-        .prepare(
-          "SELECT answer_hash,expires_at,verified,mode FROM security_captchas WHERE captcha_id=?",
-        )
-        .get(req.body.captchaId || "") as
-        | {
-            answer_hash: string;
-            expires_at: string;
-            verified: number;
-            mode: string;
-          }
-        | undefined;
-      if (
-        !cap ||
-        cap.mode !== "graphic" ||
-        cap.verified ||
-        Date.parse(cap.expires_at) <= Date.now() ||
-        cap.answer_hash !==
-          digest(
-            String(req.body.captchaAnswer || "")
-              .trim()
-              .toLowerCase(),
+  app.post(
+    "/api/v1/auth/register",
+    withAuthProtection(
+      db,
+      "register",
+      (req, res) => {
+        const account = text(req.body.facultyCode, "用户名", {
+          max: 32,
+        }).toLowerCase();
+        const email = text(req.body.email, "邮箱", { max: 128 }).toLowerCase();
+        const fullName =
+          text(req.body.fullName, "姓名", { max: 80, optional: true }) ||
+          account;
+        const password = text(req.body.password, "密码", { max: 128 });
+        if (!/^[a-z0-9_]{3,32}$/.test(account))
+          throw new HttpError(422, "用户名为 3–32 位字母、数字或下划线");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+          throw new HttpError(422, "请输入有效邮箱");
+        if (password.length < 8) throw new HttpError(422, "密码至少 8 位");
+        if (password !== req.body.confirmPassword)
+          throw new HttpError(422, "两次输入的密码不一致");
+        const key = `register:${req.get("cf-connecting-ip") || req.ip || "local"}`;
+        db.prepare(
+          "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,0)",
+        ).run(key, Date.now());
+        db.transaction(() => {
+          const cap = db
+            .prepare(
+              "SELECT answer_hash,expires_at,verified,mode FROM security_captchas WHERE captcha_id=?",
+            )
+            .get(req.body.captchaId || "") as
+            | {
+                answer_hash: string;
+                expires_at: string;
+                verified: number;
+                mode: string;
+              }
+            | undefined;
+          if (
+            !cap ||
+            cap.mode !== "graphic" ||
+            cap.verified ||
+            Date.parse(cap.expires_at) <= Date.now() ||
+            cap.answer_hash !==
+              digest(
+                String(req.body.captchaAnswer || "")
+                  .trim()
+                  .toLowerCase(),
+              )
           )
-      )
-        throw new HttpError(422, "验证码不正确或已过期，请换一张重试");
-      const used = db
-        .prepare(
-          "SELECT id FROM faculty_users WHERE faculty_code=? COLLATE NOCASE OR email=? COLLATE NOCASE",
-        )
-        .get(account, email);
-      if (used) throw new HttpError(409, "用户名或邮箱已被使用");
-      if (
-        db
-          .prepare(
-            "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+            throw new HttpError(422, "验证码不正确或已过期，请换一张重试");
+          const used = db
+            .prepare(
+              "SELECT id FROM faculty_users WHERE faculty_code=? COLLATE NOCASE OR email=? COLLATE NOCASE",
+            )
+            .get(account, email);
+          if (used) throw new HttpError(409, "用户名或邮箱已被使用");
+          if (
+            db
+              .prepare(
+                "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+              )
+              .run(req.body.captchaId).changes !== 1
           )
-          .run(req.body.captchaId).changes !== 1
-      )
-        throw new HttpError(422, "验证码已被使用");
-      db.prepare(
-        "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
-      ).run(randomUUID(), account, email, hashPassword(password), fullName);
-    })();
-    reply(res, { facultyCode: account }, "注册成功，请登录；班级由管理员分配");
-  });
-  app.post("/api/v1/auth/faculty-login", (req, res) => {
-    if (req.body.loginType !== "account")
-      throw new HttpError(501, "该登录方式尚未开通，请使用账号登录");
-    const account = text(req.body.facultyId, "账号", { max: 128 }),
-      password = text(req.body.password, "密码", { max: 256 });
-    const recent = (
-      db
-        .prepare(
-          "SELECT COUNT(*) AS n FROM login_attempts WHERE account=? AND attempted_at>? AND succeeded=0",
-        )
-        .get(account, Date.now() - 600000) as { n: number }
-    ).n;
-    if (recent >= 5) throw new HttpError(429, "登录尝试过多，请稍后重试");
-    const cap = db
-      .prepare(
-        "SELECT answer_hash,expires_at,verified FROM security_captchas WHERE captcha_id=?",
-      )
-      .get(req.body.captchaId || "") as
-      | { answer_hash: string; expires_at: string; verified: number }
-      | undefined;
-    const validCaptcha =
-      cap &&
-      !cap.verified &&
-      Date.parse(cap.expires_at) > Date.now() &&
-      cap.answer_hash ===
-        digest(
-          String(req.body.captchaAnswer || "")
-            .trim()
-            .toLowerCase(),
+            throw new HttpError(422, "验证码已被使用");
+          db.prepare(
+            "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
+          ).run(randomUUID(), account, email, hashPassword(password), fullName);
+        })();
+        reply(
+          res,
+          { facultyCode: account },
+          "注册成功，请登录；班级由管理员分配",
         );
-    if (!validCaptcha) throw new HttpError(422, "验证码无效、已使用或已过期");
-    const user = db
-      .prepare(
-        "SELECT * FROM faculty_users WHERE faculty_code=? OR email=? OR phone=?",
-      )
-      .get(account, account, account) as
-      | (AuthUser & { password_hash: string })
-      | undefined;
-    const valid =
-      user &&
-      user.status === "ACTIVE" &&
-      verifyPassword(password, user.password_hash);
-    db.prepare(
-      "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,?)",
-    ).run(account, Date.now(), valid ? 1 : 0);
-    // Consume on both success and credential failure; a challenge is single-use.
-    if (
-      db
-        .prepare(
-          "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+      },
+      options.trustCloudflare,
+    ),
+  );
+  app.post(
+    "/api/v1/auth/faculty-login",
+    withAuthProtection(
+      db,
+      "login",
+      (req, res) => {
+        if (req.body.loginType !== "account")
+          throw new HttpError(501, "该登录方式尚未开通，请使用账号登录");
+        const account = text(req.body.facultyId, "账号", { max: 128 }),
+          password = text(req.body.password, "密码", { max: 256 });
+        const cap = db
+          .prepare(
+            "SELECT answer_hash,expires_at,verified FROM security_captchas WHERE captcha_id=?",
+          )
+          .get(req.body.captchaId || "") as
+          | { answer_hash: string; expires_at: string; verified: number }
+          | undefined;
+        const validCaptcha =
+          cap &&
+          !cap.verified &&
+          Date.parse(cap.expires_at) > Date.now() &&
+          cap.answer_hash ===
+            digest(
+              String(req.body.captchaAnswer || "")
+                .trim()
+                .toLowerCase(),
+            );
+        if (!validCaptcha)
+          throw new HttpError(422, "验证码无效、已使用或已过期");
+        const user = db
+          .prepare(
+            "SELECT * FROM faculty_users WHERE faculty_code=? OR email=? OR phone=?",
+          )
+          .get(account, account, account) as
+          | (AuthUser & { password_hash: string })
+          | undefined;
+        const valid =
+          user &&
+          user.status === "ACTIVE" &&
+          verifyPassword(password, user.password_hash);
+        db.prepare(
+          "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,?)",
+        ).run(account, Date.now(), valid ? 1 : 0);
+        // Consume on both success and credential failure; a challenge is single-use.
+        if (
+          db
+            .prepare(
+              "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+            )
+            .run(req.body.captchaId).changes !== 1
         )
-        .run(req.body.captchaId).changes !== 1
-    )
-      throw new HttpError(422, "验证码已被使用");
-    if (!valid) throw new HttpError(401, "账号或密码不正确");
-    const token = randomBytes(32).toString("hex"),
-      csrf = randomBytes(24).toString("hex"),
-      seconds = req.body.keepOnline ? 7 * 86400 : 8 * 3600;
-    db.transaction(() => {
-      db.prepare("DELETE FROM auth_sessions WHERE expires_at<=?").run(
-        Date.now(),
-      );
-      db.prepare(
-        "INSERT INTO auth_sessions(token_hash,user_id,csrf_token,expires_at,created_at) VALUES (?,?,?,?,?)",
-      ).run(
-        digest(token),
-        user.id,
-        csrf,
-        Date.now() + seconds * 1000,
-        Date.now(),
-      );
-    })();
-    res.setHeader("Set-Cookie", sessionCookie(token, seconds));
-    reply(
-      res,
-      { ...publicProfile(user), token: "", csrfToken: csrf },
-      `欢迎回来，${user.full_name}`,
-    );
-  });
+          throw new HttpError(422, "验证码已被使用");
+        if (!valid) throw new HttpError(401, "账号或密码不正确");
+        const token = randomBytes(32).toString("hex"),
+          csrf = randomBytes(24).toString("hex"),
+          seconds = req.body.keepOnline ? 7 * 86400 : 8 * 3600;
+        db.transaction(() => {
+          db.prepare("DELETE FROM auth_sessions WHERE expires_at<=?").run(
+            Date.now(),
+          );
+          db.prepare(
+            "INSERT INTO auth_sessions(token_hash,user_id,csrf_token,expires_at,created_at) VALUES (?,?,?,?,?)",
+          ).run(
+            digest(token),
+            user.id,
+            csrf,
+            Date.now() + seconds * 1000,
+            Date.now(),
+          );
+        })();
+        res.setHeader("Set-Cookie", sessionCookie(token, seconds));
+        reply(
+          res,
+          { ...publicProfile(user), token: "", csrfToken: csrf },
+          `欢迎回来，${user.full_name}`,
+        );
+      },
+      options.trustCloudflare,
+    ),
+  );
   app.get("/api/v1/auth/session", session, (_req, res) =>
     reply(res, {
       ...publicProfile(res.locals.user),
@@ -413,15 +424,7 @@ export function registerAuth(
 
   app.use("/api/v1", session);
   app.use("/api/v1/sqlite", (req, res, next) => {
-    if (res.locals.user.role !== "admin")
-      return next(new HttpError(403, "需要管理员权限"));
-    if (
-      req.path === "/reseed" &&
-      (process.env.NODE_ENV === "production" ||
-        process.env.SAKURA_ALLOW_RESEED !== "true")
-    )
-      return next(new HttpError(403, "当前环境不允许恢复种子数据"));
-    next();
+    return next(new HttpError(403, "数据库管理接口已停用"));
   });
   app.use("/api/v1", (req, res, next) => {
     if (res.locals.user.role === "admin") return next();

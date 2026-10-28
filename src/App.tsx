@@ -273,7 +273,7 @@ export default function App() {
             setActiveShell(isAuthenticated ? "workspace" : "auth")
           }
           onOpenSqlBlueprint={
-            isAuthenticated && defaultProfile.role === "admin"
+            isAuthenticated
               ? () => setSqlApiModalOpen(true)
               : undefined
           }
@@ -1061,7 +1061,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Global SQL & API Architecture Inspector Modal */}
+      {/* Personal functions */}
       {academicAdminOpen &&
       isAuthenticated &&
       defaultProfile.role === "admin" ? (

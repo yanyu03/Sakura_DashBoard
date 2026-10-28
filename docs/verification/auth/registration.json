@@ -1,11 +1,12 @@
 {
-  "testedAt": "2026-10-28T07:38:48.326Z",
+  "testedAt": "2026-10-28T08:39:23.301Z",
   "checks": [
     "registration rejects missing and incorrect captcha",
     "registration persists a teacher with hashed password and neutral defaults",
     "duplicate identities captcha replay expiry and invalid passwords are rejected",
     "new teacher logs in with case-insensitive graphic captcha and cannot administer SQLite",
+    "administrators cannot access SQL, status or database backup",
     "public registration has server-side throttling"
   ],
-  "passed": 5
+  "passed": 6
 }

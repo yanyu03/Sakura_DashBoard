@@ -1,0 +1,69 @@
+{
+  "testedAt": "2026-10-28T08:39:24.959Z",
+  "checks": [
+    {
+      "name": "upgrade adds nine metadata tables without changing legacy accounts",
+      "status": "PASS"
+    },
+    {
+      "name": "organization roots and vertical units can be created",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-institution parent and duplicate roots are rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid vertical type and self-parent are rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "reparent and changes invalidating existing child kinds are rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "composite staff/student identifiers distinguish institution and identity type",
+      "status": "PASS"
+    },
+    {
+      "name": "external number and institution cannot be changed after creation",
+      "status": "PASS"
+    },
+    {
+      "name": "positions and appointments accept staff identities and reject role mismatch",
+      "status": "PASS"
+    },
+    {
+      "name": "direct reporting chain accepts ancestor positions",
+      "status": "PASS"
+    },
+    {
+      "name": "reverse rank, cycles, self-reporting and extra direct supervisor are rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "unrelated department cannot become an administrative supervisor",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-institution object ownership is rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "bindings use identity/object/relation/period composite key",
+      "status": "PASS"
+    },
+    {
+      "name": "foreign identities and invalid guardian/student roles cannot bind",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmed binding requires digest and the recipient confirmation",
+      "status": "PASS"
+    },
+    {
+      "name": "repeated migration is idempotent and corrupt checksums are rejected",
+      "status": "PASS"
+    }
+  ]
+}

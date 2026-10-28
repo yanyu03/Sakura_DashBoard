@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-10-28T07:34:42.818Z",
-  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-pR1X5N",
+  "testedAt": "2026-10-28T08:12:07.823Z",
+  "testDirectory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\sqlite-verification-B4AdnQ",
   "checks": [
     {
       "name": "engine / initialization and migrated physical schema",
@@ -74,6 +74,29 @@
       "status": "PASS"
     },
     {
+      "name": "isolation setup / teacher creates a private lesson",
+      "status": "PASS"
+    },
+    {
+      "name": "isolation / other teacher cannot access private lesson",
+      "status": "PASS"
+    },
+    {
+      "name": "isolation / root cannot read another user private lesson",
+      "status": "FAIL",
+      "error": "Expected no private lessons; administrator received 1\n\n1 !== 0\n"
+    },
+    {
+      "name": "isolation / root cannot query other users private data",
+      "status": "FAIL",
+      "error": "Expected 403; administrator received HTTP 200\n\n200 !== 403\n"
+    },
+    {
+      "name": "isolation / same-class users cannot read each others homework",
+      "status": "FAIL",
+      "error": "Another teacher can list the same-class assignment"
+    },
+    {
       "name": "auth / anonymous requests cannot read or administer SQLite",
       "status": "PASS"
     },
@@ -106,10 +129,10 @@
       "status": "PASS",
       "detail": {
         "engine": "SQLite 3.53.4",
-        "dbPath": ".local-data/sqlite-verification-pR1X5N/sakura_edu.sqlite",
+        "dbPath": ".local-data/sqlite-verification-B4AdnQ/sakura_edu.sqlite",
         "fileSizeBytes": 471040,
-        "walSizeBytes": 712792,
-        "totalSizeBytes": 1216600
+        "walSizeBytes": 1054752,
+        "totalSizeBytes": 1558560
       }
     },
     {
@@ -180,22 +203,22 @@
       "name": "API / process restart preserves successful writes",
       "status": "PASS",
       "detail": {
-        "stoppedPid": 28528,
-        "restartedPid": 28740
+        "stoppedPid": 15384,
+        "restartedPid": 17032
       }
     },
     {
       "name": "backup / downloaded database integrity and committed writes",
       "status": "PASS",
       "detail": {
-        "bytes": 823296
+        "bytes": 950272
       }
     },
     {
       "name": "backup / active WAL reader does not lose committed writes",
       "status": "PASS",
       "detail": {
-        "bytes": 823296
+        "bytes": 950272
       }
     },
     {
@@ -204,9 +227,9 @@
       "detail": {
         "copies": 3,
         "bytes": [
-          823296,
-          823296,
-          823296
+          950272,
+          950272,
+          950272
         ]
       }
     },
@@ -295,14 +318,14 @@
         "success": false,
         "message": "提交记录不存在",
         "data": null,
-        "traceId": "4f022a7e-0104-4075-ac40-b730dad2592d",
-        "timestamp": "2026-10-28T07:34:42.735Z"
+        "traceId": "6a98e1cd-1a23-4d8d-a442-aec2574b99ed",
+        "timestamp": "2026-10-28T08:12:07.759Z"
       },
       "setCookie": null
     },
     "filterNonexistentClassCount": 0,
     "documentationDdlDialect": "Runtime authority: server/database/legacySchema.ts plus checksum-verified migrations 1-11. src/database/schema.sql is retained historical reference only."
   },
-  "passed": 38,
-  "failed": 0
+  "passed": 40,
+  "failed": 3
 }

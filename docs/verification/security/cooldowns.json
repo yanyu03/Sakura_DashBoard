@@ -1,0 +1,15 @@
+{
+  "testedAt": "2026-10-28T08:39:22.496Z",
+  "checks": [
+    "five failures escalate through all requested cooldowns",
+    "blocked requests do not extend or increase the cooldown",
+    "state survives reopening the database and stores hashed keys",
+    "account reset leaves source protection intact",
+    "schema migration is idempotent",
+    "fifth invalid captcha returns 429 and Retry-After immediately",
+    "valid credentials and alternate account aliases cannot bypass cooldown",
+    "cooldown expiry permits login and successful login clears its ladder",
+    "parallel failures cannot skip counting or create duplicate state"
+  ],
+  "passed": 9
+}

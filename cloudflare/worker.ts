@@ -15,6 +15,8 @@ import { registerCare } from "../server/care";
 import { registerWorkspace } from "../server/workspace";
 import { HttpError, apiErrorHandler, text } from "../server/http";
 import { reply } from "../server/business";
+import {applyIdentityHierarchy} from '../server/database/identityHierarchy';
+import {applyAuthProtectionSchema} from '../server/authProtection';
 
 export class SakuraSchool extends DurableObject<Env> {
   private server: Server;
@@ -47,6 +49,8 @@ export class SakuraSchool extends DurableObject<Env> {
           throw new Error(
             "Cloud database requires an explicit schema migration",
           );
+        applyIdentityHierarchy(this.db);
+        applyAuthProtectionSchema(this.db);
         return;
       }
       this.ctx.storage.transactionSync(() => {
@@ -69,6 +73,8 @@ export class SakuraSchool extends DurableObject<Env> {
           schema.checksum,
         );
       });
+      applyIdentityHierarchy(this.db);
+      applyAuthProtectionSchema(this.db);
     });
     const app = express();
     app.disable("x-powered-by");
@@ -87,7 +93,7 @@ export class SakuraSchool extends DurableObject<Env> {
       }
       next();
     });
-    registerAuth(app, this.db, edgeCaptcha);
+    registerAuth(app, this.db, edgeCaptcha,{trustCloudflare:true});
     registerAcademic(app, this.db);
     registerHomework(app, this.db);
     registerLessons(app, this.db);

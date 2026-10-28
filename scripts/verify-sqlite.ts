@@ -137,6 +137,43 @@ try {
   child = await launch();
   inspector = new Database(dbPath);
 
+  if (process.env.SAKURA_AUDIT_ISOLATION === 'true') {
+    let privateLesson = '';
+    await check('isolation setup / teacher creates a private lesson', async () => {
+      assert.equal((await login('FIX-a','fixture-only')).status,200);
+      const created = await api('lessons/plans','POST',{title:'ISOLATION_AUDIT_MARKER',body:'ISOLATION_PRIVATE_MARKER',visibility:'private'});
+      assert.equal(created.status,200); privateLesson=created.json.data.id;
+    });
+    await check('isolation / other teacher cannot access private lesson', async () => {
+      assert.equal((await login('FIX-b','fixture-only')).status,200);
+      const result=await api('lessons/plans?q=ISOLATION_AUDIT_MARKER');
+      assert.equal(result.status,200); assert.equal(result.json.data.length,0);
+    });
+    await check('isolation / root cannot read another user private lesson', async () => {
+      assert.equal((await login()).status,200);
+      const result=await api('lessons/plans?q=ISOLATION_AUDIT_MARKER');
+      assert.equal(result.json.data.length,0,`Expected no private lessons; administrator received ${result.json.data.length}`);
+    });
+    await check('isolation / root cannot query other users private data', async () => {
+      const result=await query("SELECT body FROM lesson_plans WHERE id='"+privateLesson+"'");
+      assert.equal(result.status,403,`Expected 403; administrator received HTTP ${result.status}`);
+    });
+    await check('isolation / same-class users cannot read each others homework', async () => {
+      inspector!.prepare("INSERT INTO teaching_assignments(teacher_id,class_id,course_id,term_id) VALUES (?,?,?,?)").run('fixture-teacher-b','fixture-class-a','course-chinese','term-2024-spring');
+      try {
+        assert.equal((await login('FIX-b','fixture-only')).status,200);
+        const result=await api('homework/assignments');
+        assert.ok(!result.json.data.some((row:any)=>row.id==='fixture-assignment-a'),'Another teacher can list the same-class assignment');
+      } finally {
+        inspector!.prepare("DELETE FROM teaching_assignments WHERE teacher_id=? AND class_id=?").run('fixture-teacher-b','fixture-class-a');
+        await login();
+      }
+    });
+    inspector!.prepare('DELETE FROM lesson_revisions WHERE lesson_id=?').run(privateLesson);
+    inspector!.prepare('DELETE FROM lesson_plans WHERE id=?').run(privateLesson);
+    cookie=''; csrf='';
+  }
+
   await check('auth / anonymous requests cannot read or administer SQLite',async()=>{
     assert.equal((await api('sqlite/status')).status,401);
     assert.equal((await api('sqlite/query','POST',{sql:'SELECT 1'})).status,401);

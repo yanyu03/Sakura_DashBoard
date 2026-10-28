@@ -10,6 +10,7 @@ import type { UiThemeId } from "../data/awesomeDesignTheme";
  * 标准 RESTful / RPC 统一返回包装器
  */
 export interface ApiResponse<T> {
+  retryAfterSeconds?: number;
   code: number;
   success: boolean;
   message: string;

@@ -46,6 +46,29 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [cooldownUntil, setCooldownUntil] = useState(0);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  useEffect(() => {
+    if (!cooldownUntil) {
+      setCooldownSeconds(0);
+      return;
+    }
+    const tick = () =>
+      setCooldownSeconds(
+        Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000)),
+      );
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [cooldownUntil]);
+  const showFailure = (result: {
+    message: string;
+    retryAfterSeconds?: number;
+  }) => {
+    setError(result.message);
+    if (result.retryAfterSeconds)
+      setCooldownUntil(Date.now() + result.retryAfterSeconds * 1000);
+  };
   const requestSequence = useRef(0);
   const registering = page === "register";
   const destination = (next: AuthPage) => {
@@ -96,7 +119,7 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
   };
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (busy || captchaLoading || !captcha) return;
+    if (busy || captchaLoading || !captcha || cooldownSeconds > 0) return;
     setError("");
     setNotice("");
     if (registering && password !== confirmPassword) {
@@ -121,7 +144,7 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
           setPage("login");
           setNotice("注册成功，请登录。班级由管理员分配。");
         } else {
-          setError(result.message);
+          showFailure(result);
           await refreshCaptcha();
         }
       } else {
@@ -135,7 +158,7 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
         });
         if (result.success && result.data) onLoginSuccess(result.data);
         else {
-          setError(result.message);
+          showFailure(result);
           await refreshCaptcha();
         }
       }
@@ -200,6 +223,11 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
             {error}
           </p>
         )}
+        {cooldownSeconds > 0 && (
+          <p role="status" className="auth-simple-notice">
+            请等待 {cooldownSeconds} 秒后再试。
+          </p>
+        )}
         <form onSubmit={submit} key={page} aria-busy={busy}>
           <label htmlFor="auth-account">
             {registering ? "用户名" : "用户名或邮箱"}
@@ -224,14 +252,13 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
           />
           {registering && (
             <>
-              <label htmlFor="auth-name">姓名</label>
+              <label htmlFor="auth-name">姓名（选填）</label>
               <input
                 id="auth-name"
                 name="name"
                 autoComplete="name"
                 value={fullName}
                 onChange={(event) => setFullName(event.target.value)}
-                required
                 maxLength={80}
                 disabled={busy}
               />
@@ -335,7 +362,7 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
           <button
             className="auth-simple-submit"
             type="submit"
-            disabled={busy || captchaLoading || !captcha}
+            disabled={busy || captchaLoading || !captcha || cooldownSeconds > 0}
           >
             {busy ? "请稍候…" : registering ? "注册账号" : "登录"}
           </button>

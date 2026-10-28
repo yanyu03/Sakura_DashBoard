@@ -19,7 +19,9 @@
     "cf:dev": "wrangler dev",
     "cf:deploy": "npm run build && npm run cf:check && wrangler deploy",
     "test:cloudflare": "tsx scripts/verify-cloudflare.ts",
-    "test:auth": "tsx scripts/verify-auth-registration.ts"
+    "test:auth": "tsx scripts/verify-auth-registration.ts",
+    "test:hierarchy": "tsx scripts/verify-identity-hierarchy.ts",
+    "test:protection": "tsx scripts/verify-auth-protection.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
