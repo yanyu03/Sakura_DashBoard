@@ -1,0 +1,28 @@
+{
+  "testedAt": "2026-10-28T12:55:32.192Z",
+  "passed": 22,
+  "checks": [
+    "real v14 upgrade preserves account identities and creates scoped people without name merging",
+    "organization mutations reject ordinary teachers and require authenticated sessions",
+    "constructs party academic affairs grade department office and class with validated parent types",
+    "subject groups link to a scoped subject and one or more catalog courses",
+    "A retains one person and staff identity while holding class lead and subject membership",
+    "binding the academic class activates real homeroom permissions and retires legacy head field authority",
+    "expired head appointments lose class authority without falling back to the old head",
+    "B discovers A once with both current jobs only after course eligibility is confirmed",
+    "wrong courses missing qualifications future expired or archived staff never become candidates",
+    "unrelated groups and foreign institutions cannot inspect or self-assign the organization directory",
+    "higher responsible appointments can discover descendant subject groups and directory entries remain deduplicated",
+    "revoked qualifications disappear from an already logged in supervisor directory",
+    "existing current teaching proves eligibility only through a same-school class binding",
+    "staff discovery does not reveal drafts or create course assignments or sessions for others",
+    "same person linked to another managerial account cannot self-approve",
+    "scoped director approves A while a subject member cannot bypass course or class permissions",
+    "substitution requires scoped course eligibility and approval without granting class record access",
+    "revoking group membership keeps the independent class lead job and removes dispatch eligibility",
+    "archiving a parent invalidates descendant lookup class access and new schedule writes",
+    "cross-school class links semantic rewrites and identity-account relinking are rejected",
+    "hierarchical reporting supports higher responsible jobs and rejects self supervision through an alias",
+    "schema migration is idempotent and all foreign keys and integrity checks pass"
+  ]
+}

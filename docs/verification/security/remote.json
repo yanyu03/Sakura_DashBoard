@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T11:44:52.698Z",
+  "testedAt": "2026-10-28T13:15:51.872Z",
   "base": "https://sakura.250221.xyz",
   "checks": [
     "login and registration pages load",
@@ -7,7 +7,8 @@
     "existing administrator login survives migration",
     "SQL status query backup and reset are denied even to administrator",
     "department scheduling endpoints load after additive migration",
+    "organization metadata and scope load after v15 upgrade without granting a school appointment",
     "logout revokes session"
   ],
-  "passed": 6
+  "passed": 7
 }

@@ -1,5 +1,7 @@
 # SQLite v12：组织、身份与对象绑定
 
+> 本文描述 v12 的结构边界。后续 [v14 课表共享](verification/schedule-sharing/README.md) 已为排课模块增加明确的任职范围授权；[v15 组织与兼任](verification/organization/README.md) 已实现语义组织链、人员关联、班级归属和资格目录。[学校架构目标](architecture/ADR-0001-school-organization.md) 中其余部分仍待分阶段实施。
+
 本次为增量结构升级，保留 v1–v11 历史校验和和业务数据。新增 9 张元数据表，不自动把旧管理员、教师、学生归入新组织，也不根据姓名推断亲属或上下级。新的表不提供业务访问授权；完整用户隔离、首位 root 初始化与 Key 上报流程仍按 `USER-ISOLATION-DESIGN.md` 后续实施。
 
 ## 组合身份

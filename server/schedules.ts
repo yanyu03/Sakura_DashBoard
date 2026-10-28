@@ -6,6 +6,11 @@ import { exactDate, mutate, reply, version } from "./business";
 import { scheduleAccess, requestScheduleAccess } from "./scheduleAccess";
 import { registerScheduleDepartments } from "./scheduleDepartments";
 import { registerScheduleSubmissions } from "./scheduleSubmissions";
+import { registerOrganization } from "./organization";
+import {
+  assertSubstituteQualification,
+  sameSchoolPerson,
+} from "./organizationCore";
 export function registerSchedules(app: Express, db: DatabaseConnection) {
   const admin = (res: Response, unitId?: string) => {
     requestScheduleAccess(db, res).requireManager(unitId);
@@ -126,6 +131,7 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
     ];
   };
   registerScheduleDepartments(app, db);
+  registerOrganization(app, db);
   registerScheduleSubmissions(app, db, { validate, noConflict, range });
   app.get("/api/v1/schedules/options", (_req, res) => {
     const scope = requestScheduleAccess(db, res);
@@ -255,8 +261,12 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
           ...r,
           target: JSON.parse(r.target_json),
           canReview:
-            r.applicant_id !== res.locals.user.id &&
-            requestScheduleAccess(db, res).manages(r.unit_id),
+            !sameSchoolPerson(
+              db,
+              r.applicant_id,
+              res.locals.user.id,
+              r.unit_id,
+            ) && requestScheduleAccess(db, res).manages(r.unit_id),
           canWithdraw: r.applicant_id === res.locals.user.id,
         })),
     );
@@ -293,6 +303,13 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
         )
           throw new HttpError(403, "代课教师必须属于共享教研室");
         noConflict(target, row.id);
+        if (target.teacher_id !== row.teacher_id && row.unit_id)
+          assertSubstituteQualification(
+            db,
+            target.teacher_id,
+            row.unit_id,
+            row.course_id,
+          );
         const id = randomUUID();
         db.prepare(
           "INSERT INTO schedule_changes(id,entry_id,source_version,applicant_id,target_json,reason,created_at) VALUES (?,?,?,?,?,?,?)",
@@ -336,7 +353,14 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
             throw new HttpError(403, "只能取消自己的申请");
         } else {
           admin(res, source.unit_id);
-          if (change.applicant_id === res.locals.user.id)
+          if (
+            sameSchoolPerson(
+              db,
+              change.applicant_id,
+              res.locals.user.id,
+              source.unit_id,
+            )
+          )
             throw new HttpError(403, "申请人不能审批自己的申请");
         }
         if (status === "approved") {
@@ -353,6 +377,13 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
           )
             throw new HttpError(403, "代课教师任职已失效");
           noConflict(target, source.id);
+          if (target.teacher_id !== source.teacher_id && source.unit_id)
+            assertSubstituteQualification(
+              db,
+              target.teacher_id,
+              source.unit_id,
+              source.course_id,
+            );
           db.prepare(
             "UPDATE schedule_entries SET teacher_id=?,starts_at=?,ends_at=?,room=?,version=version+1 WHERE id=?",
           ).run(

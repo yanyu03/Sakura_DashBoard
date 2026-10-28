@@ -64,7 +64,7 @@ try {
             n: number;
           }
         ).n,
-      14,
+      15,
       );
       assert.ok(
         db.prepare("SELECT id FROM faculty_users WHERE id='fac-admin'").get(),

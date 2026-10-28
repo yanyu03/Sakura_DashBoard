@@ -1,5 +1,6 @@
 import { WorkspaceHero } from "../WorkspaceVisuals";
 import { ScheduleDepartmentSettings } from "../ScheduleDepartmentSettings";
+import { StaffDispatchDirectory } from "../StaffDispatchDirectory";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { sakuraApi } from "../../services/sakuraApiService";
 type Row = Record<string, any>;
@@ -34,6 +35,7 @@ export function ScheduleManagementView({
 }: {
   showToast: (message: string) => void;
 }) {
+  const [organizationRevision, setOrganizationRevision] = useState(0);
   const [entries, setEntries] = useState<Row[]>([]),
     [submissions, setSubmissions] = useState<Row[]>([]),
     [changes, setChanges] = useState<Row[]>([]);
@@ -199,8 +201,32 @@ export function ScheduleManagementView({
         </p>
       </div>
       {options.canAdmin ? (
-        <ScheduleDepartmentSettings onChanged={() => void load()} />
+        <ScheduleDepartmentSettings
+          onChanged={() => {
+            void load();
+            setOrganizationRevision((value) => value + 1);
+          }}
+        />
       ) : null}
+      <StaffDispatchDirectory
+        refreshKey={organizationRevision}
+        target={
+          proposal?.unit_id
+            ? { unitId: proposal.unit_id, courseId: proposal.course_id }
+            : undefined
+        }
+        onPick={
+          proposal
+            ? (accountId) => {
+                setProposal((previous) => ({
+                  ...previous,
+                  teacher_id: accountId,
+                }));
+                showToast("已选为当前代课申请的教师，请继续提交审批");
+              }
+            : undefined
+        }
+      />
       <details
         open={editing ? true : undefined}
         className="sakura-workspace-card border border-outline-variant rounded-xl p-4"

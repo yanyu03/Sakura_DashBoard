@@ -168,7 +168,7 @@ try {
             .prepare("SELECT MAX(version) n FROM schema_migrations")
             .get() as any
         ).n,
-        14,
+        15,
       );
     },
   );

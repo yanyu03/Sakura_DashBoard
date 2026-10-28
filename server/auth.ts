@@ -5,6 +5,10 @@ import type { CaptchaProvider } from "./dbContract";
 import { HttpError, text } from "./http";
 import { hashPassword, verifyPassword } from "./passwords";
 import { withAuthProtection } from "./authProtection";
+import {
+  headTeacherClassIds,
+  classOrganizationActive,
+} from "./organizationCore";
 
 export type AuthUser = {
   id: string;
@@ -437,17 +441,23 @@ export function registerAuth(
       req.path.startsWith("/schedules/") ||
       req.path.startsWith("/exams/") ||
       req.path.startsWith("/care/") ||
-      req.path.startsWith("/workspace/")
+      req.path.startsWith("/workspace/") ||
+      req.path.startsWith("/organization/")
     )
       return next();
     if (!req.path.startsWith("/students") && !req.path.startsWith("/homework"))
       return next(new HttpError(403, "该操作尚未向教师开放"));
     const owned = db
       .prepare(
-        "SELECT DISTINCT class_id FROM teaching_assignments WHERE teacher_id=? AND archived_at IS NULL UNION SELECT id FROM academic_classes WHERE head_teacher_id=? AND archived_at IS NULL",
+        "SELECT DISTINCT class_id FROM teaching_assignments WHERE teacher_id=? AND archived_at IS NULL",
       )
-      .all(res.locals.user.id, res.locals.user.id) as { class_id: string }[];
-    const allowed = owned.map((row) => row.class_id);
+      .all(res.locals.user.id) as { class_id: string }[];
+    const allowed = [
+      ...new Set([
+        ...owned.map((row) => row.class_id),
+        ...headTeacherClassIds(db, res.locals.user.id),
+      ]),
+    ].filter((id) => classOrganizationActive(db, id));
     if (!allowed.length) return next(new HttpError(403, "尚未分配任教班级"));
     const studentMatch = req.path.match(/^\/students\/([^/]+)/),
       submissionMatch = req.path.match(/^\/homework\/submissions\/([^/]+)/);

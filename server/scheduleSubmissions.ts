@@ -4,6 +4,11 @@ import { randomUUID } from "node:crypto";
 import { HttpError, text } from "./http";
 import { mutate, reply, version } from "./business";
 import { scheduleAccess, requestScheduleAccess } from "./scheduleAccess";
+import {
+  assertUnitCourse,
+  sameSchoolPerson,
+  classOrganizationActive,
+} from "./organizationCore";
 
 type Row = Record<string, any>;
 export function registerScheduleSubmissions(
@@ -17,6 +22,8 @@ export function registerScheduleSubmissions(
 ) {
   const access = (res: Response) => requestScheduleAccess(db, res);
   const canTeach = (owner: string, data: Row) => {
+    if (!classOrganizationActive(db, data.class_id))
+      throw new HttpError(403, "班级的组织归属已归档");
     const terms = db
       .prepare(
         `SELECT t.starts_on,t.ends_on FROM teaching_assignments a JOIN academic_terms t ON t.id=a.term_id
@@ -65,7 +72,10 @@ export function registerScheduleSubmissions(
       review_note: own || manager ? row.review_note : "",
       canEdit: own && ["draft", "rejected", "withdrawn"].includes(row.status),
       canWithdraw: own && row.status === "submitted",
-      canReview: !own && manager && row.status === "submitted",
+      canReview:
+        !sameSchoolPerson(db, row.owner_id, res.locals.user.id, row.unit_id) &&
+        manager &&
+        row.status === "submitted",
     };
   };
   const read = (id: unknown, res: Response) => {
@@ -127,7 +137,10 @@ export function registerScheduleSubmissions(
         const owner = res.locals.user.id,
           data = fields(req.body, owner),
           unit = req.body.unit_id || null;
-        if (unit) access(res).requireMember(unit);
+        if (unit) {
+          access(res).requireMember(unit);
+          assertUnitCourse(db, unit, data.course_id);
+        }
         if (action === "submit") {
           access(res).requireMember(unit);
           helpers.noConflict(data);
@@ -186,7 +199,10 @@ export function registerScheduleSubmissions(
                 req.body.unit_id === undefined
                   ? row.unit_id
                   : req.body.unit_id || null;
-            if (unit) access(res).requireMember(unit);
+            if (unit) {
+              access(res).requireMember(unit);
+              assertUnitCourse(db, unit, data.course_id);
+            }
             if (action === "submit") {
               access(res).requireMember(unit);
               helpers.noConflict({ ...data, teacher_id: row.owner_id });
@@ -209,7 +225,13 @@ export function registerScheduleSubmissions(
           }
         } else if (["approve", "reject"].includes(action)) {
           access(res).requireManager(row.unit_id);
-          if (own) throw new HttpError(403, "不能审批自己的课表提交");
+          if (
+            sameSchoolPerson(db, row.owner_id, res.locals.user.id, row.unit_id)
+          )
+            throw new HttpError(
+              403,
+              "不能审批自己或同一人员关联账号的课表提交",
+            );
           if (row.status !== "submitted")
             throw new HttpError(409, "该提交已处理");
           const review = text(req.body.review_note ?? "", "审批意见", {
@@ -219,6 +241,7 @@ export function registerScheduleSubmissions(
           let entryId = null;
           if (action === "approve") {
             scheduleAccess(db, row.owner_id).requireMember(row.unit_id);
+            assertUnitCourse(db, row.unit_id, row.course_id);
             const data = fields(row, row.owner_id);
             helpers.noConflict({ ...data, teacher_id: row.owner_id });
             entryId = randomUUID();

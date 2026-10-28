@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import type { DatabaseConnection } from "./dbContract";
 import { HttpError, text } from "./http";
 import { mutate, reply } from "./business";
+import { ensureStaffIdentity, ensureUnitProfile } from "./organizationCore";
 
 export function registerScheduleDepartments(
   app: Express,
@@ -86,6 +87,7 @@ export function registerScheduleDepartments(
           ).run(root.id, institutionId, "school-root", "学校");
         }
         const id = randomUUID();
+        ensureUnitProfile(db, root.id);
         db.prepare(
           "INSERT INTO organization_units(id,institution_id,parent_id,kind,code,name) VALUES (?,?,?,'department',?,?)",
         ).run(
@@ -95,6 +97,7 @@ export function registerScheduleDepartments(
           text(req.body.code, "教研室代码", { max: 40 }),
           text(req.body.name, "教研室名称", { max: 80 }),
         );
+        ensureUnitProfile(db, id);
         return { id };
       },
       "教研室已创建",
@@ -146,6 +149,7 @@ export function registerScheduleDepartments(
             account.full_name,
           );
         }
+        ensureStaffIdentity(db, unit.institution_id, account.id);
         let position = db
           .prepare(
             "SELECT id FROM organization_positions WHERE institution_id=? AND unit_id=? AND code=?",

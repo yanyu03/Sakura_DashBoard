@@ -1,11 +1,16 @@
 import { notifyChange } from "./notificationEvents";
 import type { Express, Response, Request } from "express";
-import type {DatabaseConnection} from "./dbContract";
+import type { DatabaseConnection } from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { HttpError, text, pagination } from "./http";
 import { exactDate } from "./business";
 import { hashPassword } from "./passwords";
 import type { AuthUser } from "./auth";
+import {
+  headTeacherClassIds,
+  organizationClassHeads,
+  classOrganizationActive,
+} from "./organizationCore";
 
 const reply = (res: Response, data: unknown, message = "已加载基础资料") =>
   res.json({
@@ -63,18 +68,20 @@ export function registerAcademic(app: Express, db: DatabaseConnection) {
       throw new HttpError(422, "关联资料不存在或已归档");
     return id as string;
   };
-  const scopedClasses = (res: Response) =>
-    res.locals.user.role === "admin"
-      ? null
-      : (
-          db
-            .prepare(
-              "SELECT class_id FROM teaching_assignments WHERE teacher_id=? AND archived_at IS NULL UNION SELECT id FROM academic_classes WHERE head_teacher_id=? AND archived_at IS NULL",
-            )
-            .all(res.locals.user.id, res.locals.user.id) as {
-            class_id: string;
-          }[]
-        ).map((r) => r.class_id);
+  const scopedClasses = (res: Response) => {
+    if (res.locals.user.role === "admin") return null;
+    const assigned = db
+      .prepare(
+        "SELECT class_id FROM teaching_assignments WHERE teacher_id=? AND archived_at IS NULL",
+      )
+      .all(res.locals.user.id) as { class_id: string }[];
+    return [
+      ...new Set([
+        ...assigned.map((a) => a.class_id),
+        ...headTeacherClassIds(db, res.locals.user.id),
+      ]),
+    ];
+  };
   app.get("/api/v1/academic/terms", (_req, res) =>
     reply(
       res,
@@ -174,7 +181,21 @@ export function registerAcademic(app: Express, db: DatabaseConnection) {
         `SELECT c.*, (SELECT COUNT(*) FROM student_profiles s WHERE s.class_id=c.id AND s.archived_at IS NULL) AS actual_count FROM academic_classes c WHERE c.archived_at IS NULL ${scope ? `AND c.id IN (${scope.map(() => "?").join(",") || "NULL"})` : ""} ORDER BY c.class_code,c.id`,
       )
       .all(...(scope || []));
-    reply(res, rows);
+    const heads = organizationClassHeads(db, res.locals.user.id);
+    reply(
+      res,
+      (rows as Record<string, any>[])
+        .filter((row) => scope === null || classOrganizationActive(db, row.id))
+        .map((row) =>
+          heads.has(row.id)
+            ? {
+                ...row,
+                head_teacher_id: heads.get(row.id),
+                head_teacher_source: "organization_appointment",
+              }
+            : row,
+        ),
+    );
   });
   app.post("/api/v1/academic/classes", (req, res) =>
     mutation(req, res, db, (respond) => {
@@ -205,9 +226,17 @@ export function registerAcademic(app: Express, db: DatabaseConnection) {
       if (!row) throw new HttpError(404, "班级不存在");
       if (req.body.version !== row.version)
         throw new HttpError(409, "班级资料已变化，请刷新");
-      const teacher = req.body.head_teacher_id
-        ? exists("faculty_users", req.body.head_teacher_id)
-        : row.head_teacher_id;
+      const heads = organizationClassHeads(db, res.locals.user.id);
+      if (
+        heads.has(row.id) &&
+        req.body.head_teacher_id !== undefined &&
+        (req.body.head_teacher_id || null) !== heads.get(row.id)
+      )
+        throw new HttpError(409, "该班级已绑定组织，请通过组织任职调整班主任");
+      const teacher =
+        !heads.has(row.id) && req.body.head_teacher_id
+          ? exists("faculty_users", req.body.head_teacher_id)
+          : row.head_teacher_id;
       if (
         req.body.archived &&
         (

@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T11:21:23.469Z",
+  "testedAt": "2026-10-28T12:51:26.686Z",
   "checks": [
     "five failures escalate through all requested cooldowns",
     "blocked requests do not extend or increase the cooldown",

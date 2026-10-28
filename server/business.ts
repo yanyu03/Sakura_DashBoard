@@ -1,7 +1,11 @@
 import { notifyChange } from "./notificationEvents";
 import type { Request, Response } from "express";
-import type {DatabaseConnection} from "./dbContract";
+import type { DatabaseConnection } from "./dbContract";
 import { HttpError } from "./http";
+import {
+  headTeacherClassIds,
+  classOrganizationActive,
+} from "./organizationCore";
 
 export const reply = (res: Response, data: unknown, message = "已加载") =>
   res.json({
@@ -42,9 +46,14 @@ export function classAccess(db: DatabaseConnection, res: Response, id: string) {
     .prepare("SELECT * FROM academic_classes WHERE id=?")
     .get(id) as Record<string, any> | undefined;
   if (!row) throw new HttpError(404, "班级不存在");
+  if (!classOrganizationActive(db, id))
+    throw new HttpError(403, "班级的组织归属已归档");
   if (
     res.locals.user.role !== "admin" &&
-    row.head_teacher_id !== res.locals.user.id &&
+    !(res.locals.headTeacherClassIds ??= headTeacherClassIds(
+      db,
+      res.locals.user.id,
+    )).has(id) &&
     !db
       .prepare(
         "SELECT 1 FROM teaching_assignments WHERE teacher_id=? AND class_id=? AND archived_at IS NULL",

@@ -1,11 +1,141 @@
-import assert from 'node:assert/strict';import fs from 'node:fs';import {randomUUID} from 'node:crypto';import {verificationFetch as fetch} from './http-verification-transport';
-const base=process.argv.find(v=>v.startsWith('http'))||'http://127.0.0.1:3003';const checks:string[]=[];let cookie='',csrf='';
-async function api(p:string,method='GET',body?:unknown){const response=await fetch(base+'/api/v1/'+p,{method,headers:{Origin:base,'Content-Type':'application/json',...(cookie?{Cookie:cookie,'X-CSRF-Token':csrf}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})});return {response,json:await response.json()};}
-async function check(name:string,fn:()=>Promise<void>){await fn();checks.push(name);console.log('PASS '+name);}
-await check('login and registration pages load',async()=>{for(const route of ['/login?design=1.0Sakura','/register?design=1.0Sakura'])assert.equal((await fetch(base+route)).status,200);});
-await check('five invalid authentication attempts start 30 second cooldown',async()=>{const facultyId='release_probe_'+randomUUID();for(let i=0;i<5;i++){const r=await api('auth/faculty-login','POST',{facultyId,password:'probe-not-a-real-password',loginType:'account',captchaId:'invalid',captchaAnswer:'invalid'});assert.equal(r.response.status,i===4?429:422);if(i===4){assert.ok(Number(r.response.headers.get('retry-after'))>=29);assert.ok(r.json.retryAfterSeconds>=29);}}const blocked=await api('auth/faculty-login','POST',{facultyId,password:'probe-not-a-real-password',loginType:'account'});assert.equal(blocked.response.status,429);});
-await check('existing administrator login survives migration',async()=>{const password=fs.readFileSync('.local-data/cloudflare-initial-admin.txt','utf8').match(/^Password: (.+)$/m)![1];const cap=(await api('security/captcha?mode=math')).json.data;assert.ok(!cap.demoHint);const expression=Array.from(cap.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g),(m:any)=>m[1]).join('');const match=expression.match(/^(\d)\+(\d)=\?$/)!;assert.ok(match);const r=await api('auth/faculty-login','POST',{facultyId:'admin',password,loginType:'account',captchaId:cap.captchaId,captchaAnswer:String(+match[1]+ +match[2])});assert.equal(r.response.status,200);cookie=r.response.headers.get('set-cookie')!.split(';')[0];csrf=r.json.data.csrfToken;assert.ok(r.response.headers.get('set-cookie')?.includes('HttpOnly'));assert.ok(r.response.headers.get('set-cookie')?.includes('Secure'));});
-await check('SQL status query backup and reset are denied even to administrator',async()=>{for(const [route,method,body] of [['sqlite/status','GET',undefined],['sqlite/query','POST',{sql:'SELECT 1'}],['sqlite/backup-download','GET',undefined],['sqlite/reseed','POST',{}]] as const){assert.equal((await api(route,method,body)).response.status,403);}});
-await check('department scheduling endpoints load after additive migration',async()=>{for(const route of ['schedules/options','schedules/department-admin','schedules/submissions?from=2026-01-01&to=2027-01-01','schedules/entries?from=2026-01-01&to=2027-01-01']){const r=await api(route);assert.equal(r.response.status,200);assert.equal(r.json.success,true);}});
-await check('logout revokes session',async()=>{assert.equal((await api('auth/logout','POST',{})).response.status,200);assert.equal((await api('auth/session')).response.status,401);});
-fs.mkdirSync('docs/verification/security',{recursive:true});fs.writeFileSync(`docs/verification/security/${base.includes('127.0.0.1')?'workers-local':'remote'}.json`,JSON.stringify({testedAt:new Date().toISOString(),base,checks,passed:checks.length},null,2));
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import { randomUUID } from "node:crypto";
+import { verificationFetch as fetch } from "./http-verification-transport";
+const base =
+  process.argv.find((v) => v.startsWith("http")) || "http://127.0.0.1:3003";
+const checks: string[] = [];
+let cookie = "",
+  csrf = "";
+async function api(p: string, method = "GET", body?: unknown) {
+  const response = await fetch(base + "/api/v1/" + p, {
+    method,
+    headers: {
+      Origin: base,
+      "Content-Type": "application/json",
+      ...(cookie ? { Cookie: cookie, "X-CSRF-Token": csrf } : {}),
+    },
+    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+  });
+  return { response, json: await response.json() };
+}
+async function check(name: string, fn: () => Promise<void>) {
+  await fn();
+  checks.push(name);
+  console.log("PASS " + name);
+}
+await check("login and registration pages load", async () => {
+  for (const route of ["/login?design=1.0Sakura", "/register?design=1.0Sakura"])
+    assert.equal((await fetch(base + route)).status, 200);
+});
+await check(
+  "five invalid authentication attempts start 30 second cooldown",
+  async () => {
+    const facultyId = "release_probe_" + randomUUID();
+    for (let i = 0; i < 5; i++) {
+      const r = await api("auth/faculty-login", "POST", {
+        facultyId,
+        password: "probe-not-a-real-password",
+        loginType: "account",
+        captchaId: "invalid",
+        captchaAnswer: "invalid",
+      });
+      assert.equal(r.response.status, i === 4 ? 429 : 422);
+      if (i === 4) {
+        assert.ok(Number(r.response.headers.get("retry-after")) >= 29);
+        assert.ok(r.json.retryAfterSeconds >= 29);
+      }
+    }
+    const blocked = await api("auth/faculty-login", "POST", {
+      facultyId,
+      password: "probe-not-a-real-password",
+      loginType: "account",
+    });
+    assert.equal(blocked.response.status, 429);
+  },
+);
+await check("existing administrator login survives migration", async () => {
+  const password = fs
+    .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
+    .match(/^Password: (.+)$/m)![1];
+  const cap = (await api("security/captcha?mode=math")).json.data;
+  assert.ok(!cap.demoHint);
+  const expression = Array.from(
+    cap.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g),
+    (m: any) => m[1],
+  ).join("");
+  const match = expression.match(/^(\d)\+(\d)=\?$/)!;
+  assert.ok(match);
+  const r = await api("auth/faculty-login", "POST", {
+    facultyId: "admin",
+    password,
+    loginType: "account",
+    captchaId: cap.captchaId,
+    captchaAnswer: String(+match[1] + +match[2]),
+  });
+  assert.equal(r.response.status, 200);
+  cookie = r.response.headers.get("set-cookie")!.split(";")[0];
+  csrf = r.json.data.csrfToken;
+  assert.ok(r.response.headers.get("set-cookie")?.includes("HttpOnly"));
+  assert.ok(r.response.headers.get("set-cookie")?.includes("Secure"));
+});
+await check(
+  "SQL status query backup and reset are denied even to administrator",
+  async () => {
+    for (const [route, method, body] of [
+      ["sqlite/status", "GET", undefined],
+      ["sqlite/query", "POST", { sql: "SELECT 1" }],
+      ["sqlite/backup-download", "GET", undefined],
+      ["sqlite/reseed", "POST", {}],
+    ] as const) {
+      assert.equal((await api(route, method, body)).response.status, 403);
+    }
+  },
+);
+await check(
+  "department scheduling endpoints load after additive migration",
+  async () => {
+    for (const route of [
+      "schedules/options",
+      "schedules/department-admin",
+      "schedules/submissions?from=2026-01-01&to=2027-01-01",
+      "schedules/entries?from=2026-01-01&to=2027-01-01",
+    ]) {
+      const r = await api(route);
+      assert.equal(r.response.status, 200);
+      assert.equal(r.json.success, true);
+    }
+  },
+);
+await check(
+  "organization metadata and scope load after v15 upgrade without granting a school appointment",
+  async () => {
+    const admin = await api("organization/admin");
+    assert.equal(admin.response.status, 200);
+    assert.equal(admin.json.success, true);
+    assert.ok(admin.json.data.types.some((r: any) => r.code === "homeroom"));
+    assert.ok(
+      admin.json.data.parentRules.some(
+        (r: any) =>
+          r.parent_type === "grade_office" && r.child_type === "homeroom",
+      ),
+    );
+    const scope = await api("organization/scope");
+    assert.equal(scope.response.status, 200);
+    assert.equal(scope.json.success, true);
+    assert.ok(Array.isArray(scope.json.data.units));
+  },
+);
+await check("logout revokes session", async () => {
+  assert.equal((await api("auth/logout", "POST", {})).response.status, 200);
+  assert.equal((await api("auth/session")).response.status, 401);
+});
+fs.mkdirSync("docs/verification/security", { recursive: true });
+fs.writeFileSync(
+  `docs/verification/security/${base.includes("127.0.0.1") ? "workers-local" : "remote"}.json`,
+  JSON.stringify(
+    { testedAt: new Date().toISOString(), base, checks, passed: checks.length },
+    null,
+    2,
+  ),
+);

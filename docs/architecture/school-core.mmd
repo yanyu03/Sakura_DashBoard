@@ -1,0 +1,83 @@
+erDiagram
+    ACCOUNTS ||--o{ ACCOUNT_SUBJECT_LINKS : verifies
+    SCHOOLS ||--o{ PERSONS : scopes
+    PERSONS ||--o{ ACCOUNT_SUBJECT_LINKS : linked_identity
+    PERSONS ||--o{ PERSON_AFFILIATIONS : holds
+    PERSON_AFFILIATIONS ||--o{ PERSON_IDENTIFIERS : identified_by
+    SCHOOLS ||--o{ ORGANIZATION_UNITS : contains
+    ORGANIZATION_UNITS ||--|{ ORGANIZATION_UNIT_VERSIONS : has_history
+    ORGANIZATION_UNITS ||--o{ POSITION_DEFINITIONS : defines
+    PERSON_AFFILIATIONS ||--o{ APPOINTMENTS : staff_identity
+    POSITION_DEFINITIONS ||--o{ APPOINTMENTS : filled_by
+    APPOINTMENTS ||--o{ APPOINTMENT_REPORTING_LINKS : subordinate
+    APPOINTMENTS ||--o{ APPOINTMENT_REPORTING_LINKS : supervisor
+    SCHOOLS ||--o{ ACADEMIC_YEARS : schedules
+    ACADEMIC_YEARS ||--o{ ACADEMIC_TERMS : divides_into
+    ACADEMIC_YEARS ||--o{ HOMEROOM_GROUPS : contains
+    HOMEROOM_GROUPS ||--o{ HOMEROOM_MEMBERSHIPS : has
+    PERSON_AFFILIATIONS ||--o{ HOMEROOM_MEMBERSHIPS : student_identity
+    PERSON_AFFILIATIONS ||--o{ SCHOOL_ENROLLMENTS : student_identity
+    SCHOOLS ||--o{ SCHOOL_ENROLLMENTS : enrolls
+    SCHOOLS ||--o{ COURSE_DEFINITIONS : catalogs
+    COURSE_DEFINITIONS ||--|{ COURSE_VERSIONS : versions
+    COURSE_VERSIONS ||--o{ COURSE_OFFERINGS : offered_as
+    ACADEMIC_TERMS ||--o{ COURSE_OFFERINGS : runs_during
+    COURSE_OFFERINGS ||--o{ SECTIONS : groups_into
+    SECTIONS ||--o{ SECTION_STAFF_ASSIGNMENTS : teachers
+    PERSON_AFFILIATIONS ||--o{ SECTION_STAFF_ASSIGNMENTS : staff_identity
+    SECTIONS ||--o{ SECTION_ENROLLMENTS : students
+    SCHOOL_ENROLLMENTS ||--o{ SECTION_ENROLLMENTS : eligible_enrollment
+    SECTIONS ||--o{ TEACHING_EVENTS : meets
+    TEACHING_EVENTS ||--o{ EVENT_INSTRUCTORS : staffed_by
+    PERSON_AFFILIATIONS ||--o{ EVENT_INSTRUCTORS : staff_identity
+    TEACHING_EVENTS ||--o{ EVENT_ROOM_ALLOCATIONS : uses
+    ROOMS ||--o{ EVENT_ROOM_ALLOCATIONS : reserved_for
+    PERSON_AFFILIATIONS ||--o{ GUARDIAN_STUDENT_RELATIONSHIPS : guardian_identity
+    PERSON_AFFILIATIONS ||--o{ GUARDIAN_STUDENT_RELATIONSHIPS : student_identity
+
+    ACCOUNTS {
+        string account_id PK
+        string immutable_username UK
+        string status
+    }
+    PERSONS {
+        string school_id PK
+        string person_id PK
+        string optional_display_name
+    }
+    PERSON_AFFILIATIONS {
+        string school_id PK
+        string affiliation_id PK
+        string person_id FK
+        string identity_kind
+    }
+    APPOINTMENTS {
+        string school_id PK
+        string appointment_id PK
+        string affiliation_id FK
+        string position_id FK
+        datetime valid_from
+        datetime valid_to_exclusive
+    }
+    SECTIONS {
+        string school_id PK
+        string section_id PK
+        string offering_id FK
+        string local_section_code
+    }
+    SECTION_ENROLLMENTS {
+        string school_id PK
+        string section_enrollment_id PK
+        string section_id FK
+        string school_enrollment_id FK
+        date valid_from
+        date valid_to_exclusive
+    }
+    TEACHING_EVENTS {
+        string school_id PK
+        string event_id PK
+        string section_id FK
+        datetime starts_at_utc
+        datetime ends_at_utc
+        int version
+    }

@@ -1,0 +1,11 @@
+{
+  "testedAt": "2026-10-28T12:55:29.312Z",
+  "base": "http://127.0.0.1:3003",
+  "passed": 4,
+  "checks": [
+    "Workers upgrades an existing schema and creates typed governance chain through API",
+    "Workers supports real class leadership without exposing class records to the subject supervisor",
+    "Workers director sees one qualified person with both positions after explicit qualification",
+    "Workers revoke and parent archival invalidate previously logged-in directory access"
+  ]
+}

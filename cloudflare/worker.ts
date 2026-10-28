@@ -18,6 +18,7 @@ import { reply } from "../server/business";
 import {applyIdentityHierarchy} from '../server/database/identityHierarchy';
 import {applyAuthProtectionSchema} from '../server/authProtection';
 import {applyScheduleSharing} from '../server/database/scheduleSharing';
+import {applyOrganizationFoundation} from '../server/database/organizationFoundation';
 
 export class SakuraSchool extends DurableObject<Env> {
   private server: Server;
@@ -53,6 +54,7 @@ export class SakuraSchool extends DurableObject<Env> {
         applyIdentityHierarchy(this.db);
         applyAuthProtectionSchema(this.db);
         applyScheduleSharing(this.db);
+        applyOrganizationFoundation(this.db);
         return;
       }
       this.ctx.storage.transactionSync(() => {
@@ -78,6 +80,7 @@ export class SakuraSchool extends DurableObject<Env> {
       applyIdentityHierarchy(this.db);
       applyAuthProtectionSchema(this.db);
       applyScheduleSharing(this.db);
+      applyOrganizationFoundation(this.db);
     });
     const app = express();
     app.disable("x-powered-by");

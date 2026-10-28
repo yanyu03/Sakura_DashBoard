@@ -75,15 +75,18 @@ const list = async (user: string, r = "submissions") =>
 await check(
   "Workers additive migration supports department setup without raw SQL",
   async () => {
+    const institution=(await create('organization/schools',{code:'CF-SHARING-'+key,name:'本地排课兼容测试学校'})).id;
     unit = (
       await create("schedules/departments", {
         code: "cf-" + key,
+        institution_id:institution,
         name: "本地 Workers 测试室",
       })
     ).id;
     other = (
       await create("schedules/departments", {
         code: "cf-other-" + key,
+        institution_id:institution,
         name: "其他测试室",
       })
     ).id;

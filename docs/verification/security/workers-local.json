@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T11:32:51.173Z",
+  "testedAt": "2026-10-28T13:10:49.466Z",
   "base": "http://127.0.0.1:3003",
   "checks": [
     "login and registration pages load",
@@ -7,7 +7,8 @@
     "existing administrator login survives migration",
     "SQL status query backup and reset are denied even to administrator",
     "department scheduling endpoints load after additive migration",
+    "organization metadata and scope load after v15 upgrade without granting a school appointment",
     "logout revokes session"
   ],
-  "passed": 6
+  "passed": 7
 }

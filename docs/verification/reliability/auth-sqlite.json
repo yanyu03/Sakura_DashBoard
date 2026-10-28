@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T11:21:32.311Z",
+  "testedAt": "2026-10-28T12:51:37.927Z",
   "checks": [
     "registration login and optional display name persist in actual SQLite",
     "parallel duplicate registration creates exactly one account",
