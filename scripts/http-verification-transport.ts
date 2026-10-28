@@ -25,14 +25,9 @@ export const verificationFetch: typeof globalThis.fetch = async (
       : [`data = ${JSON.stringify(String(init.body))}`]),
   ].join("\n");
   // Credentials travel through stdin, never command arguments or saved files.
-  const raw = execFileSync(
+  const request = () => execFileSync(
     "curl.exe",
     [
-      "--retry",
-      "3",
-      "--retry-all-errors",
-      "--retry-delay",
-      "1",
       "--silent",
       "--show-error",
       "--include",
@@ -42,8 +37,15 @@ export const verificationFetch: typeof globalThis.fetch = async (
       "--config",
       "-",
     ],
-    { input: config, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 },
+    { input: config, encoding: "utf8", maxBuffer: 8 * 1024 * 1024,stdio:'pipe' },
   );
+  let raw='';
+  for(let attempt=0;attempt<4;attempt++){
+    try{raw=request();break;}catch(error){
+      // Retry only pre-request connection/TLS failures; never retry HTTP 429 or other responses.
+      if(attempt===3||![7,35].includes(Number((error as {status?:number}).status)))throw error;
+    }
+  }
   const split = raw.indexOf("\r\n\r\n");
   if (split < 0) throw new Error("Missing HTTP response headers");
   const lines = raw.slice(0, split).split("\r\n");
