@@ -2,7 +2,7 @@
 
 部署地址：https://sakura.250221.xyz/?design=1.0Sakura
 
-域名已绑定到 Worker，HTTPS 可用。按用户最终要求，WAF 保留原有策略，临时添加的 Sakura 例外已撤回；非白名单访问仍可能受到站点现有挑战或拦截。`workers.dev` 入口返回 1101，最小诊断程序也复现，当前以自定义域名为入口。
+域名已绑定到 Worker，HTTPS 可用。2026-10-28 按用户要求，为 `sakura.250221.xyz` 添加自定义 WAF 规则例外，解决入口 JS 和 CSS 被返回 403 导致页面无法启动的问题。例外只跳过当前这组自定义规则，其他域名的规则和应用登录、验证码、接口权限继续生效。`workers.dev` 入口部署时返回 1101，当前以自定义域名为入口。
 
 前端由 Workers Static Assets 提供，`/api/*` 转发到 `SakuraSchool` Durable Object。云端使用其持久化 SQLite，复用本地的权限、作业、排课、成绩、关怀和工作台业务逻辑。当前一个实例对应一所学校。
 
@@ -32,7 +32,7 @@ npx tsx scripts/verify-cloudflare.ts https://sakura.250221.xyz --read-only
 
 验证脚本私下读取本机初始密码，不打印凭据；公网模式仅检查资源、登录、数据库结构和退出，不创建业务样本。
 
-Windows 代理拒绝 Node TLS 时，可设置 `SAKURA_VERIFY_CURL=true` 使用系统 curl 验证；凭据通过 stdin 传递。此次公网测试在临时 WAF 例外存在期间通过资源、登录/CSRF、数据库结构和只读限制三组检查，退出检查遭遇本机代理 TLS 连接失败，整组验收尚未全部通过。随后已按要求恢复 WAF 原状。
+Windows 代理拒绝 Node TLS 时，可设置 `SAKURA_VERIFY_CURL=true` 使用系统 curl 验证；凭据通过 stdin 传递。2026-10-28 公网验收四组全部通过：资源与匿名权限边界、登录/HttpOnly/CSRF、SQLite 结构与只读限制、退出撤销会话。入口 JS 与主 CSS 均返回 200，实际浏览器可显示完整登录页。
 
 ## 数据与维护
 
