@@ -26,6 +26,8 @@ export const SQLITE_DB_PATH = path.join(DATA_DIR, "sakura_edu.sqlite");
 export const sqliteDb = new Database(SQLITE_DB_PATH);
 sqliteDb.pragma("journal_mode = WAL");
 sqliteDb.pragma("foreign_keys = ON");
+// Bound writer contention so the API can respond before the client request times out.
+sqliteDb.pragma("busy_timeout = 3000");
 
 export function initAndSeedSqliteDatabase(forceReset = false): void {
   sqliteDb.exec(LEGACY_SCHEMA_SQL);

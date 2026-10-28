@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T08:40:18.624Z",
+  "testedAt": "2026-10-28T11:02:17.598Z",
   "base": "http://127.0.0.1:3003",
   "checks": [
     "login and registration pages load",

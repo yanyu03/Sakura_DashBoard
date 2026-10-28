@@ -21,7 +21,8 @@
     "test:cloudflare": "tsx scripts/verify-cloudflare.ts",
     "test:auth": "tsx scripts/verify-auth-registration.ts",
     "test:hierarchy": "tsx scripts/verify-identity-hierarchy.ts",
-    "test:protection": "tsx scripts/verify-auth-protection.ts"
+    "test:protection": "tsx scripts/verify-auth-protection.ts",
+    "test:reliability": "tsx scripts/verify-auth-reliability.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

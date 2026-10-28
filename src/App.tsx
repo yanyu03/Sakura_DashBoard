@@ -1,3 +1,4 @@
+import {SakuraIcon} from './components/SakuraIcon';
 import WorkspaceTools, {
   type NavigationTarget,
 } from "./components/WorkspaceTools";
@@ -39,6 +40,7 @@ const BASELINE_DEFAULT_PROFILE: FacultyDefaultProfileDTO = {
 };
 
 export default function App() {
+  const [initializing, setInitializing] = useState(true);
   // Default initial screen is the Faculty Auth Portal, then enter Workspace on login
   const [activeShell, setActiveShell] = useState<AppShell>("auth");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,11 +90,22 @@ export default function App() {
         setActiveTab(res.data.defaultTab);
       }
     }
+    return res;
   }, []);
 
   useEffect(() => {
-    loadSavedDefaultProfile();
+    let cancelled = false;
+    void loadSavedDefaultProfile().then((res) => {
+      if (cancelled) return;
+      if (res.success || res.code === 401) setInitializing(false);
+      else window.__sakuraBoot?.fail();
+    }).catch(() => { if (!cancelled) window.__sakuraBoot?.fail(); });
+    return () => { cancelled = true; };
   }, [loadSavedDefaultProfile]);
+
+  useEffect(() => {
+    if (!initializing) window.__sakuraBoot?.finish();
+  }, [initializing]);
 
   useEffect(() => {
     const expired = () => {
@@ -218,6 +231,7 @@ export default function App() {
     },
   ];
 
+  if (initializing) return null;
   return (
     <div
       data-theme={activeTheme}
@@ -294,7 +308,7 @@ export default function App() {
                 className="lg:hidden w-8 h-8 rounded bg-surface-container-low border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container shrink-0 cursor-pointer"
                 aria-label="打开导航菜单"
               >
-                <span className="material-symbols-outlined text-lg">menu</span>
+                <SakuraIcon className="material-symbols-outlined text-lg">menu</SakuraIcon>
               </button>
 
               <div
@@ -302,7 +316,7 @@ export default function App() {
                 className="flex items-center gap-2 cursor-pointer shrink-0"
               >
                 <div className="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-2xs">
-                  <span className="material-symbols-outlined text-lg">eco</span>
+                  <SakuraIcon className="material-symbols-outlined text-lg">eco</SakuraIcon>
                 </div>
                 <div>
                   <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight block leading-none">
@@ -318,9 +332,9 @@ export default function App() {
                 onClick={() => setActiveTab("schedule-management")}
                 className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/25 cursor-pointer hover:bg-surface-container transition-colors whitespace-nowrap shrink-0"
               >
-                <span className="material-symbols-outlined text-primary text-sm">
+                <SakuraIcon className="material-symbols-outlined text-primary text-sm">
                   calendar_month
-                </span>
+                </SakuraIcon>
                 <span className="font-label-sm text-xs text-on-surface font-semibold">
                   {defaultProfile.semesterLabel}
                 </span>
@@ -391,9 +405,9 @@ export default function App() {
                   className="w-8 h-8 rounded bg-surface-container-lowest text-on-surface flex items-center justify-center shrink-0"
                   onClick={() => setAcademicAdminOpen(true)}
                 >
-                  <span className="material-symbols-outlined text-base">
+                  <SakuraIcon className="material-symbols-outlined text-base">
                     school
-                  </span>
+                  </SakuraIcon>
                 </button>
               ) : null}
               <button
@@ -405,9 +419,9 @@ export default function App() {
                 className="w-8 h-8 rounded bg-surface-container-lowest border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all cursor-pointer"
                 title="打开文档与业务说明中心 (SOP知识库)"
               >
-                <span className="material-symbols-outlined text-base">
+                <SakuraIcon className="material-symbols-outlined text-base">
                   assignment_turned_in
-                </span>
+                </SakuraIcon>
               </button>
 
               <div
@@ -416,9 +430,9 @@ export default function App() {
                 title="点击设置默认信息（取代用户组默认值）或切换主题"
               >
                 <div className="w-6 h-6 rounded-xs bg-primary flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-on-primary text-sm">
+                  <SakuraIcon className="material-symbols-outlined text-on-primary text-sm">
                     person
-                  </span>
+                  </SakuraIcon>
                 </div>
                 <div className="hidden sm:flex flex-col text-left">
                   <span className="font-label-sm text-xs text-on-surface font-semibold leading-tight">
@@ -461,9 +475,9 @@ export default function App() {
                             : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-xs"
                         }`}
                       >
-                        <span className="material-symbols-outlined text-base shrink-0">
+                        <SakuraIcon className="material-symbols-outlined text-base shrink-0">
                           {item.icon}
-                        </span>
+                        </SakuraIcon>
                         <span className="truncate">{item.label}</span>
                       </button>
                     );
@@ -478,9 +492,9 @@ export default function App() {
                   title="投屏设备尚未连接"
                   className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-secondary text-on-secondary font-label-sm text-xs font-semibold shadow-xs hover:opacity-95 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-base">
+                  <SakuraIcon className="material-symbols-outlined text-base">
                     cast_for_education
-                  </span>
+                  </SakuraIcon>
                   <span>投屏设备未连接</span>
                 </button>
                 <button
@@ -488,9 +502,9 @@ export default function App() {
                   onClick={handleOpenSettingsModal}
                   className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-sm text-xs whitespace-nowrap cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-base">
+                  <SakuraIcon className="material-symbols-outlined text-base">
                     settings
-                  </span>
+                  </SakuraIcon>
                   <span>设置默认信息与偏好</span>
                 </button>
               </div>
@@ -511,9 +525,9 @@ export default function App() {
                     <div className="flex items-center justify-between pb-2 border-b border-outline-variant/20">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
-                          <span className="material-symbols-outlined text-lg">
+                          <SakuraIcon className="material-symbols-outlined text-lg">
                             local_florist
-                          </span>
+                          </SakuraIcon>
                         </div>
                         <div>
                           <span className="font-headline-sm text-sm font-bold text-on-surface block">
@@ -527,11 +541,12 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => setMobileDrawerOpen(false)}
+                        aria-label="关闭导航菜单"
                         className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant"
                       >
-                        <span className="material-symbols-outlined text-base">
+                        <SakuraIcon className="material-symbols-outlined text-base">
                           close
-                        </span>
+                        </SakuraIcon>
                       </button>
                     </div>
 
@@ -556,9 +571,9 @@ export default function App() {
                                 : "text-on-surface-variant hover:bg-surface-container-low"
                             }`}
                           >
-                            <span className="material-symbols-outlined text-lg">
+                            <SakuraIcon className="material-symbols-outlined text-lg">
                               {item.icon}
-                            </span>
+                            </SakuraIcon>
                             <span>{item.label}</span>
                           </button>
                         );
@@ -603,9 +618,9 @@ export default function App() {
                       title="投屏设备尚未连接"
                       className="w-full py-2 px-3 rounded-lg bg-secondary text-on-secondary font-label-sm text-xs font-semibold flex items-center justify-center gap-1.5"
                     >
-                      <span className="material-symbols-outlined text-base">
+                      <SakuraIcon className="material-symbols-outlined text-base">
                         cast_for_education
-                      </span>
+                      </SakuraIcon>
                       <span>投屏设备未连接</span>
                     </button>
                     <button
@@ -613,9 +628,9 @@ export default function App() {
                       onClick={() => void handleLogout()}
                       className="w-full py-1.5 px-3 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-xs flex items-center justify-center gap-1.5"
                     >
-                      <span className="material-symbols-outlined text-sm">
+                      <SakuraIcon className="material-symbols-outlined text-sm">
                         logout
-                      </span>
+                      </SakuraIcon>
                       <span>返回教师认证门户</span>
                     </button>
                   </div>
@@ -725,9 +740,9 @@ export default function App() {
                         : "text-on-surface-variant"
                     }`}
                   >
-                    <span className="material-symbols-outlined text-lg">
+                    <SakuraIcon className="material-symbols-outlined text-lg">
                       {item.icon}
-                    </span>
+                    </SakuraIcon>
                     <span className="text-[10px] leading-none">
                       {item.shortLabel}
                     </span>
@@ -739,7 +754,7 @@ export default function App() {
                 onClick={() => setMobileDrawerOpen(true)}
                 className="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant"
               >
-                <span className="material-symbols-outlined text-lg">apps</span>
+                <SakuraIcon className="material-symbols-outlined text-lg">apps</SakuraIcon>
                 <span className="text-[10px] leading-none">更多模块</span>
               </button>
             </nav>
@@ -755,9 +770,9 @@ export default function App() {
             <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-outline-variant/25">
               <div className="flex items-center gap-2.5">
                 <span className="w-9 h-9 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-lg">
+                  <SakuraIcon className="material-symbols-outlined text-lg">
                     manage_accounts
-                  </span>
+                  </SakuraIcon>
                 </span>
                 <div>
                   <h3 className="font-headline-sm text-sm sm:text-base text-on-surface font-bold">
@@ -771,11 +786,12 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setSettingsOpen(false)}
+                aria-label="关闭个人设置"
                 className="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-on-surface cursor-pointer shrink-0"
               >
-                <span className="material-symbols-outlined text-base">
+                <SakuraIcon className="material-symbols-outlined text-base">
                   close
-                </span>
+                </SakuraIcon>
               </button>
             </div>
 
@@ -785,9 +801,9 @@ export default function App() {
               <div className="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-on-surface flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-sm text-primary">
+                    <SakuraIcon className="material-symbols-outlined text-sm text-primary">
                       key
-                    </span>
+                    </SakuraIcon>
                     1. 个人显示资料
                   </span>
                   <button
@@ -858,9 +874,9 @@ export default function App() {
               {/* Section 2: Default Teaching Class, Semester & Landing Tab */}
               <div className="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 space-y-2.5">
                 <span className="font-bold text-on-surface flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-sm text-primary">
+                  <SakuraIcon className="material-symbols-outlined text-sm text-primary">
                     dashboard_customize
-                  </span>
+                  </SakuraIcon>
                   2. 默认任教班级与登录后首页模块
                 </span>
 
@@ -927,9 +943,9 @@ export default function App() {
               <div className="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-on-surface flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-sm text-primary">
+                    <SakuraIcon className="material-symbols-outlined text-sm text-primary">
                       palette
-                    </span>
+                    </SakuraIcon>
                     3. 默认 UI 主题与家校免打扰配置
                   </span>
                   <span className="px-1.5 py-0.5 rounded-xs bg-primary-fixed text-on-primary-fixed font-mono text-[10px]">
@@ -1018,9 +1034,9 @@ export default function App() {
                     onClick={() => void handleLogout()}
                     className="py-2 px-3 rounded-lg bg-error-container text-on-error-container font-label-sm text-xs flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-sm">
+                    <SakuraIcon className="material-symbols-outlined text-sm">
                       logout
-                    </span>
+                    </SakuraIcon>
                     <span>直接退出登录</span>
                   </button>
                 )}
@@ -1034,9 +1050,9 @@ export default function App() {
                     onClick={() => handleSaveDefaultProfile(true)}
                     className="py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-xs font-semibold flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-sm">
+                    <SakuraIcon className="material-symbols-outlined text-sm">
                       restart_alt
-                    </span>
+                    </SakuraIcon>
                     <span>保存并退出验证下次登录</span>
                   </button>
                 )}
@@ -1046,9 +1062,9 @@ export default function App() {
                   onClick={() => handleSaveDefaultProfile(false)}
                   className="py-2 px-4 rounded-lg bg-primary hover:bg-secondary text-on-primary font-label-sm text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-sm">
+                  <SakuraIcon className="material-symbols-outlined text-sm">
                     save
-                  </span>
+                  </SakuraIcon>
                   <span>
                     {savingDefaults
                       ? "正在保存..."
@@ -1080,9 +1096,9 @@ export default function App() {
           data-state={STANDARD_PREVIEW ? "entering" : undefined}
           className={`${STANDARD_PREVIEW ? "sakura-motion sakura-motion-fade " : ""}fixed bottom-16 lg:bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 rounded-xl bg-inverse-surface text-inverse-on-surface font-label-md text-xs shadow-2xl flex items-center gap-2 max-w-[92vw]`}
         >
-          <span className="material-symbols-outlined text-primary-container text-base shrink-0">
+          <SakuraIcon className="material-symbols-outlined text-primary-container text-base shrink-0">
             local_florist
-          </span>
+          </SakuraIcon>
           <span className="truncate">{toastMessage}</span>
         </div>
       )}

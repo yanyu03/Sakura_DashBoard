@@ -279,7 +279,7 @@ div.rounded-full:not(.w-1):not(.w-1\.5):not(.w-2):not(.w-2\.5):not(.w-3):not(.w-
 }
 
 .material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
+  font-family: inherit;
   font-weight: normal;
   font-style: normal;
   display: inline-block;

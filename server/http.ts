@@ -65,6 +65,14 @@ export const apiErrorHandler: ErrorRequestHandler = (
   if (sqliteCode.startsWith("SQLITE_CONSTRAINT")) {
     status = /UNIQUE|PRIMARYKEY|FOREIGNKEY/.test(sqliteCode) ? 409 : 422;
     message = status === 409 ? "记录重复或关联关系冲突" : "数据不符合业务约束";
+  } else if (
+    /^SQLITE_(BUSY|LOCKED|IOERR|CANTOPEN|FULL|READONLY|CORRUPT|NOTADB)(_|$)/.test(sqliteCode) ||
+    /database connection is not open/i.test(String(error?.message || ''))
+  ) {
+    status = 503;
+    message = '数据服务暂时不可用，请稍后重试；请勿重复提交尚未确认的操作。';
+    res.setHeader('Retry-After', '3');
+    res.setHeader('Cache-Control', 'no-store');
   } else if (error?.type === "entity.parse.failed") {
     status = 400;
     message = "请求 JSON 格式错误";

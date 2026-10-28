@@ -224,6 +224,7 @@ export function registerAuth(
           db.prepare(
             "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
           ).run(randomUUID(), account, email, hashPassword(password), fullName);
+          res.locals.authProtectionSuccess?.();
         })();
         reply(
           res,
@@ -303,6 +304,7 @@ export function registerAuth(
             Date.now() + seconds * 1000,
             Date.now(),
           );
+          res.locals.authProtectionSuccess?.();
         })();
         res.setHeader("Set-Cookie", sessionCookie(token, seconds));
         reply(

@@ -1,0 +1,17 @@
+{
+  "testedAt": "2026-10-28T11:04:37.067Z",
+  "checks": [
+    "registration login and optional display name persist in actual SQLite",
+    "parallel duplicate registration creates exactly one account",
+    "one captcha cannot create two concurrent sessions",
+    "registration insert failure rolls back account and captcha consumption",
+    "session storage failure never issues a cookie or successful login",
+    "limiter reset failure rolls back session before response",
+    "short external write lock is tolerated within busy timeout",
+    "long write lock returns bounded 503 and recovers without reseeding",
+    "process restart preserves account password session and database integrity",
+    "logout persists across another process restart",
+    "closed database returns structured 503 and explicit reopen restores auth"
+  ],
+  "passed": 11
+}

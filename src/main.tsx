@@ -33,7 +33,7 @@ async function mount() {
     }
   }
   const {default: App} = await import('./App.tsx');
-  root.render(<StartupReady><App /></StartupReady>);
+  root.render(<App />);
 }
 
 void mount().catch((error) => {

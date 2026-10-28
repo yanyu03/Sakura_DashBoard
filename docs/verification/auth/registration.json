@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T08:39:23.301Z",
+  "testedAt": "2026-10-28T10:58:42.025Z",
   "checks": [
     "registration rejects missing and incorrect captcha",
     "registration persists a teacher with hashed password and neutral defaults",

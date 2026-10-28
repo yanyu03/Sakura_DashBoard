@@ -1,3 +1,4 @@
+import {SakuraIcon} from './SakuraIcon';
 import { useEffect, useRef, useState } from "react";
 import { sakuraApi } from "../services/sakuraApiService";
 import { WorkspaceTab } from "../types/sakura";
@@ -77,7 +78,7 @@ export default function WorkspaceTools({
         aria-label="全局搜索"
         onClick={() => open("search")}
       >
-        <span className="material-symbols-outlined text-base">search</span>
+        <SakuraIcon className="material-symbols-outlined text-base">search</SakuraIcon>
       </button>
       <button
         className="w-8 h-8 rounded bg-surface-container-lowest border border-outline-variant/30"
@@ -85,9 +86,9 @@ export default function WorkspaceTools({
         aria-label="站内通知"
         onClick={() => open("notifications")}
       >
-        <span className="material-symbols-outlined text-base">
+        <SakuraIcon className="material-symbols-outlined text-base">
           notifications
-        </span>
+        </SakuraIcon>
       </button>
       {mode ? (
         <div className="fixed inset-0 z-[210] bg-black/30 flex items-start sm:items-center justify-center p-4">

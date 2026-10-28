@@ -1,3 +1,4 @@
+import {SakuraIcon} from '../SakuraIcon';
 import { WorkspaceHero } from "../WorkspaceVisuals";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { sakuraApi } from "../../services/sakuraApiService";
@@ -202,7 +203,7 @@ export function LessonPlansView({
               className="sakura-workspace-card sakura-lesson-card bg-surface-container-lowest border border-outline-variant rounded-xl p-4 space-y-3"
             >
               <div className="sakura-lesson-cover" aria-hidden="true">
-                <span className="material-symbols-outlined">auto_stories</span>
+                <SakuraIcon className="material-symbols-outlined">auto_stories</SakuraIcon>
                 <span>{row.unit_code || "我的教学笔记"}</span>
                 <i>LESSON NOTES</i>
               </div>

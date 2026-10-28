@@ -1,3 +1,4 @@
+import {SakuraIcon} from '../SakuraIcon';
 import { useEffect, useState } from "react";
 import { sakuraApi } from "../../services/sakuraApiService";
 import { WorkspaceTab } from "../../types/sakura";
@@ -68,12 +69,12 @@ export function DashboardOverviewView({
           className="sakura-btn sakura-btn-primary"
           onClick={() => onNavigateTab("homework-center")}
         >
-          <span
+          <SakuraIcon
             className="material-symbols-outlined text-base"
             aria-hidden="true"
           >
             edit_note
-          </span>
+          </SakuraIcon>
           开始今日批阅
         </button>
         <button
@@ -81,21 +82,21 @@ export function DashboardOverviewView({
           className="sakura-btn sakura-btn-secondary"
           onClick={() => void load()}
         >
-          <span
+          <SakuraIcon
             className="material-symbols-outlined text-base"
             aria-hidden="true"
           >
             refresh
-          </span>
+          </SakuraIcon>
           刷新数据
         </button>
         <span className="sakura-meta-badge">
-          <span
+          <SakuraIcon
             className="material-symbols-outlined text-sm"
             aria-hidden="true"
           >
             calendar_today
-          </span>
+          </SakuraIcon>
           {data?.today || "今日"} · 北京时间
         </span>
       </WorkspaceHero>
@@ -116,22 +117,22 @@ export function DashboardOverviewView({
               >
                 <span className="sakura-stat-top">
                   <span className="sakura-stat-label">{metric.label}</span>
-                  <span
+                  <SakuraIcon
                     className="sakura-stat-icon material-symbols-outlined"
                     aria-hidden="true"
                   >
                     {metric.icon}
-                  </span>
+                  </SakuraIcon>
                 </span>
                 <strong className="sakura-stat-number">{metric.value}</strong>
                 <span className="sakura-stat-footer">
                   <span>{metric.note}</span>
-                  <span
+                  <SakuraIcon
                     className="material-symbols-outlined text-sm"
                     aria-hidden="true"
                   >
                     arrow_forward
-                  </span>
+                  </SakuraIcon>
                 </span>
               </button>
             ))}
@@ -164,12 +165,12 @@ export function DashboardOverviewView({
                   className="sakura-quick-action"
                   onClick={() => onNavigateTab(tab as WorkspaceTab)}
                 >
-                  <span
+                  <SakuraIcon
                     className="material-symbols-outlined sakura-section-icon"
                     aria-hidden="true"
                   >
                     {icon}
-                  </span>
+                  </SakuraIcon>
                   <span>
                     <strong>{title}</strong>
                     <small>{subtitle}</small>
@@ -224,12 +225,12 @@ export function DashboardOverviewView({
                     onClick={() => onNavigateTab("schedule-management")}
                   >
                     查看课程安排{" "}
-                    <span
+                    <SakuraIcon
                       className="material-symbols-outlined text-sm"
                       aria-hidden="true"
                     >
                       arrow_forward
-                    </span>
+                    </SakuraIcon>
                   </button>
                 </EmptyState>
               )}
@@ -278,12 +279,12 @@ export function DashboardOverviewView({
                     onClick={() => onNavigateTab("school-home-communication")}
                   >
                     添加关怀记录{" "}
-                    <span
+                    <SakuraIcon
                       className="material-symbols-outlined text-sm"
                       aria-hidden="true"
                     >
                       arrow_forward
-                    </span>
+                    </SakuraIcon>
                   </button>
                 </EmptyState>
               )}
@@ -308,12 +309,12 @@ export function DashboardOverviewView({
                   onClick={() => onNavigateTab("homework-center")}
                 >
                   全部作业{" "}
-                  <span
+                  <SakuraIcon
                     className="material-symbols-outlined text-sm"
                     aria-hidden="true"
                   >
                     arrow_forward
-                  </span>
+                  </SakuraIcon>
                 </button>
               }
             />
@@ -344,12 +345,12 @@ export function DashboardOverviewView({
             )}
           </section>
           <p className="sakura-feature-note">
-            <span
+            <SakuraIcon
               className="material-symbols-outlined text-lg"
               aria-hidden="true"
             >
               info
-            </span>
+            </SakuraIcon>
             当前可使用人工教学流程及本地导出。AI、OCR、外部家长投递和投屏设备尚未连接。
           </p>
         </>

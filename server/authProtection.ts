@@ -128,8 +128,8 @@ export function withAuthProtection(
     try {
       const remaining = limiter.remaining([account, source]);
       if (remaining) throw cooldown(remaining);
+      res.locals.authProtectionSuccess = () => limiter.reset(account);
       handler(req, res, next);
-      if (res.headersSent && res.statusCode < 400) limiter.reset(account);
     } catch (error) {
       if (
         error instanceof HttpError &&

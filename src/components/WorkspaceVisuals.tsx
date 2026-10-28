@@ -1,3 +1,4 @@
+import {SakuraIcon} from './SakuraIcon';
 import type { ReactNode } from "react";
 
 export function WorkspaceHero({
@@ -21,12 +22,12 @@ export function WorkspaceHero({
           <span>{eyebrow}</span>
         </div>
         <div className="sakura-hero-title">
-          <span
+          <SakuraIcon
             className="sakura-hero-icon material-symbols-outlined"
             aria-hidden="true"
           >
             {icon}
-          </span>
+          </SakuraIcon>
           <h2>{title}</h2>
         </div>
         <p>{description}</p>
@@ -106,12 +107,12 @@ export function SectionTitle({
   return (
     <div className="sakura-section-heading">
       <div className="sakura-section-heading-copy">
-        <span
+        <SakuraIcon
           className="material-symbols-outlined sakura-section-icon"
           aria-hidden="true"
         >
           {icon}
-        </span>
+        </SakuraIcon>
         <div>
           <h3>{title}</h3>
           {subtitle ? <p>{subtitle}</p> : null}
@@ -135,12 +136,12 @@ export function EmptyState({
 }) {
   return (
     <div className="sakura-empty-state">
-      <span
+      <SakuraIcon
         className="sakura-empty-icon material-symbols-outlined"
         aria-hidden="true"
       >
         {icon}
-      </span>
+      </SakuraIcon>
       <strong>{title}</strong>
       <p>{description}</p>
       {children}
