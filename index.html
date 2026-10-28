@@ -9,12 +9,59 @@
     <meta property="og:description" content="以温柔与智慧，陪伴每一刻花开。Gentle Pedagogy, Flourishing Minds." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f3f7f2" />
+    <style>
+      html,body{margin:0;min-height:100%;background:#f3f7f2}
+      #sakura-startup{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:24px;box-sizing:border-box;background:radial-gradient(ellipse at 12% 10%,#dcebdd,transparent 65%),#f3f7f2;color:#263e32;font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif}
+      #sakura-startup[hidden]{display:none}
+      .startup-card{box-sizing:border-box;width:min(100%,400px);padding:32px;border:1px solid #d7e4d8;border-radius:16px;background:#ffffffed;box-shadow:0 12px 40px #24452d0a;text-align:center}
+      .startup-mark{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:16px;background:#e4efe2;color:#416c50;font-size:28px}
+      .startup-card h1{margin:16px 0 8px;font-size:23px}.startup-card p{margin:0;color:#526759;font-size:14px}
+      .startup-progress{height:4px;margin-top:24px;border-radius:12px;background:#e7eee4;overflow:hidden}.startup-progress:after{content:"";display:block;width:40%;height:100%;border-radius:inherit;background:#6b9672;animation:startup-progress 1.6s ease-in-out infinite alternate}
+      #sakura-startup[data-failed] .startup-progress{display:none}
+      #startup-retry{display:inline-block;margin-top:20px;padding:9px 22px;border-radius:12px;background:#416c50;color:#fff;text-decoration:none;font-size:14px}#startup-retry[hidden]{display:none}#startup-retry:focus-visible{outline:3px solid #99bc9c;outline-offset:4px}
+      @keyframes startup-progress{to{transform:translateX(150%)}}
+      @media(prefers-reduced-motion:reduce){.startup-progress:after{animation:none;width:100%}}
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   </head>
   <body class="bg-background font-body-md text-on-surface w-screen h-screen overflow-hidden select-none">
     <div id="root" class="w-full h-full"></div>
+    <div id="sakura-startup" role="status" aria-live="polite">
+      <div class="startup-card">
+        <span class="startup-mark" aria-hidden="true">✿</span>
+        <h1 id="startup-title">樱花教务云</h1>
+        <p id="startup-message">正在准备你的教学空间…</p>
+        <div class="startup-progress" aria-hidden="true"></div>
+        <a id="startup-retry" href="" hidden>重新加载</a>
+        <noscript><p>请启用 JavaScript 后重新加载页面。</p></noscript>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const screen = document.getElementById('sakura-startup');
+        let complete = false;
+        function fail() {
+          screen.hidden = false;
+          screen.dataset.failed = '';
+          document.getElementById('startup-title').textContent = '页面暂时未能加载';
+          document.getElementById('startup-message').textContent = '请检查网络连接，然后重新加载页面。';
+          document.getElementById('startup-retry').hidden = false;
+        }
+        const timer = setTimeout(() => { if (!complete) fail(); }, 20000);
+        window.__sakuraBoot = {
+          finish() { complete = true; clearTimeout(timer); screen.hidden = true; },
+          fail() { clearTimeout(timer); fail(); }
+        };
+        window.addEventListener('error', (event) => {
+          const isEntry = event.target instanceof HTMLScriptElement && event.target.type === 'module';
+          if (!complete && (isEntry || event instanceof ErrorEvent)) window.__sakuraBoot.fail();
+        }, true);
+        window.addEventListener('unhandledrejection', () => { if (!complete) window.__sakuraBoot.fail(); });
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
