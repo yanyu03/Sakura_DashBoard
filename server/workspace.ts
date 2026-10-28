@@ -2,6 +2,7 @@ import type { Express, Response } from "express";
 import type {DatabaseConnection} from "./dbContract";
 import { classAccess, reply } from "./business";
 import { HttpError, text } from "./http";
+import { scheduleAccess } from './scheduleAccess';
 export function registerWorkspace(app: Express, db: DatabaseConnection) {
   const visible = (res: Response, classId: string) => {
     try {
@@ -38,11 +39,14 @@ export function registerWorkspace(app: Express, db: DatabaseConnection) {
         `SELECT a.id,a.title,a.due_at,a.class_id,COUNT(CASE WHEN s.status IN ('pending','ai-pregraded') THEN 1 END) AS pending FROM homework_assignments a LEFT JOIN homework_submissions s ON s.assignment_id=a.id WHERE a.lifecycle IN ('published','closed') AND a.class_id IN ${inClasses} GROUP BY a.id ORDER BY a.due_at IS NULL,a.due_at,a.id`,
       )
       .all(...ids) as Record<string, any>[];
-    const schedules = db
+    const scheduleScope=scheduleAccess(db,res.locals.user.id);
+    const schedules = (db
       .prepare(
-        `SELECT e.*,c.class_name,k.name AS course_name,u.full_name FROM schedule_entries e JOIN academic_classes c ON c.id=e.class_id JOIN courses k ON k.id=e.course_id JOIN faculty_users u ON u.id=e.teacher_id WHERE cancelled_at IS NULL AND starts_at>=? AND starts_at<? AND e.class_id IN ${inClasses} ORDER BY starts_at,e.id`,
+        `SELECT e.*,g.unit_id,c.class_name,k.name AS course_name,u.full_name FROM schedule_entries e LEFT JOIN schedule_entry_scopes g ON g.entry_id=e.id JOIN academic_classes c ON c.id=e.class_id JOIN courses k ON k.id=e.course_id JOIN faculty_users u ON u.id=e.teacher_id WHERE cancelled_at IS NULL AND starts_at>=? AND starts_at<? ORDER BY starts_at,e.id`,
       )
-      .all(dayStart, dayEnd, ...ids);
+      .all(dayStart, dayEnd) as Record<string,any>[])
+      .filter(e=>e.teacher_id===res.locals.user.id||scheduleScope.visible(e.unit_id))
+      .map(e=>({...e,lesson_id:e.teacher_id===res.locals.user.id?e.lesson_id:null}));
     const todos = db
       .prepare(
         `SELECT t.*,s.full_name FROM care_todos t JOIN student_profiles s ON s.id=t.student_id WHERE t.owner_id=? AND t.status='open' AND s.class_id IN ${inClasses} ORDER BY due_at,id`,

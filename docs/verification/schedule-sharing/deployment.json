@@ -1,0 +1,8 @@
+{
+  "deployedAt": "2026-10-28",
+  "worker": "sakura-dashboard",
+  "versionId": "bc1b29aa-c5de-46ca-bec8-38669e53b188",
+  "domain": "https://sakura.250221.xyz",
+  "schemaVersion": 14,
+  "migration": "additive; existing entries remain private unless explicitly shared"
+}

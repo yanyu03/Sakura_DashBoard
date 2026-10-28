@@ -32,6 +32,8 @@ export const verificationFetch: typeof globalThis.fetch = async (
       "--show-error",
       "--include",
       "--suppress-connect-headers",
+      "--connect-timeout",
+      "8",
       "--max-time",
       "25",
       "--config",
@@ -42,8 +44,12 @@ export const verificationFetch: typeof globalThis.fetch = async (
   let raw='';
   for(let attempt=0;attempt<4;attempt++){
     try{raw=request();break;}catch(error){
-      // Retry only pre-request connection/TLS failures; never retry HTTP 429 or other responses.
-      if(attempt===3||![7,35].includes(Number((error as {status?:number}).status)))throw error;
+      // Connection phase ends before transfer (DNS/TCP/TLS); see https://curl.se/docs/manpage.html#--connect-timeout.
+      // Never replay an operation timeout or an HTTP response, including HTTP 429.
+      const failure=error as {status?:number;stdout?:unknown;stderr?:unknown};
+      const code=Number(failure.status);
+      const connectTimeout=code===28&&!String(failure.stdout??'')&&/Connection timed out|SSL connection timeout/i.test(String(failure.stderr??''));
+      if(attempt===3||(![7,35].includes(code)&&!connectTimeout))throw error;
     }
   }
   const split = raw.indexOf("\r\n\r\n");

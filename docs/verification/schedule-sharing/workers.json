@@ -1,0 +1,11 @@
+{
+  "testedAt": "2026-10-28T11:43:03.015Z",
+  "base": "http://127.0.0.1:3003",
+  "passed": 4,
+  "checks": [
+    "Workers additive migration supports department setup without raw SQL",
+    "Workers private draft stays invisible until explicitly submitted",
+    "Workers transactionSync publishes one entry and rejects stale approval",
+    "Workers sharing revocation hides formal and submitted records together"
+  ]
+}

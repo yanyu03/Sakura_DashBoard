@@ -22,7 +22,9 @@
     "test:auth": "tsx scripts/verify-auth-registration.ts",
     "test:hierarchy": "tsx scripts/verify-identity-hierarchy.ts",
     "test:protection": "tsx scripts/verify-auth-protection.ts",
-    "test:reliability": "tsx scripts/verify-auth-reliability.ts"
+    "test:reliability": "tsx scripts/verify-auth-reliability.ts",
+    "test:schedule-sharing": "tsx scripts/verify-schedule-sharing.ts",
+    "test:schedule-workers": "tsx scripts/verify-schedule-sharing-workers.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

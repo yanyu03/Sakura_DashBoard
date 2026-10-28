@@ -12,6 +12,7 @@ export function notifyChange(
   const row =
     result && typeof result === "object" ? (result as Record<string, any>) : {};
   const recipients = new Set([res.locals.user.id]);
+  if (req.path.includes('/schedules/submissions/') && typeof row.owner_id==='string') recipients.add(row.owner_id);
   if (
     req.path.startsWith("/api/v1/schedules/changes/") ||
     req.path.startsWith("/schedules/changes/")

@@ -1,0 +1,23 @@
+{
+  "testedAt": "2026-10-28T11:39:01.454Z",
+  "passed": 17,
+  "checks": [
+    "migration is idempotent and retains all legacy schedule rows",
+    "only administrators configure departments and immutable account membership",
+    "cross-school and expired appointments do not confer schedule access",
+    "private drafts stay invisible to peers directors school supervisors and administrators",
+    "submission rejects foreign department arbitrary class and expired identity",
+    "submitted schedules are shared only with same unit and responsible ancestors",
+    "withdraw stops peer access and stale versions cannot publish",
+    "parallel approvals create exactly one formal entry with atomic scope and audit",
+    "directors cannot approve their own submissions",
+    "approval rechecks conflicts introduced after submission",
+    "rejected submissions are private to owner and responsible reviewers",
+    "sharing revocation closes entries submission history and ICS access",
+    "removing appointment immediately revokes existing session visibility and writes",
+    "workspace overview and ICS cannot bypass private schedule boundaries",
+    "Chinese local date ranges include early morning lessons without UTC day leakage",
+    "sharing a formal lesson to another appointed unit preserves original approval ownership",
+    "foreign keys and database integrity remain valid"
+  ]
+}

@@ -1,12 +1,13 @@
 {
-  "testedAt": "2026-10-28T11:07:28.385Z",
+  "testedAt": "2026-10-28T11:44:52.698Z",
   "base": "https://sakura.250221.xyz",
   "checks": [
     "login and registration pages load",
     "five invalid authentication attempts start 30 second cooldown",
     "existing administrator login survives migration",
     "SQL status query backup and reset are denied even to administrator",
+    "department scheduling endpoints load after additive migration",
     "logout revokes session"
   ],
-  "passed": 5
+  "passed": 6
 }

@@ -1,23 +1,30 @@
 import type { Express, Response } from "express";
-import type {DatabaseConnection} from "./dbContract";
+import type { DatabaseConnection } from "./dbContract";
 import { randomUUID } from "node:crypto";
 import { HttpError, text } from "./http";
-import { classAccess, exactDate, mutate, reply, version } from "./business";
+import { exactDate, mutate, reply, version } from "./business";
+import { scheduleAccess, requestScheduleAccess } from "./scheduleAccess";
+import { registerScheduleDepartments } from "./scheduleDepartments";
+import { registerScheduleSubmissions } from "./scheduleSubmissions";
 export function registerSchedules(app: Express, db: DatabaseConnection) {
-  const admin = (res: Response) => {
-    if (res.locals.user.role !== "admin")
-      throw new HttpError(403, "需要管理员审批权限");
+  const admin = (res: Response, unitId?: string) => {
+    requestScheduleAccess(db, res).requireManager(unitId);
     const ids = process.env.SAKURA_SWAP_APPROVER_IDS?.split(",");
     if (ids && !ids.includes(res.locals.user.id))
       throw new HttpError(403, "未配置为调课审批人");
   };
   const read = (id: unknown, res: Response) => {
     const row = db
-      .prepare("SELECT * FROM schedule_entries WHERE id=?")
+      .prepare(
+        "SELECT e.*,s.unit_id FROM schedule_entries e LEFT JOIN schedule_entry_scopes s ON s.entry_id=e.id WHERE e.id=?",
+      )
       .get(id) as Record<string, any> | undefined;
     if (!row) throw new HttpError(404, "课时不存在");
-    if (row.teacher_id !== res.locals.user.id)
-      classAccess(db, res, row.class_id);
+    if (
+      row.teacher_id !== res.locals.user.id &&
+      !requestScheduleAccess(db, res).visible(row.unit_id)
+    )
+      throw new HttpError(404, "课时不存在或未共享");
     return row;
   };
   const validate = (data: Record<string, any>): Record<string, any> => {
@@ -69,9 +76,10 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
   };
   const visible = (res: Response, row: Record<string, any>) => {
     try {
-      if (row.teacher_id !== res.locals.user.id)
-        classAccess(db, res, row.class_id);
-      return true;
+      return (
+        row.teacher_id === res.locals.user.id ||
+        requestScheduleAccess(db, res).visible(row.unit_id)
+      );
     } catch {
       return false;
     }
@@ -80,15 +88,30 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
     (
       db
         .prepare(
-          "SELECT e.*,c.class_name,u.full_name,k.name AS course_name FROM schedule_entries e JOIN academic_classes c ON c.id=e.class_id JOIN faculty_users u ON u.id=e.teacher_id JOIN courses k ON k.id=e.course_id WHERE e.cancelled_at IS NULL AND e.starts_at>=? AND e.starts_at<? ORDER BY e.starts_at,e.id",
+          "SELECT e.*,s.unit_id,o.name unit_name,c.class_name,u.full_name,k.name AS course_name FROM schedule_entries e LEFT JOIN schedule_entry_scopes s ON s.entry_id=e.id LEFT JOIN organization_units o ON o.id=s.unit_id JOIN academic_classes c ON c.id=e.class_id JOIN faculty_users u ON u.id=e.teacher_id JOIN courses k ON k.id=e.course_id WHERE e.cancelled_at IS NULL AND e.starts_at>=? AND e.starts_at<? ORDER BY e.starts_at,e.id",
         )
         .all(from, to) as Record<string, any>[]
-    ).filter((row) => visible(res, row));
+    )
+      .filter((row) => visible(res, row))
+      .map<Record<string, any>>((row) => ({
+        ...row,
+        lesson_id: row.teacher_id === res.locals.user.id ? row.lesson_id : null,
+        canRequestChange: row.teacher_id === res.locals.user.id,
+        canCancel:
+          row.teacher_id !== res.locals.user.id &&
+          requestScheduleAccess(db, res).manages(row.unit_id),
+        canShare: row.teacher_id === res.locals.user.id,
+      }));
   const range = (query: Record<string, unknown>) => {
-    const from = String(query.from || new Date().toISOString().slice(0, 10)),
+    const from = String(
+        query.from ||
+          new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10),
+      ),
       to = String(
         query.to ||
-          new Date(Date.now() + 31 * 86400000).toISOString().slice(0, 10),
+          new Date(Date.now() + 31 * 86400000 + 8 * 3600000)
+            .toISOString()
+            .slice(0, 10),
       );
     if (
       !exactDate(from) ||
@@ -97,15 +120,40 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
       Date.parse(to) - Date.parse(from) > 367 * 86400000
     )
       throw new HttpError(422, "日期范围无效，最多一年，结束日期不含当天");
-    return [new Date(from).toISOString(), new Date(to).toISOString()];
+    return [
+      new Date(`${from}T00:00:00+08:00`).toISOString(),
+      new Date(`${to}T00:00:00+08:00`).toISOString(),
+    ];
   };
-  app.get("/api/v1/schedules/options", (_req, res) =>
-    reply(res, {
-      teachers: db
+  registerScheduleDepartments(app, db);
+  registerScheduleSubmissions(app, db, { validate, noConflict, range });
+  app.get("/api/v1/schedules/options", (_req, res) => {
+    const scope = requestScheduleAccess(db, res);
+    const teachers = (
+      db
         .prepare(
           "SELECT id,full_name FROM faculty_users WHERE status='ACTIVE' ORDER BY full_name",
         )
-        .all(),
+        .all() as Record<string, any>[]
+    ).filter(
+      (u) =>
+        u.id === res.locals.user.id ||
+        scope.departments.some((d) => scheduleAccess(db, u.id).member(d.id)),
+    );
+    const teacherIds = teachers.map((t) => t.id);
+    const classes = (
+      db
+        .prepare(
+          "SELECT c.id,c.class_name,t.teacher_id,t.course_id,a.name term_name,a.starts_on,a.ends_on FROM academic_classes c JOIN teaching_assignments t ON t.class_id=c.id JOIN academic_terms a ON a.id=t.term_id WHERE c.archived_at IS NULL AND t.archived_at IS NULL AND a.archived_at IS NULL",
+        )
+        .all() as Record<string, any>[]
+    ).filter((c) => teacherIds.includes(c.teacher_id));
+    reply(res, {
+      teachers,
+      classes,
+      departments: scope.departments,
+      userId: res.locals.user.id,
+      assignments: classes.filter((c) => c.teacher_id === res.locals.user.id),
       courses: db
         .prepare(
           "SELECT id,name FROM courses WHERE archived_at IS NULL ORDER BY name",
@@ -114,11 +162,11 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
       canAdmin: res.locals.user.role === "admin",
       lessons: db
         .prepare(
-          "SELECT id,title FROM lesson_plans WHERE archived_at IS NULL AND (?='admin' OR visibility='school' OR owner_id=?) ORDER BY title,id",
+          "SELECT id,title FROM lesson_plans WHERE archived_at IS NULL AND (visibility='school' OR owner_id=?) ORDER BY title,id",
         )
-        .all(res.locals.user.role, res.locals.user.id),
-    }),
-  );
+        .all(res.locals.user.id),
+    });
+  });
   app.get("/api/v1/schedules/entries", (req, res) => {
     const [from, to] = range(req.query);
     reply(res, rows(res, from, to));
@@ -129,35 +177,43 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
       res,
       db,
       () => {
-        admin(res);
-        const data = validate(req.body);
-        classAccess(db, res, data.class_id);
-        noConflict(data);
-        const lessonId = req.body.lesson_id || null;
-        if (lessonId) {
-          const lesson = db
-            .prepare(
-              "SELECT id FROM lesson_plans WHERE id=? AND archived_at IS NULL AND (?='admin' OR owner_id=? OR visibility='school')",
-            )
-            .get(lessonId, res.locals.user.role, res.locals.user.id);
-          if (!lesson) throw new HttpError(422, "关联教案不存在或不可见");
-        }
-        const id = randomUUID();
-        db.prepare(
-          "INSERT INTO schedule_entries(id,class_id,teacher_id,course_id,starts_at,ends_at,room,lesson_id) VALUES (?,?,?,?,?,?,?,?)",
-        ).run(
-          id,
-          data.class_id,
-          data.teacher_id,
-          data.course_id,
-          data.starts_at,
-          data.ends_at,
-          data.room,
-          lessonId,
+        throw new HttpError(
+          409,
+          "请使用课表提交，由教研室负责人审批后生成正式课时",
         );
-        return read(id, res);
       },
       "课时已建立",
+    ),
+  );
+  app.patch("/api/v1/schedules/entries/:id/sharing", (req, res) =>
+    mutate(
+      req,
+      res,
+      db,
+      () => {
+        const row = read(req.params.id, res);
+        version(req.body, row);
+        if (row.teacher_id !== res.locals.user.id)
+          throw new HttpError(403, "仅任课教师可变更课时的共享范围");
+        if (row.cancelled_at) throw new HttpError(409, "课时已取消");
+        const unit = req.body.unit_id || null;
+        if (unit) requestScheduleAccess(db, res).requireMember(unit);
+        db.prepare("DELETE FROM schedule_entry_scopes WHERE entry_id=?").run(
+          row.id,
+        );
+        if (unit)
+          db.prepare(
+            "INSERT INTO schedule_entry_scopes(entry_id,unit_id,shared_by) VALUES (?,?,?)",
+          ).run(row.id, unit, res.locals.user.id);
+        db.prepare(
+          "UPDATE schedule_entries SET version=version+1 WHERE id=?",
+        ).run(row.id);
+        db.prepare(
+          "UPDATE schedule_submissions SET shared=CASE WHEN unit_id=? THEN 1 ELSE 0 END,version=version+1,updated_at=? WHERE entry_id=?",
+        ).run(unit, new Date().toISOString(), row.id);
+        return { id: row.id };
+      },
+      "课时共享范围已更新",
     ),
   );
   app.patch("/api/v1/schedules/entries/:id", (req, res) =>
@@ -166,8 +222,10 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
       res,
       db,
       () => {
-        admin(res);
         const row = read(req.params.id, res);
+        admin(res, row.unit_id);
+        if (row.teacher_id === res.locals.user.id)
+          throw new HttpError(403, "自己的课时请提交调代课申请");
         version(req.body, row);
         if (req.body.cancelled !== true)
           throw new HttpError(422, "只支持取消课时，改期请发起审批");
@@ -182,14 +240,25 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
   app.get("/api/v1/schedules/changes", (_req, res) => {
     const changes = db
       .prepare(
-        "SELECT s.*,e.class_id,e.starts_at,u.full_name AS applicant_name FROM schedule_changes s JOIN schedule_entries e ON e.id=s.entry_id JOIN faculty_users u ON u.id=s.applicant_id ORDER BY s.created_at DESC,s.id",
+        "SELECT s.*,e.class_id,e.teacher_id,e.starts_at,g.unit_id,u.full_name AS applicant_name FROM schedule_changes s JOIN schedule_entries e ON e.id=s.entry_id LEFT JOIN schedule_entry_scopes g ON g.entry_id=e.id JOIN faculty_users u ON u.id=s.applicant_id ORDER BY s.created_at DESC,s.id",
       )
       .all() as Record<string, any>[];
     reply(
       res,
       changes
-        .filter((r) => r.applicant_id === res.locals.user.id || visible(res, r))
-        .map((r) => ({ ...r, target: JSON.parse(r.target_json) })),
+        .filter(
+          (r) =>
+            r.applicant_id === res.locals.user.id ||
+            requestScheduleAccess(db, res).manages(r.unit_id),
+        )
+        .map((r) => ({
+          ...r,
+          target: JSON.parse(r.target_json),
+          canReview:
+            r.applicant_id !== res.locals.user.id &&
+            requestScheduleAccess(db, res).manages(r.unit_id),
+          canWithdraw: r.applicant_id === res.locals.user.id,
+        })),
     );
   });
   app.post("/api/v1/schedules/changes", (req, res) =>
@@ -201,10 +270,7 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
         const row = read(req.body.entry_id, res);
         version(req.body, row);
         if (row.cancelled_at) throw new HttpError(409, "课时已取消");
-        if (
-          res.locals.user.role !== "admin" &&
-          row.teacher_id !== res.locals.user.id
-        )
+        if (row.teacher_id !== res.locals.user.id)
           throw new HttpError(403, "只能为自己的课时申请调代课");
         if (
           db
@@ -220,6 +286,12 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
           class_id: row.class_id,
           course_id: row.course_id,
         });
+        if (
+          target.teacher_id !== row.teacher_id &&
+          (!row.unit_id ||
+            !scheduleAccess(db, target.teacher_id).member(row.unit_id))
+        )
+          throw new HttpError(403, "代课教师必须属于共享教研室");
         noConflict(target, row.id);
         const id = randomUUID();
         db.prepare(
@@ -260,13 +332,10 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
         if (!["approved", "rejected", "cancelled"].includes(status))
           throw new HttpError(422, "审批状态无效");
         if (status === "cancelled") {
-          if (
-            change.applicant_id !== res.locals.user.id &&
-            res.locals.user.role !== "admin"
-          )
+          if (change.applicant_id !== res.locals.user.id)
             throw new HttpError(403, "只能取消自己的申请");
         } else {
-          admin(res);
+          admin(res, source.unit_id);
           if (change.applicant_id === res.locals.user.id)
             throw new HttpError(403, "申请人不能审批自己的申请");
         }
@@ -277,6 +346,12 @@ export function registerSchedules(app: Express, db: DatabaseConnection) {
             ...source,
             ...JSON.parse(change.target_json),
           });
+          if (
+            target.teacher_id !== source.teacher_id &&
+            (!source.unit_id ||
+              !scheduleAccess(db, target.teacher_id).member(source.unit_id))
+          )
+            throw new HttpError(403, "代课教师任职已失效");
           noConflict(target, source.id);
           db.prepare(
             "UPDATE schedule_entries SET teacher_id=?,starts_at=?,ends_at=?,room=?,version=version+1 WHERE id=?",
