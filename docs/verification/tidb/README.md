@@ -37,6 +37,14 @@
 
 ## 运维脚本
 
+### Worker 到 TiDB 的直接探测
+
+`GET https://sakura.250221.xyz/api/v1/health/tidb` 直接由现有 Worker 处理，不启动 Express。每次执行固定的参数化只读查询 `SELECT 1 AS ok, ? AS probe`，通过本次请求的随机 traceId 核对真实往返结果。返回 `connected`、引擎、HTTPS 传输类型和 `queryMs`；不返回数据库地址、账号、表数据或底层错误。`queryMs` 是 Worker 到 TiDB 的请求耗时，不等于纯 SQL 执行时间。
+
+该最小健康接口允许匿名 GET，禁止缓存；POST 等方法返回 405，任何查询参数返回 400，均不访问数据库。`HEALTH_LIMITER` 单独配置每来源 IP 每 60 秒 6 次，Cloudflare 限额按数据中心计数并近似执行，不是全局精确计数。故障返回 503 和 `Retry-After: 3`，触发限速返回 429。
+
+执行 `tsx scripts/verify-tidb-worker-health.ts` 可获取 3 次真实线上连接样本，并检查写方法与 SQL 参数被拒绝。结果见 `worker-health.json`。验证命令只读，不创建或修改业务数据。
+
 `export-cloudflare-sqlite.ts` 由已登录的 Wrangler 读取线上快照；`prepare-tidb.ts --schema-only` 预建结构，省略参数后导入并逐表验证。导入拒绝覆盖已有账号的目标库；目标库由 `TIDB_DATABASE` 明确指定，禁止系统库。`provision-tidb-runtime.ts` 创建受限账户，私有凭据保存在 `.local-data/`。不要在生产入口运行 `verify-tidb.ts` 的合成业务测试。
 
 `test:organization-workers`、`test:schedule-workers` 等旧 Workers SQLite 验证脚本保留作历史参考，不能用于本轮归档后的生产 Worker；当前 SQLite 回归使用原生测试适配器，TiDB 场景使用独立预览数据库。旧 `test:sqlite` 首轮综合脚本仍有旧表数量及 SQL 管理接口断言，尚未适配当前封禁策略，本轮不计入验收。

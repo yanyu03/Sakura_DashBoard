@@ -1,0 +1,27 @@
+{
+  "testedAt": "2026-10-29T05:19:23.845Z",
+  "endpoint": "https://sakura.250221.xyz/api/v1/health/tidb",
+  "samples": [
+    {
+      "status": 200,
+      "queryMs": 464,
+      "roundTripMs": 1468
+    },
+    {
+      "status": 200,
+      "queryMs": 62,
+      "roundTripMs": 1086
+    },
+    {
+      "status": 200,
+      "queryMs": 240,
+      "roundTripMs": 1215
+    }
+  ],
+  "meanQueryMs": 255.3,
+  "checks": [
+    "three actual Worker to TiDB round trips succeed without exposing connection/user data",
+    "mutating methods are rejected before database access",
+    "arbitrary SQL query parameters are rejected before database access"
+  ]
+}

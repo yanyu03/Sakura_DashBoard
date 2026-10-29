@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-29T05:19:49.924Z",
+  "worker": "sakura-dashboard",
+  "versionId": "48871e6b-25d3-4c6b-963b-228e02b580a5",
+  "endpoint": "https://sakura.250221.xyz/api/v1/health/tidb",
+  "fixedReadOnlyProbe": true,
+  "healthRateLimit": {
+    "limit": 6,
+    "periodSeconds": 60,
+    "scope": "source IP per Cloudflare location"
+  },
+  "wafChanged": false
+}

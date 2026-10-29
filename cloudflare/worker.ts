@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { DurableObject } from "cloudflare:workers";
 import { tidbRequest } from "./tidb";
+import { tidbHealth } from "./tidb-health";
 /** Keep the existing SQLite storage as an archive; it no longer serves business requests. */
 export class SakuraSchool extends DurableObject<Env> {
   async fetch(_request: Request) {
@@ -11,6 +12,7 @@ export class SakuraSchool extends DurableObject<Env> {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/health/tidb") return tidbHealth(request, env);
     if (url.pathname.startsWith("/api/")) {
       if (
         env.DATABASE_MODE === "tidb" &&
