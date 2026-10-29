@@ -12,11 +12,13 @@ import { registerCare } from "./care";
 import { registerWorkspace } from "./workspace";
 import { registerLegacyViews } from "./legacyViews";
 import { apiErrorHandler, HttpError } from "./http";
+import type { PasswordPolicy } from "./passwords";
 export function createApplication(
   db: DatabaseSource,
   captcha: CaptchaProvider,
   trustCloudflare = false,
   diagnostics = false,
+  passwordPolicy?: PasswordPolicy,
 ) {
   const app = express();
   app.disable("x-powered-by");
@@ -36,8 +38,8 @@ export function createApplication(
     }
     next();
   });
-  registerAuth(app, db, captcha, { trustCloudflare });
-  registerAcademic(app, db);
+  registerAuth(app, db, captcha, { trustCloudflare, passwordPolicy });
+  registerAcademic(app, db, passwordPolicy);
   registerHomework(app, db);
   registerLessons(app, db);
   registerSchedules(app, db);
@@ -58,13 +60,11 @@ export function createApplication(
       ) => {
         res.setHeader(
           "X-Sakura-Error-Code",
-          String(
-            error?.code || error?.details?.code || error?.name || "unknown",
-          ),
-        );
-        res.setHeader(
-          "X-Sakura-Error-Message",
-          encodeURIComponent(String(error?.message || "").slice(0, 160)),
+          /^[A-Z0-9_]{1,64}$/.test(
+            String(error?.code || error?.details?.code || ""),
+          )
+            ? String(error?.code || error?.details?.code)
+            : "INTERNAL_ERROR",
         );
         next(error);
       },

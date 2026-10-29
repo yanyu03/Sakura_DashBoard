@@ -1,0 +1,17 @@
+{
+  "testedAt": "2026-10-29T07:08:17.074Z",
+  "passed": 11,
+  "checks": [
+    "versioned salted scrypt uses the strengthened bounded work factor and verifies Unicode",
+    "database hashes cannot be replayed as passwords and missing or incorrect peppers fail closed",
+    "existing hashes can be protected without recovering passwords and retain upgrade eligibility",
+    "pepper rotation supports retained keys and requests an upgrade to the current key",
+    "strict production policy rejects legacy and unpeppered downgrade hashes",
+    "malformed digests and attacker supplied work factors are rejected before hashing",
+    "operator secrets use DPAPI and migrate private legacy JSON without retaining plaintext",
+    "database descriptors reject root system schemas SSRF hosts downgrade and unsafe options",
+    "TiDB transport uses only the fixed HTTPS origin and rejects HTTP redirects",
+    "HTTP writes and sensitive query strings are rejected while HTTPS responses use HSTS",
+    "browser call history discards SQL payloads query values passwords and CSRF values"
+  ]
+}

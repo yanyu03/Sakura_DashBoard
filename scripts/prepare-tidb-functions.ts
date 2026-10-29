@@ -4,6 +4,7 @@ import { randomBytes } from "node:crypto";
 import { tidbPool } from "../scripts/tidb-config.ts";
 import schema from "../server/tidb/schema.json";
 import { hashPassword } from "../server/passwords.ts";
+import { writeLocalSecret } from "./private-secrets";
 fs.mkdirSync(".local-data", { recursive: true });
 const directory = fs.mkdtempSync(
   path.resolve(".local-data", "functional-fixture-"),
@@ -66,10 +67,12 @@ try {
   }
   await c.commit();
   await c.query("SET foreign_key_checks=1");
-  fs.writeFileSync(
-    ".local-data/functional-target.json",
-    JSON.stringify({ database, password, token, directory }, null, 2),
-  );
+  writeLocalSecret(".local-data/functional-target.json", {
+    database,
+    password,
+    token,
+    directory,
+  });
   console.log(
     JSON.stringify({ database, syntheticRows: rows, prepared: true }),
   );

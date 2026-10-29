@@ -1,0 +1,19 @@
+{
+  "testedAt": "2026-10-29T06:59:50.087Z",
+  "target": "token-gated Worker and isolated synthetic TiDB database",
+  "passed": 6,
+  "checks": [
+    "actual Worker upgrades an existing salted hash to pepper-protected stronger scrypt on successful login",
+    "wrong passwords and replaying stored hashes cannot authenticate or create cookies",
+    "new registrations through CF store only pepper-protected hashes and cannot request admin privileges",
+    "hardened sessions preserve class isolation and SQL management remains forbidden",
+    "real Worker responses use HSTS and discard sensitive URL parameters and raw error messages",
+    "logout revokes a session authenticated with the protected password scheme"
+  ],
+  "loginRoundTripMs": [
+    2723,
+    4096,
+    2681,
+    2968
+  ]
+}

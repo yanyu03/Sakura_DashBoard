@@ -2,6 +2,8 @@ import { randomUUID } from "node:crypto";
 import { DurableObject } from "cloudflare:workers";
 import { tidbRequest } from "./tidb";
 import { tidbHealth } from "./tidb-health";
+import { passwordPolicyFromSecret } from "../server/passwords";
+import { secureRequest, secureResponse } from "./security";
 /** Keep the existing SQLite storage as an archive; it no longer serves business requests. */
 export class SakuraSchool extends DurableObject<Env> {
   async fetch(_request: Request) {
@@ -9,7 +11,7 @@ export class SakuraSchool extends DurableObject<Env> {
   }
 }
 
-export default {
+const applicationHandler = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/api/v1/health/tidb") return tidbHealth(request, env);
@@ -63,12 +65,16 @@ export default {
       try {
         if (env.DATABASE_MODE !== "tidb" || !env.TIDB_DATABASE_URL)
           throw Error("Production database configuration unavailable");
-        return await tidbRequest(request, env.TIDB_DATABASE_URL);
+        return await tidbRequest(
+          request,
+          env.TIDB_DATABASE_URL,
+          false,
+          passwordPolicyFromSecret(env.AUTH_PASSWORD_PEPPERS),
+        );
       } catch (error) {
         console.error({
           event: "school_request_failed",
           name: error instanceof Error ? error.name : "UnknownError",
-          message: error instanceof Error ? error.message : "Unknown failure",
         });
         return Response.json(
           {
@@ -86,5 +92,12 @@ export default {
       return Response.redirect(url.toString(), 302);
     }
     return env.ASSETS.fetch(request);
+  },
+} satisfies ExportedHandler<Env>;
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    return secureResponse(
+      secureRequest(request) || (await applicationHandler.fetch(request, env)),
+    );
   },
 } satisfies ExportedHandler<Env>;

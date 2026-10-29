@@ -1,0 +1,10 @@
+{
+  "createdAt": "2026-10-29T07:07:11.219Z",
+  "database": "sakura_edu_prod_20261029",
+  "sourceCommit": "81e0d1b723c027f43b04120864b164861fbeea22",
+  "tableCount": 58,
+  "rowCount": 168,
+  "sha256": "2f46e7c7d3b05e48263f5daa0e21c8dc9a596aafb047d802a390f94b7326d4d8",
+  "encryptedBackupVerified": true,
+  "transport": "official HTTPS transaction"
+}

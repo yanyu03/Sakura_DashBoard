@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-29T05:47:48.663Z",
+  "testedAt": "2026-10-29T07:00:40.981Z",
   "target": "empty migrated SQLite with the same authentication application code",
   "checks": [
     {

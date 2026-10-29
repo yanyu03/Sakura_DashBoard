@@ -50,3 +50,7 @@
 `export-cloudflare-sqlite.ts` 由已登录的 Wrangler 读取线上快照；`prepare-tidb.ts --schema-only` 预建结构，省略参数后导入并逐表验证。导入拒绝覆盖已有账号的目标库；目标库由 `TIDB_DATABASE` 明确指定，禁止系统库。`provision-tidb-runtime.ts` 创建受限账户，私有凭据保存在 `.local-data/`。不要在生产入口运行 `verify-tidb.ts` 的合成业务测试。
 
 `test:organization-workers`、`test:schedule-workers` 等旧 Workers SQLite 验证脚本保留作历史参考，不能用于本轮归档后的生产 Worker；当前 SQLite 回归使用原生测试适配器，TiDB 场景使用独立预览数据库。旧 `test:sqlite` 首轮综合脚本仍有旧表数量及 SQL 管理接口断言，尚未适配当前封禁策略，本轮不计入验收。
+
+## CF ENV 与密码保护
+
+数据库连接与 pepper 使用 Worker Secret；应用只在服务器内读取，浏览器通过本站接口访问。密码采用加强的带盐 scrypt 与独立 HMAC pepper，旧摘要迁移后启用严格格式验证。项目运维凭据使用 DPAPI，加密快照留在私有目录。配置、迁移顺序、日志边界及恢复要求见 [安全更新说明](../security/CF-ENV-SECURITY.md)。

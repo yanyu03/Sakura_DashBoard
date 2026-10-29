@@ -8,7 +8,12 @@ import {
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import type { CaptchaProvider } from "./dbContract";
 import { HttpError, text } from "./http";
-import { hashPassword, verifyPassword } from "./passwords";
+import {
+  hashPassword,
+  verifyPassword,
+  passwordNeedsUpgrade,
+  type PasswordPolicy,
+} from "./passwords";
 import { withAuthProtection } from "./authProtection";
 import {
   headTeacherClassIds,
@@ -73,6 +78,7 @@ export function registerAuth(
   svgCaptcha: CaptchaProvider,
   options: {
     trustCloudflare?: boolean;
+    passwordPolicy?: PasswordPolicy;
   } = {},
 ) {
   const db = asyncDatabase(source);
@@ -253,7 +259,7 @@ export function registerAuth(
               randomUUID(),
               account,
               email,
-              hashPassword(password),
+              hashPassword(password, options.passwordPolicy),
               fullName,
               firstAccount ? "系统管理员" : "教师",
               firstAccount ? "admin" : "teacher",
@@ -314,7 +320,7 @@ export function registerAuth(
         const valid =
           user &&
           user.status === "ACTIVE" &&
-          verifyPassword(password, user.password_hash);
+          verifyPassword(password, user.password_hash, options.passwordPolicy);
         await db
           .prepare(
             "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,?)",
@@ -336,6 +342,18 @@ export function registerAuth(
           csrf = randomBytes(24).toString("hex"),
           seconds = req.body.keepOnline ? 7 * 86400 : 8 * 3600;
         await db.transaction(async () => {
+          if (
+            passwordNeedsUpgrade(user.password_hash, options.passwordPolicy)
+          ) {
+            const upgraded = hashPassword(password, options.passwordPolicy);
+            const saved = await db
+              .prepare(
+                "UPDATE faculty_users SET password_hash=? WHERE id=? AND password_hash=? AND status='ACTIVE'",
+              )
+              .run(upgraded, user.id, user.password_hash);
+            if (saved.changes !== 1)
+              throw new HttpError(409, "账号凭据已更新，请重新登录");
+          }
           await db
             .prepare("DELETE FROM auth_sessions WHERE expires_at<=?")
             .run(Date.now());

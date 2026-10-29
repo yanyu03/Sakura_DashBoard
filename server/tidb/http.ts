@@ -1,5 +1,6 @@
 import { connect, type FullResult, type Config } from "@tidbcloud/serverless";
 import type { SqlPool, SqlLease } from "./database";
+import { databaseCredentialUrl } from "./credentials";
 const codes: Record<string, string> = {
   "1062": "ER_DUP_ENTRY",
   "1452": "ER_NO_REFERENCED_ROW_2",
@@ -54,11 +55,31 @@ export class TiDBHttpPool implements SqlPool {
     url: string,
     fetcher: typeof globalThis.fetch = globalThis.fetch,
   ) {
+    const credential = databaseCredentialUrl(url),
+      origin = "https://http-" + credential.hostname;
     this.config = {
-      url,
+      url: credential.href,
       fullResult: true,
-      fetch: (input, init) =>
-        fetcher(input, { ...init, signal: AbortSignal.timeout(7000) }),
+      fetch: async (input, init) => {
+        const target = new URL(input);
+        if (
+          target.origin !== origin ||
+          target.pathname !== "/v1beta/sql" ||
+          target.username ||
+          target.password
+        )
+          throw Error("Database transport target rejected");
+        const response = await fetcher(input, {
+          ...init,
+          redirect: "manual",
+          signal: AbortSignal.timeout(7000),
+        });
+        if (response.status >= 300 && response.status < 400)
+          throw Object.assign(Error("Database redirect rejected"), {
+            code: "DB_REDIRECT_BLOCKED",
+          });
+        return response;
+      },
     };
   }
   async query(options: any, args?: any) {

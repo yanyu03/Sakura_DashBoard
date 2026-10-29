@@ -1,13 +1,16 @@
 /** Isolated migration verification entry; use a separate Worker and database. */
 import { tidbRequest } from "./tidb";
 import { createHash, timingSafeEqual } from "node:crypto";
-export default {
+import { passwordPolicyFromSecret } from "../server/passwords";
+import { secureRequest, secureResponse } from "./security";
+const applicationHandler = {
   async fetch(
     request: Request,
     env: {
       TIDB_DATABASE_URL: string;
       SAKURA_PREVIEW_TOKEN: string;
       SAKURA_PREVIEW_DIAGNOSTICS?: string;
+      AUTH_PASSWORD_PEPPERS: string;
     },
   ) {
     const digest = (value: string) =>
@@ -32,6 +35,7 @@ export default {
         new Request(url, request),
         env.TIDB_DATABASE_URL,
         env.SAKURA_PREVIEW_DIAGNOSTICS === "true",
+        passwordPolicyFromSecret(env.AUTH_PASSWORD_PEPPERS),
       );
     } catch {
       return Response.json(
@@ -44,5 +48,15 @@ export default {
         { status: 503, headers: { "Cache-Control": "no-store" } },
       );
     }
+  },
+};
+export default {
+  async fetch(
+    request: Request,
+    env: Parameters<typeof applicationHandler.fetch>[1],
+  ) {
+    return secureResponse(
+      secureRequest(request) || (await applicationHandler.fetch(request, env)),
+    );
   },
 };

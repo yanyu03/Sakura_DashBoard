@@ -1,3 +1,4 @@
+import { readLocalTextSecret } from "./private-secrets";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { randomUUID } from "node:crypto";
@@ -88,9 +89,9 @@ try {
     async () => {
       const adminPass =
         process.env.SAKURA_TEST_ADMIN_PASSWORD ||
-        fs
-          .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
-          .match(/^Password: (.+)$/m)![1];
+        readLocalTextSecret(".local-data/cloudflare-initial-admin.txt").match(
+          /^Password: (.+)$/m,
+        )![1];
       await login("admin", "admin", adminPass);
       assert.equal((await ok("admin", "auth/session")).role, "admin");
     },

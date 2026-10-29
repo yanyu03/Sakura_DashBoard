@@ -20,6 +20,8 @@
     "cf:deploy": "npm run build && npm run cf:check && wrangler deploy",
     "test:cloudflare": "tsx scripts/verify-cloudflare.ts",
     "test:auth": "tsx scripts/verify-auth-registration.ts",
+    "test:security-hardening": "tsx scripts/verify-security-hardening.ts",
+    "test:cf-security": "tsx scripts/verify-cf-security.ts",
     "test:hierarchy": "tsx scripts/verify-identity-hierarchy.ts",
     "test:protection": "tsx scripts/verify-auth-protection.ts",
     "test:reliability": "tsx scripts/verify-auth-reliability.ts",

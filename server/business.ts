@@ -33,7 +33,7 @@ export async function mutate(
         res.locals.requestId,
         `business.${req.method}`,
         req.method,
-        req.originalUrl,
+        req.path,
         JSON.stringify({ actor: res.locals.user.id, resource: req.path }),
         new Date().toISOString(),
       );

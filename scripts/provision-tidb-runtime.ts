@@ -1,13 +1,14 @@
 import fs from "node:fs";
 import { randomBytes } from "node:crypto";
 import { tidbPool, tidbOptions } from "./tidb-config";
+import { readLocalSecret, writeLocalSecret } from "./private-secrets";
 const database = process.env.TIDB_DATABASE || "sakura_migration_20261029",
   file = ".local-data/tidb-runtime-" + database + ".json";
 if (!/^[a-z][a-z0-9_]+$/.test(database)) throw Error("Invalid database name");
 const settings = tidbOptions(database);
 const pool = tidbPool(database);
 const runtime = fs.existsSync(file)
-  ? JSON.parse(fs.readFileSync(file, "utf8"))
+  ? readLocalSecret(file)
   : {
       user: "sk_" + randomBytes(4).toString("hex"),
       password: randomBytes(32).toString("base64url"),
@@ -19,7 +20,7 @@ if (runtime.user.length > 15) {
 runtime.login = settings.user.includes(".")
   ? settings.user.slice(0, settings.user.lastIndexOf(".") + 1) + runtime.user
   : runtime.user;
-fs.writeFileSync(file, JSON.stringify(runtime));
+writeLocalSecret(file, runtime);
 try {
   await pool.query("CREATE USER IF NOT EXISTS ?@'%' IDENTIFIED BY ?", [
     runtime.login,

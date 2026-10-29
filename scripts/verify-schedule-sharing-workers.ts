@@ -1,3 +1,4 @@
+import {readLocalTextSecret} from './private-secrets';
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { randomUUID } from "node:crypto";
@@ -59,8 +60,7 @@ async function create(p: string, body: Record<string, unknown>) {
   assert.equal(r.status, 200, r.message);
   return r.data;
 }
-const password = fs
-  .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
+const password = readLocalTextSecret(".local-data/cloudflare-initial-admin.txt")
   .match(/^Password: (.+)$/m)![1];
 await login("admin", "admin", password);
 const accountIds: Record<string, string> = {};

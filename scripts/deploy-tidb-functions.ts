@@ -3,9 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { tidbOptions } from "./tidb-config";
-const target = JSON.parse(
-  fs.readFileSync(".local-data/functional-target.json", "utf8"),
-);
+import { readLocalSecret } from "./private-secrets";
+import { operatorPasswordPolicy } from "./password-policy-secret";
+const target = readLocalSecret(".local-data/functional-target.json");
 if (!target.database.startsWith("sakura_migration_functional_"))
   throw Error("Functional staging database required");
 const production = JSON.parse(
@@ -41,7 +41,12 @@ const config = {
     SAKURA_ALLOW_SQL_WRITES: "false",
     SAKURA_PREVIEW_DIAGNOSTICS: "true",
   },
-  observability: { enabled: true, head_sampling_rate: 1 },
+  observability: {
+    enabled: true,
+    head_sampling_rate: 1,
+    logs: { enabled: true, invocation_logs: false },
+    traces: { enabled: false },
+  },
   alias: { "iconv-lite": path.resolve("cloudflare/utf8.ts") },
 };
 fs.writeFileSync(file, JSON.stringify(config, null, 2));
@@ -75,12 +80,10 @@ if (process.argv.includes("--cleanup")) {
     },
   );
   const options = tidbOptions(target.database),
-    runtime = JSON.parse(
-      fs.readFileSync(
-        ".local-data/tidb-runtime-" + target.database + ".json",
-        "utf8",
-      ),
+    runtime = readLocalSecret(
+      ".local-data/tidb-runtime-" + target.database + ".json",
     );
+  const passwordPolicy = operatorPasswordPolicy("staging", true);
   const url = new URL(
     "mysql://" + options.host + ":" + options.port + "/" + target.database,
   );
@@ -89,6 +92,10 @@ if (process.argv.includes("--cleanup")) {
   for (const [args, input] of [
     [["secret", "put", "TIDB_DATABASE_URL", "--config", file], url.href],
     [["secret", "put", "SAKURA_PREVIEW_TOKEN", "--config", file], target.token],
+    [
+      ["secret", "put", "AUTH_PASSWORD_PEPPERS", "--config", file],
+      JSON.stringify(passwordPolicy),
+    ],
     [["deploy", "--config", file], undefined],
   ] as [string[], string | undefined][]) {
     try {
@@ -110,7 +117,8 @@ if (process.argv.includes("--cleanup")) {
         String(error.stderr || error.stdout || "Preview deployment failed")
           .replaceAll(url.href, "[database URL]")
           .replaceAll(runtime.password, "[redacted]")
-          .replaceAll(target.token, "[redacted]"),
+          .replaceAll(target.token, "[redacted]")
+          .replaceAll(passwordPolicy.keys[passwordPolicy.current], "[pepper]"),
       );
       process.exitCode = 1;
       break;

@@ -1,3 +1,4 @@
+import { readLocalTextSecret } from "./private-secrets";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { randomUUID } from "node:crypto";
@@ -55,9 +56,9 @@ await check(
   },
 );
 await check("existing administrator login survives migration", async () => {
-  const password = fs
-    .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
-    .match(/^Password: (.+)$/m)![1];
+  const password = readLocalTextSecret(
+    ".local-data/cloudflare-initial-admin.txt",
+  ).match(/^Password: (.+)$/m)![1];
   const cap = (await api("security/captcha?mode=math")).json.data;
   assert.ok(!cap.demoHint);
   const expression = Array.from(

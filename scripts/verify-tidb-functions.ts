@@ -3,9 +3,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { tidbTestDatabase } from "./tidb-test-database";
 import { verificationFetch as fetch } from "./http-verification-transport";
-const fixture = JSON.parse(
-  fs.readFileSync(".local-data/functional-target.json", "utf8"),
-);
+import { readLocalSecret } from "./private-secrets";
+const fixture = readLocalSecret(".local-data/functional-target.json");
 const base =
   process.argv.find((v) => v.startsWith("http")) ||
   "https://sakura.250221.xyz/__tidb-preview";

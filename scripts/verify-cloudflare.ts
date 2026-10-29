@@ -1,3 +1,4 @@
+import {readLocalTextSecret} from './private-secrets';
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -6,8 +7,7 @@ import { verificationFetch as fetch } from "./http-verification-transport";
 const base =
     process.argv.find((v) => v.startsWith("http")) || "http://127.0.0.1:3003",
   readOnly = process.argv.includes("--read-only");
-const password = fs
-  .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf-8")
+const password = readLocalTextSecret(".local-data/cloudflare-initial-admin.txt")
   .match(/^Password: (.+)$/m)![1];
 let cookie = "",
   csrf = "";

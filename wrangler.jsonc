@@ -37,11 +37,17 @@
     "DATABASE_MODE": "tidb",
   },
   "secrets": {
-    "required": ["SAKURA_ADMIN_PASSWORD_HASH", "TIDB_DATABASE_URL"],
+    "required": [
+      "SAKURA_ADMIN_PASSWORD_HASH",
+      "TIDB_DATABASE_URL",
+      "AUTH_PASSWORD_PEPPERS",
+    ],
   },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
+    "logs": { "enabled": true, "invocation_logs": false },
+    "traces": { "enabled": false },
   },
   "ratelimits": [
     {

@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-10-29T07:13:32.160Z",
+  "worker": "sakura-dashboard",
+  "url": "https://sakura.250221.xyz/?design=1.0Sakura",
+  "versionId": "ad2d03ff-42ec-426f-9c91-92724c513851",
+  "compatibleCodeVersionId": "c4510025-b2a8-4c1b-8703-a941b94d1610",
+  "strictPasswordPolicy": true,
+  "protectedAccounts": 3,
+  "upgradeOnNextLogin": 2,
+  "productionSmokePassed": 8,
+  "isolatedWorkerSecurityChecks": 6,
+  "localHardeningChecks": 11,
+  "encryptedSnapshotTables": 58,
+  "previewWorkerDeleted": true,
+  "wafChanged": false
+}

@@ -37,11 +37,12 @@ export class TiDBDatabase implements DatabaseConnection {
     } catch (error: any) {
       console.error({
         event: "database_query_failed",
-        code: error?.code,
-        operation: sql.trim().split(/\s+/)[0],
-        ...(process.env.NODE_ENV !== "production"
-          ? { statement: sql.replace(/'[^']*'/g, "'?'") }
-          : {}),
+        code: /^[A-Z0-9_]{1,64}$/.test(String(error?.code))
+          ? error.code
+          : "QUERY_FAILED",
+        operation:
+          /^(SELECT|INSERT|UPDATE|DELETE|BEGIN|COMMIT|ROLLBACK)\b/i
+            .exec(sql.trim())?.[1].toUpperCase() || "QUERY",
       });
       throw error;
     }

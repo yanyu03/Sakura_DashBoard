@@ -9,7 +9,7 @@ import {
 import { randomUUID } from "node:crypto";
 import { HttpError, text, pagination } from "./http";
 import { exactDate } from "./business";
-import { hashPassword } from "./passwords";
+import { hashPassword, type PasswordPolicy } from "./passwords";
 import type { AuthUser } from "./auth";
 import {
   headTeacherClassIds,
@@ -51,13 +51,17 @@ async function mutation(
         res.locals.requestId,
         `academic.${req.method}`,
         req.method,
-        req.originalUrl,
+        req.path,
         JSON.stringify({ actor: res.locals.user.id, resource: req.path }),
       );
   })();
   return reply(res, response!.data, response!.message);
 }
-export function registerAcademic(app: Express, source: DatabaseSource) {
+export function registerAcademic(
+  app: Express,
+  source: DatabaseSource,
+  passwordPolicy?: PasswordPolicy,
+) {
   const db = asyncDatabase(source);
   const admin = (res: Response) => {
     if (res.locals.user.role !== "admin")
@@ -67,8 +71,7 @@ export function registerAcademic(app: Express, source: DatabaseSource) {
     const row =
       typeof id === "string"
         ? ((await db.prepare(`SELECT * FROM ${table} WHERE id=?`).get(id)) as
-            | Record<string, any>
-            | undefined)
+            Record<string, any> | undefined)
         : undefined;
     if (
       !row ||
@@ -191,7 +194,7 @@ export function registerAcademic(app: Express, source: DatabaseSource) {
             id,
             text(req.body.faculty_code, "教工号", { max: 50 }),
             text(req.body.email, "邮箱", { max: 128 }),
-            hashPassword(password),
+            hashPassword(password, passwordPolicy),
             text(req.body.full_name, "姓名", { max: 80 }),
             text(req.body.title_role || "任课教师", "职务", { max: 100 }),
             text(req.body.department || "教研组", "部门", { max: 100 }),

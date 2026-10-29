@@ -4,11 +4,13 @@ import { createApplication } from "../server/application";
 import { TiDBDatabase } from "../server/tidb/database";
 import { TiDBHttpPool } from "../server/tidb/http";
 import { edgeCaptcha } from "./adapters";
+import type { PasswordPolicy } from "../server/passwords";
 /** Request-owned clients: no stale TCP socket or shared auth state across invocations. */
 export async function tidbRequest(
   request: Request,
   url: string,
   diagnostics = false,
+  passwordPolicy?: PasswordPolicy,
 ): Promise<Response> {
   const server = createServer(
     createApplication(
@@ -16,6 +18,7 @@ export async function tidbRequest(
       edgeCaptcha,
       true,
       diagnostics,
+      passwordPolicy,
     ),
   );
   try {

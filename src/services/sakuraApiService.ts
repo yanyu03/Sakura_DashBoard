@@ -45,6 +45,11 @@ class SakuraApiService {
   }[] = [];
 
   public configure(nextConfig: Partial<SakuraBackendConfig>): void {
+    if (typeof window !== 'undefined' && nextConfig.baseUrl) {
+      const target = new URL(nextConfig.baseUrl, window.location.origin);
+      if (target.origin !== window.location.origin || target.username || target.password)
+        throw new Error('接口地址必须使用本站 Cloudflare 中转');
+    }
     this.config = { ...this.config, ...nextConfig };
   }
 
@@ -62,7 +67,7 @@ class SakuraApiService {
   ) {
     const timeStr = new Date().toTimeString().slice(0, 8);
     this.callLogs = [
-      { id: traceId, time: timeStr, ...meta },
+      { id: traceId, time: timeStr, ...meta, endpoint: meta.endpoint.split('?')[0], sql: '' },
       ...this.callLogs.slice(0, 29),
     ];
   }
