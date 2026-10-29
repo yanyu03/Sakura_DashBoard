@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T12:51:29.036Z",
+  "testedAt": "2026-10-29T03:45:54.060Z",
   "passed": 17,
   "checks": [
     "migration is idempotent and retains all legacy schedule rows",

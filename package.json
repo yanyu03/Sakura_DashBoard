@@ -26,17 +26,22 @@
     "test:schedule-sharing": "tsx scripts/verify-schedule-sharing.ts",
     "test:schedule-workers": "tsx scripts/verify-schedule-sharing-workers.ts",
     "test:organization": "tsx scripts/verify-organization.ts",
-    "test:organization-workers": "tsx scripts/verify-organization-workers.ts"
+    "test:organization-workers": "tsx scripts/verify-organization-workers.ts",
+    "test:tidb": "tsx scripts/verify-tidb.ts",
+    "test:tidb-reliability": "tsx scripts/verify-tidb-reliability.ts",
+    "test:tidb-read-compatibility": "tsx scripts/verify-tidb-read-compatibility.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.3.3",
+    "@tidbcloud/serverless": "0.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "better-sqlite3": "^13.0.3",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
+    "mysql2": "^3.24.6",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "svg-captcha": "^1.4.0",

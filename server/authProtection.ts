@@ -1,27 +1,16 @@
 import { createHash } from "node:crypto";
 import type { RequestHandler } from "express";
-import type { DatabaseConnection } from "./dbContract";
+import {
+  asyncDatabase,
+  type DatabaseConnection,
+  type DatabaseSource,
+} from "./asyncDatabase";
 import { HttpError } from "./http";
 export const COOLDOWNS = [30, 60, 120, 900, 10800] as const;
 export const protectionSql = `CREATE TABLE auth_protection(bucket_hash TEXT PRIMARY KEY,failures INTEGER NOT NULL DEFAULT 0 CHECK(failures>=0),level INTEGER NOT NULL DEFAULT 0 CHECK(level BETWEEN 0 AND 5),blocked_until INTEGER NOT NULL DEFAULT 0 CHECK(blocked_until>=0),updated_at INTEGER NOT NULL)`;
 const hash = (s: string) => createHash("sha256").update(s).digest("hex");
 export const protectionChecksum = hash(protectionSql);
-export function applyAuthProtectionSchema(db: DatabaseConnection) {
-  const old = db
-    .prepare("SELECT checksum FROM schema_migrations WHERE version=13")
-    .get() as { checksum: string } | undefined;
-  if (old) {
-    if (old.checksum !== protectionChecksum)
-      throw new Error("Migration 13 checksum mismatch");
-    return;
-  }
-  db.transaction(() => {
-    db.prepare(protectionSql).run();
-    db.prepare(
-      "INSERT INTO schema_migrations(version,name,checksum) VALUES(13,?,?)",
-    ).run("persistent-authentication-cooldowns", protectionChecksum);
-  })();
-}
+export { applyAuthProtectionSchema } from "./database/authProtectionSchema";
 type State = {
   failures: number;
   level: number;
@@ -30,16 +19,19 @@ type State = {
 };
 export class AuthFailureLimiter {
   constructor(
-    private db: DatabaseConnection,
+    source: DatabaseSource,
     private now = () => Date.now(),
-  ) {}
-  state(key: string): State {
+  ) {
+    this.db = asyncDatabase(source);
+  }
+  private db: DatabaseConnection;
+  async state(key: string): Promise<Awaited<State>> {
     return (
-      (this.db
+      ((await this.db
         .prepare(
           "SELECT failures,level,blocked_until,updated_at FROM auth_protection WHERE bucket_hash=?",
         )
-        .get(hash(key)) as State) || {
+        .get(hash(key))) as State) || {
         failures: 0,
         level: 0,
         blocked_until: 0,
@@ -47,20 +39,30 @@ export class AuthFailureLimiter {
       }
     );
   }
-  remaining(keys: string[]) {
+  async remaining(keys: string[]) {
     return Math.max(
       0,
-      ...keys.map((key) =>
-        Math.ceil((this.state(key).blocked_until - this.now()) / 1000),
-      ),
+      ...(await Promise.all(
+        keys.map(async (key) =>
+          Math.ceil(
+            ((await this.state(key)).blocked_until - this.now()) / 1000,
+          ),
+        ),
+      )),
     );
   }
-  failure(buckets: { key: string; threshold: number; idleResetMs?: number }[]) {
-    return this.db.transaction(() => {
+  async failure(
+    buckets: {
+      key: string;
+      threshold: number;
+      idleResetMs?: number;
+    }[],
+  ) {
+    return await this.db.transaction(async () => {
       const time = this.now();
       let until = 0;
       for (const { key, threshold, idleResetMs } of buckets) {
-        const prior = this.state(key);
+        const prior = await this.state(key);
         if (prior.blocked_until > time) {
           until = Math.max(until, prior.blocked_until);
           continue;
@@ -76,7 +78,7 @@ export class AuthFailureLimiter {
           level = Math.min(level + 1, COOLDOWNS.length);
           failures = 0;
         }
-        this.db
+        await this.db
           .prepare(
             "INSERT INTO auth_protection(bucket_hash,failures,level,blocked_until,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(bucket_hash) DO UPDATE SET failures=excluded.failures,level=excluded.level,blocked_until=excluded.blocked_until,updated_at=excluded.updated_at",
           )
@@ -86,21 +88,22 @@ export class AuthFailureLimiter {
       return Math.max(0, Math.ceil((until - time) / 1000));
     })();
   }
-  reset(key: string) {
-    this.db
+  async reset(key: string) {
+    await this.db
       .prepare("DELETE FROM auth_protection WHERE bucket_hash=?")
       .run(hash(key));
   }
 }
 /** Synchronous auth handlers: reject before password hashing and atomically record failures. */
 export function withAuthProtection(
-  db: DatabaseConnection,
+  source: DatabaseSource,
   kind: "login" | "register",
   handler: RequestHandler,
   trustCloudflare = false,
 ): RequestHandler {
+  const db = asyncDatabase(source);
   const limiter = new AuthFailureLimiter(db);
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const input = String(
       (kind === "login" ? req.body?.facultyId : req.body?.facultyCode) || "",
     )
@@ -110,11 +113,15 @@ export function withAuthProtection(
     // Resolve aliases to one account bucket; the source bucket cannot be reset with another valid account.
     const user =
       kind === "login"
-        ? (db
+        ? ((await db
             .prepare(
               "SELECT id FROM faculty_users WHERE faculty_code=? COLLATE NOCASE OR email=? COLLATE NOCASE OR phone=?",
             )
-            .get(input, input, input) as { id: string } | undefined)
+            .get(input, input, input)) as
+            | {
+                id: string;
+              }
+            | undefined)
         : undefined;
     const account = `${kind}:account:${user?.id || input}`;
     const source = `${kind}:source:${(trustCloudflare ? req.get("cf-connecting-ip") : undefined) || req.ip || "local"}`;
@@ -126,10 +133,10 @@ export function withAuthProtection(
       return error;
     };
     try {
-      const remaining = limiter.remaining([account, source]);
+      const remaining = await limiter.remaining([account, source]);
       if (remaining) throw cooldown(remaining);
       res.locals.authProtectionSuccess = () => limiter.reset(account);
-      handler(req, res, next);
+      await handler(req, res, next);
     } catch (error) {
       if (
         error instanceof HttpError &&
@@ -137,7 +144,7 @@ export function withAuthProtection(
         error.status < 500 &&
         error.status !== 429
       ) {
-        const seconds = limiter.failure([
+        const seconds = await limiter.failure([
           { key: account, threshold: 5 },
           { key: source, threshold: 25, idleResetMs: 600000 },
         ]);

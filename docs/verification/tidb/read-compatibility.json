@@ -1,0 +1,10 @@
+{
+  "testedAt": "2026-10-29T05:06:34.287Z",
+  "target": "isolated TiDB migration staging database",
+  "passed": 3,
+  "checks": [
+    "lesson search concatenates title summary and tags with parameterized Unicode and apostrophes",
+    "workspace search concatenates title body and tags and rejects unmatched terms",
+    "environment health counts actual TiDB tables"
+  ]
+}

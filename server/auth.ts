@@ -1,5 +1,10 @@
 import type { Express, Request, Response, NextFunction } from "express";
-import type { DatabaseConnection } from "./dbContract";
+import {
+  asyncDatabase,
+  installAsyncRoutes,
+  asyncFilter,
+  type DatabaseSource,
+} from "./asyncDatabase";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import type { CaptchaProvider } from "./dbContract";
 import { HttpError, text } from "./http";
@@ -9,7 +14,6 @@ import {
   headTeacherClassIds,
   classOrganizationActive,
 } from "./organizationCore";
-
 export type AuthUser = {
   id: string;
   faculty_code: string;
@@ -63,13 +67,16 @@ const cookieValue = (req: Request) =>
 const sessionCookie = (token: string, maxAge: number) =>
   `${cookieName}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${process.env.COOKIE_SECURE === "true" ? "; Secure" : ""}`;
 const mutations = new Set(["POST", "PUT", "PATCH", "DELETE"]);
-
 export function registerAuth(
   app: Express,
-  db: DatabaseConnection,
+  source: DatabaseSource,
   svgCaptcha: CaptchaProvider,
-  options: { trustCloudflare?: boolean } = {},
+  options: {
+    trustCloudflare?: boolean;
+  } = {},
 ) {
+  const db = asyncDatabase(source);
+  installAsyncRoutes(app);
   app.use("/api/v1", (req, _res, next) => {
     try {
       if (
@@ -83,15 +90,18 @@ export function registerAuth(
       next(error);
     }
   });
-  const session = (req: Request, res: Response, next: NextFunction) => {
+  const session = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const hash = digest(cookieValue(req));
-      const record = db
+      const record = (await db
         .prepare(
           "SELECT s.csrf_token,s.expires_at,u.* FROM auth_sessions s JOIN faculty_users u ON u.id=s.user_id WHERE s.token_hash=?",
         )
-        .get(hash) as
-        | (AuthUser & { csrf_token: string; expires_at: number })
+        .get(hash)) as
+        | (AuthUser & {
+            csrf_token: string;
+            expires_at: number;
+          })
         | undefined;
       if (
         !record ||
@@ -116,7 +126,7 @@ export function registerAuth(
       next(error);
     }
   };
-  app.get("/api/v1/security/captcha", (req, res) => {
+  app.get("/api/v1/security/captcha", async (req, res) => {
     const mode = String(req.query.mode || "graphic");
     if (!["graphic", "math"].includes(mode))
       throw new HttpError(422, "该验证方式尚未开通，请使用图形或算术验证");
@@ -139,9 +149,11 @@ export function registerAuth(
     const id = `cap-${randomUUID()}`,
       answer = String(captcha.text).trim().toLowerCase(),
       expires = new Date(Date.now() + 300000).toISOString();
-    db.prepare(
-      "INSERT INTO security_captchas(captcha_id,mode,captcha_mode,answer_hash,answer_text,svg_markup,expires_at) VALUES (?,?,?,?,?,?,?)",
-    ).run(id, mode, mode, digest(answer), "", captcha.data, expires);
+    await db
+      .prepare(
+        "INSERT INTO security_captchas(captcha_id,mode,captcha_mode,answer_hash,answer_text,svg_markup,expires_at) VALUES (?,?,?,?,?,?,?)",
+      )
+      .run(id, mode, mode, digest(answer), "", captcha.data, expires);
     reply(
       res,
       {
@@ -165,7 +177,7 @@ export function registerAuth(
     withAuthProtection(
       db,
       "register",
-      (req, res) => {
+      async (req, res) => {
         const account = text(req.body.facultyCode, "用户名", {
           max: 32,
         }).toLowerCase();
@@ -182,15 +194,17 @@ export function registerAuth(
         if (password !== req.body.confirmPassword)
           throw new HttpError(422, "两次输入的密码不一致");
         const key = `register:${req.get("cf-connecting-ip") || req.ip || "local"}`;
-        db.prepare(
-          "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,0)",
-        ).run(key, Date.now());
-        db.transaction(() => {
-          const cap = db
+        await db
+          .prepare(
+            "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,0)",
+          )
+          .run(key, Date.now());
+        await db.transaction(async () => {
+          const cap = (await db
             .prepare(
               "SELECT answer_hash,expires_at,verified,mode FROM security_captchas WHERE captcha_id=?",
             )
-            .get(req.body.captchaId || "") as
+            .get(req.body.captchaId || "")) as
             | {
                 answer_hash: string;
                 expires_at: string;
@@ -211,24 +225,34 @@ export function registerAuth(
               )
           )
             throw new HttpError(422, "验证码不正确或已过期，请换一张重试");
-          const used = db
+          const used = await db
             .prepare(
               "SELECT id FROM faculty_users WHERE faculty_code=? COLLATE NOCASE OR email=? COLLATE NOCASE",
             )
             .get(account, email);
           if (used) throw new HttpError(409, "用户名或邮箱已被使用");
           if (
-            db
-              .prepare(
-                "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
-              )
-              .run(req.body.captchaId).changes !== 1
+            (
+              await db
+                .prepare(
+                  "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+                )
+                .run(req.body.captchaId)
+            ).changes !== 1
           )
             throw new HttpError(422, "验证码已被使用");
-          db.prepare(
-            "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
-          ).run(randomUUID(), account, email, hashPassword(password), fullName);
-          res.locals.authProtectionSuccess?.();
+          await db
+            .prepare(
+              "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
+            )
+            .run(
+              randomUUID(),
+              account,
+              email,
+              hashPassword(password),
+              fullName,
+            );
+          await res.locals.authProtectionSuccess?.();
         })();
         reply(
           res,
@@ -244,17 +268,21 @@ export function registerAuth(
     withAuthProtection(
       db,
       "login",
-      (req, res) => {
+      async (req, res) => {
         if (req.body.loginType !== "account")
           throw new HttpError(501, "该登录方式尚未开通，请使用账号登录");
         const account = text(req.body.facultyId, "账号", { max: 128 }),
           password = text(req.body.password, "密码", { max: 256 });
-        const cap = db
+        const cap = (await db
           .prepare(
             "SELECT answer_hash,expires_at,verified FROM security_captchas WHERE captcha_id=?",
           )
-          .get(req.body.captchaId || "") as
-          | { answer_hash: string; expires_at: string; verified: number }
+          .get(req.body.captchaId || "")) as
+          | {
+              answer_hash: string;
+              expires_at: string;
+              verified: number;
+            }
           | undefined;
         const validCaptcha =
           cap &&
@@ -268,47 +296,55 @@ export function registerAuth(
             );
         if (!validCaptcha)
           throw new HttpError(422, "验证码无效、已使用或已过期");
-        const user = db
+        const user = (await db
           .prepare(
             "SELECT * FROM faculty_users WHERE faculty_code=? OR email=? OR phone=?",
           )
-          .get(account, account, account) as
-          | (AuthUser & { password_hash: string })
+          .get(account, account, account)) as
+          | (AuthUser & {
+              password_hash: string;
+            })
           | undefined;
         const valid =
           user &&
           user.status === "ACTIVE" &&
           verifyPassword(password, user.password_hash);
-        db.prepare(
-          "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,?)",
-        ).run(account, Date.now(), valid ? 1 : 0);
+        await db
+          .prepare(
+            "INSERT INTO login_attempts(account,attempted_at,succeeded) VALUES (?,?,?)",
+          )
+          .run(account, Date.now(), valid ? 1 : 0);
         // Consume on both success and credential failure; a challenge is single-use.
         if (
-          db
-            .prepare(
-              "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
-            )
-            .run(req.body.captchaId).changes !== 1
+          (
+            await db
+              .prepare(
+                "UPDATE security_captchas SET verified=1 WHERE captcha_id=? AND verified=0",
+              )
+              .run(req.body.captchaId)
+          ).changes !== 1
         )
           throw new HttpError(422, "验证码已被使用");
         if (!valid) throw new HttpError(401, "账号或密码不正确");
         const token = randomBytes(32).toString("hex"),
           csrf = randomBytes(24).toString("hex"),
           seconds = req.body.keepOnline ? 7 * 86400 : 8 * 3600;
-        db.transaction(() => {
-          db.prepare("DELETE FROM auth_sessions WHERE expires_at<=?").run(
-            Date.now(),
-          );
-          db.prepare(
-            "INSERT INTO auth_sessions(token_hash,user_id,csrf_token,expires_at,created_at) VALUES (?,?,?,?,?)",
-          ).run(
-            digest(token),
-            user.id,
-            csrf,
-            Date.now() + seconds * 1000,
-            Date.now(),
-          );
-          res.locals.authProtectionSuccess?.();
+        await db.transaction(async () => {
+          await db
+            .prepare("DELETE FROM auth_sessions WHERE expires_at<=?")
+            .run(Date.now());
+          await db
+            .prepare(
+              "INSERT INTO auth_sessions(token_hash,user_id,csrf_token,expires_at,created_at) VALUES (?,?,?,?,?)",
+            )
+            .run(
+              digest(token),
+              user.id,
+              csrf,
+              Date.now() + seconds * 1000,
+              Date.now(),
+            );
+          await res.locals.authProtectionSuccess?.();
         })();
         res.setHeader("Set-Cookie", sessionCookie(token, seconds));
         reply(
@@ -333,14 +369,14 @@ export function registerAuth(
       csrfToken: res.locals.csrfToken,
     }),
   );
-  app.post("/api/v1/auth/logout", session, (_req, res) => {
-    db.prepare("DELETE FROM auth_sessions WHERE token_hash=?").run(
-      res.locals.sessionHash,
-    );
+  app.post("/api/v1/auth/logout", session, async (_req, res) => {
+    await db
+      .prepare("DELETE FROM auth_sessions WHERE token_hash=?")
+      .run(res.locals.sessionHash);
     res.setHeader("Set-Cookie", sessionCookie("", 0));
     reply(res, { loggedOut: true });
   });
-  app.put("/api/v1/auth/default-profile", session, (req, res) => {
+  app.put("/api/v1/auth/default-profile", session, async (req, res) => {
     const user = res.locals.user as AuthUser;
     // Identity, password and role are never editable via a preferences endpoint.
     if (
@@ -386,53 +422,56 @@ export function registerAuth(
       ].includes(theme)
     )
       throw new HttpError(422, "主题无效");
-    db.prepare(
-      "UPDATE faculty_users SET full_name=?,title_role=?,department=?,default_tab=?,default_theme=?,dnd_enabled=?,dnd_start_time=?,default_class_name=?,semester_label=? WHERE id=?",
-    ).run(
-      fullName,
-      title,
-      department,
-      req.body.defaultTab,
-      theme,
-      req.body.dndEnabled ? 1 : 0,
-      dnd,
-      text(
-        req.body.defaultClassName || user.default_class_name,
-        "默认班级显示名",
-        { max: 80 },
-      ),
-      text(req.body.semesterLabel || user.semester_label, "学期显示说明", {
-        max: 100,
-      }),
-      user.id,
-    );
+    await db
+      .prepare(
+        "UPDATE faculty_users SET full_name=?,title_role=?,department=?,default_tab=?,default_theme=?,dnd_enabled=?,dnd_start_time=?,default_class_name=?,semester_label=? WHERE id=?",
+      )
+      .run(
+        fullName,
+        title,
+        department,
+        req.body.defaultTab,
+        theme,
+        req.body.dndEnabled ? 1 : 0,
+        dnd,
+        text(
+          req.body.defaultClassName || user.default_class_name,
+          "默认班级显示名",
+          { max: 80 },
+        ),
+        text(req.body.semesterLabel || user.semester_label, "学期显示说明", {
+          max: 100,
+        }),
+        user.id,
+      );
     reply(
       res,
       publicProfile(
-        db
+        (await db
           .prepare("SELECT * FROM faculty_users WHERE id=?")
-          .get(user.id) as AuthUser,
+          .get(user.id)) as AuthUser,
       ),
       "个人偏好已保存",
     );
   });
-  app.get("/api/v1/auth/env-check", (_req, res) =>
+  app.get("/api/v1/auth/env-check", async (_req, res) =>
     reply(res, {
       gatewayLatencyMs: 0,
       ocrDriverVersion: "未连接",
       tablesReady: (
-        db
+        (await db
           .prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table'")
-          .get() as { n: number }
+          .get()) as {
+          n: number;
+        }
       ).n,
     }),
   );
-
   app.use("/api/v1", session);
   app.use("/api/v1/sqlite", (req, res, next) => {
     return next(new HttpError(403, "数据库管理接口已停用"));
   });
-  app.use("/api/v1", (req, res, next) => {
+  app.use("/api/v1", async (req, res, next) => {
     if (res.locals.user.role === "admin") return next();
     if (req.path.startsWith("/academic/")) return next();
     // Modules without ownership models stay closed until their planned migration.
@@ -447,33 +486,46 @@ export function registerAuth(
       return next();
     if (!req.path.startsWith("/students") && !req.path.startsWith("/homework"))
       return next(new HttpError(403, "该操作尚未向教师开放"));
-    const owned = db
+    const owned = (await db
       .prepare(
         "SELECT DISTINCT class_id FROM teaching_assignments WHERE teacher_id=? AND archived_at IS NULL",
       )
-      .all(res.locals.user.id) as { class_id: string }[];
-    const allowed = [
-      ...new Set([
-        ...owned.map((row) => row.class_id),
-        ...headTeacherClassIds(db, res.locals.user.id),
-      ]),
-    ].filter((id) => classOrganizationActive(db, id));
+      .all(res.locals.user.id)) as {
+      class_id: string;
+    }[];
+    const allowed = await asyncFilter(
+      [
+        ...new Set([
+          ...owned.map((row) => row.class_id),
+          ...(await headTeacherClassIds(db, res.locals.user.id)),
+        ]),
+      ],
+      async (id) => await classOrganizationActive(db, id),
+    );
     if (!allowed.length) return next(new HttpError(403, "尚未分配任教班级"));
     const studentMatch = req.path.match(/^\/students\/([^/]+)/),
       submissionMatch = req.path.match(/^\/homework\/submissions\/([^/]+)/);
     if (studentMatch) {
-      const row = db
+      const row = (await db
         .prepare("SELECT class_id FROM student_profiles WHERE id=?")
-        .get(studentMatch[1]) as { class_id: string } | undefined;
+        .get(studentMatch[1])) as
+        | {
+            class_id: string;
+          }
+        | undefined;
       if (row && !allowed.includes(row.class_id))
         return next(new HttpError(403, "无权访问该学生"));
     }
     if (submissionMatch) {
-      const row = db
+      const row = (await db
         .prepare(
           "SELECT a.class_id FROM homework_submissions s JOIN homework_assignments a ON a.id=s.assignment_id WHERE s.id=?",
         )
-        .get(submissionMatch[1]) as { class_id: string } | undefined;
+        .get(submissionMatch[1])) as
+        | {
+            class_id: string;
+          }
+        | undefined;
       if (row && !allowed.includes(row.class_id))
         return next(new HttpError(403, "无权访问该作业"));
     }

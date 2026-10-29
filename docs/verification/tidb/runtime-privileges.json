@@ -1,0 +1,12 @@
+{
+  "testedAt": "2026-10-29T05:05:56.620Z",
+  "database": "sakura_edu_prod_20261029",
+  "tlsIdentityVerified": true,
+  "privileges": [
+    "SELECT",
+    "INSERT",
+    "UPDATE",
+    "DELETE"
+  ],
+  "foreignKeys": 99
+}

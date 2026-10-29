@@ -66,13 +66,36 @@ export const apiErrorHandler: ErrorRequestHandler = (
     status = /UNIQUE|PRIMARYKEY|FOREIGNKEY/.test(sqliteCode) ? 409 : 422;
     message = status === 409 ? "记录重复或关联关系冲突" : "数据不符合业务约束";
   } else if (
-    /^SQLITE_(BUSY|LOCKED|IOERR|CANTOPEN|FULL|READONLY|CORRUPT|NOTADB)(_|$)/.test(sqliteCode) ||
-    /database connection is not open/i.test(String(error?.message || ''))
+    [
+      "ER_DUP_ENTRY",
+      "ER_NO_REFERENCED_ROW_2",
+      "ER_ROW_IS_REFERENCED_2",
+    ].includes(sqliteCode)
+  ) {
+    status = 409;
+    message = "记录重复或关联关系冲突";
+  } else if (
+    [
+      "ER_CHECK_CONSTRAINT_VIOLATED",
+      "ER_BAD_NULL_ERROR",
+      "ER_DATA_TOO_LONG",
+    ].includes(sqliteCode)
+  ) {
+    status = 422;
+    message = "数据不符合业务约束";
+  } else if (
+    /^(ECONNRESET|ECONNREFUSED|ETIMEDOUT|EPIPE|PROTOCOL_CONNECTION_LOST|PROTOCOL_SEQUENCE_TIMEOUT|POOL_ENQUEUELIMIT|POOL_CLOSED|ER_LOCK_WAIT_TIMEOUT|ER_LOCK_NOWAIT|ER_LOCK_DEADLOCK|DB_COMMIT_UNKNOWN)$/.test(
+      sqliteCode,
+    ) ||
+    /^SQLITE_(BUSY|LOCKED|IOERR|CANTOPEN|FULL|READONLY|CORRUPT|NOTADB)(_|$)/.test(
+      sqliteCode,
+    ) ||
+    /database connection is not open/i.test(String(error?.message || ""))
   ) {
     status = 503;
-    message = '数据服务暂时不可用，请稍后重试；请勿重复提交尚未确认的操作。';
-    res.setHeader('Retry-After', '3');
-    res.setHeader('Cache-Control', 'no-store');
+    message = "数据服务暂时不可用，请稍后重试；请勿重复提交尚未确认的操作。";
+    res.setHeader("Retry-After", "3");
+    res.setHeader("Cache-Control", "no-store");
   } else if (error?.type === "entity.parse.failed") {
     status = 400;
     message = "请求 JSON 格式错误";

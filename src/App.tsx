@@ -1,19 +1,10 @@
-import {SakuraIcon} from './components/SakuraIcon';
+import { SakuraIcon } from "./components/SakuraIcon";
 import WorkspaceTools, {
   type NavigationTarget,
 } from "./components/WorkspaceTools";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { AuthPortalView } from "./components/AuthPortalView";
-import { KnowledgeBaseView } from "./components/KnowledgeBaseView";
 import { SqlApiArchitectureModal } from "./components/SqlApiArchitectureModal";
-import { DashboardOverviewView } from "./components/views/DashboardOverviewView";
-import { ExamAnalyticsView } from "./components/views/ExamAnalyticsView";
-import { HomeworkCenterView } from "./components/views/HomeworkCenterView";
-import { LessonPlansView } from "./components/views/LessonPlansView";
-import { ScheduleManagementView } from "./components/views/ScheduleManagementView";
-import { SchoolHomeCommView } from "./components/views/SchoolHomeCommView";
-import { StudentProfilesView } from "./components/views/StudentProfilesView";
-import AcademicAdminView from "./components/AcademicAdminView";
 import {
   AWESOME_DESIGN_THEMES,
   UiThemeId,
@@ -23,6 +14,62 @@ import {
 import { sakuraApi } from "./services/sakuraApiService";
 import { FacultyDefaultProfileDTO } from "./types/api";
 import { AppShell, WorkspaceTab } from "./types/sakura";
+const KnowledgeBaseView = lazy(() =>
+  import("./components/KnowledgeBaseView").then((m) => ({
+    default: m.KnowledgeBaseView,
+  })),
+);
+const DashboardOverviewView = lazy(() =>
+  import("./components/views/DashboardOverviewView").then((m) => ({
+    default: m.DashboardOverviewView,
+  })),
+);
+const ExamAnalyticsView = lazy(() =>
+  import("./components/views/ExamAnalyticsView").then((m) => ({
+    default: m.ExamAnalyticsView,
+  })),
+);
+const HomeworkCenterView = lazy(() =>
+  import("./components/views/HomeworkCenterView").then((m) => ({
+    default: m.HomeworkCenterView,
+  })),
+);
+const LessonPlansView = lazy(() =>
+  import("./components/views/LessonPlansView").then((m) => ({
+    default: m.LessonPlansView,
+  })),
+);
+const ScheduleManagementView = lazy(() =>
+  import("./components/views/ScheduleManagementView").then((m) => ({
+    default: m.ScheduleManagementView,
+  })),
+);
+const SchoolHomeCommView = lazy(() =>
+  import("./components/views/SchoolHomeCommView").then((m) => ({
+    default: m.SchoolHomeCommView,
+  })),
+);
+const StudentProfilesView = lazy(() =>
+  import("./components/views/StudentProfilesView").then((m) => ({
+    default: m.StudentProfilesView,
+  })),
+);
+const AcademicAdminView = lazy(() => import("./components/AcademicAdminView"));
+function ModuleLoading() {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="sakura-workspace-card m-6 p-6 rounded-xl flex items-center gap-3"
+    >
+      <span
+        aria-hidden="true"
+        className="w-5 h-5 rounded-full border-2 border-primary/25 border-t-primary motion-safe:animate-spin"
+      />
+      正在加载教学模块…
+    </div>
+  );
+}
 
 const BASELINE_DEFAULT_PROFILE: FacultyDefaultProfileDTO = {
   teacherId: "fac-admin",
@@ -95,12 +142,18 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
-    void loadSavedDefaultProfile().then((res) => {
-      if (cancelled) return;
-      if (res.success || res.code === 401) setInitializing(false);
-      else window.__sakuraBoot?.fail();
-    }).catch(() => { if (!cancelled) window.__sakuraBoot?.fail(); });
-    return () => { cancelled = true; };
+    void loadSavedDefaultProfile()
+      .then((res) => {
+        if (cancelled) return;
+        if (res.success || res.code === 401) setInitializing(false);
+        else window.__sakuraBoot?.fail();
+      })
+      .catch(() => {
+        if (!cancelled) window.__sakuraBoot?.fail();
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [loadSavedDefaultProfile]);
 
   useEffect(() => {
@@ -282,17 +335,17 @@ export default function App() {
 
       {/* Shell 2: Knowledge Base & SOP Center */}
       {activeShell === "knowledge-base" && (
-        <KnowledgeBaseView
-          onReturnToWorkspace={() =>
-            setActiveShell(isAuthenticated ? "workspace" : "auth")
-          }
-          onOpenSqlBlueprint={
-            isAuthenticated
-              ? () => setSqlApiModalOpen(true)
-              : undefined
-          }
-          showToast={showToast}
-        />
+        <Suspense fallback={<ModuleLoading />}>
+          <KnowledgeBaseView
+            onReturnToWorkspace={() =>
+              setActiveShell(isAuthenticated ? "workspace" : "auth")
+            }
+            onOpenSqlBlueprint={
+              isAuthenticated ? () => setSqlApiModalOpen(true) : undefined
+            }
+            showToast={showToast}
+          />
+        </Suspense>
       )}
 
       {/* Shell 3: Main Faculty Workspace */}
@@ -308,7 +361,9 @@ export default function App() {
                 className="lg:hidden w-8 h-8 rounded bg-surface-container-low border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container shrink-0 cursor-pointer"
                 aria-label="打开导航菜单"
               >
-                <SakuraIcon className="material-symbols-outlined text-lg">menu</SakuraIcon>
+                <SakuraIcon className="material-symbols-outlined text-lg">
+                  menu
+                </SakuraIcon>
               </button>
 
               <div
@@ -316,7 +371,9 @@ export default function App() {
                 className="flex items-center gap-2 cursor-pointer shrink-0"
               >
                 <div className="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-2xs">
-                  <SakuraIcon className="material-symbols-outlined text-lg">eco</SakuraIcon>
+                  <SakuraIcon className="material-symbols-outlined text-lg">
+                    eco
+                  </SakuraIcon>
                 </div>
                 <div>
                   <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight block leading-none">
@@ -644,80 +701,82 @@ export default function App() {
               data-state={STANDARD_PREVIEW ? "entering" : undefined}
               className={`${STANDARD_PREVIEW ? "sakura-motion sakura-motion-fade " : ""}sakura-workspace-body flex-1 h-full overflow-y-auto bg-background relative flex flex-col pb-14 lg:pb-0`}
             >
-              {activeTab === "dashboard-overview" && (
-                <DashboardOverviewView
-                  onNavigateTab={(t) => setActiveTab(t)}
-                  onOpenKnowledgeBase={() => setActiveShell("knowledge-base")}
-                  showToast={showToast}
-                />
-              )}
-              {activeTab === "homework-center" && (
-                <HomeworkCenterView
-                  focusAssignmentId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.id
-                      : undefined
-                  }
-                  focusClassId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.class_id
-                      : undefined
-                  }
-                  showToast={showToast}
-                  onSelectStudentForProfile={() =>
-                    setActiveTab("student-profiles")
-                  }
-                />
-              )}
-              {activeTab === "student-profiles" && (
-                <StudentProfilesView
-                  focusStudentId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.id
-                      : undefined
-                  }
-                  showToast={showToast}
-                  onNavigateToChat={() =>
-                    setActiveTab("school-home-communication")
-                  }
-                />
-              )}
-              {activeTab === "schedule-management" && (
-                <ScheduleManagementView showToast={showToast} />
-              )}
-              {activeTab === "lesson-plans" && (
-                <LessonPlansView
-                  showToast={showToast}
-                  focusLessonId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.id
-                      : undefined
-                  }
-                />
-              )}
-              {activeTab === "exam-analytics" && (
-                <ExamAnalyticsView
-                  showToast={showToast}
-                  focusExamId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.id
-                      : undefined
-                  }
-                />
-              )}
-              {activeTab === "school-home-communication" && (
-                <SchoolHomeCommView
-                  focusStudentId={
-                    navigationTarget?.tab === activeTab
-                      ? navigationTarget.id
-                      : undefined
-                  }
-                  showToast={showToast}
-                  onNavigateToStudentProfile={() =>
-                    setActiveTab("student-profiles")
-                  }
-                />
-              )}
+              <Suspense fallback={<ModuleLoading />}>
+                {activeTab === "dashboard-overview" && (
+                  <DashboardOverviewView
+                    onNavigateTab={(t) => setActiveTab(t)}
+                    onOpenKnowledgeBase={() => setActiveShell("knowledge-base")}
+                    showToast={showToast}
+                  />
+                )}
+                {activeTab === "homework-center" && (
+                  <HomeworkCenterView
+                    focusAssignmentId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.id
+                        : undefined
+                    }
+                    focusClassId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.class_id
+                        : undefined
+                    }
+                    showToast={showToast}
+                    onSelectStudentForProfile={() =>
+                      setActiveTab("student-profiles")
+                    }
+                  />
+                )}
+                {activeTab === "student-profiles" && (
+                  <StudentProfilesView
+                    focusStudentId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.id
+                        : undefined
+                    }
+                    showToast={showToast}
+                    onNavigateToChat={() =>
+                      setActiveTab("school-home-communication")
+                    }
+                  />
+                )}
+                {activeTab === "schedule-management" && (
+                  <ScheduleManagementView showToast={showToast} />
+                )}
+                {activeTab === "lesson-plans" && (
+                  <LessonPlansView
+                    showToast={showToast}
+                    focusLessonId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.id
+                        : undefined
+                    }
+                  />
+                )}
+                {activeTab === "exam-analytics" && (
+                  <ExamAnalyticsView
+                    showToast={showToast}
+                    focusExamId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.id
+                        : undefined
+                    }
+                  />
+                )}
+                {activeTab === "school-home-communication" && (
+                  <SchoolHomeCommView
+                    focusStudentId={
+                      navigationTarget?.tab === activeTab
+                        ? navigationTarget.id
+                        : undefined
+                    }
+                    showToast={showToast}
+                    onNavigateToStudentProfile={() =>
+                      setActiveTab("student-profiles")
+                    }
+                  />
+                )}
+              </Suspense>
             </main>
 
             {/* Mobile Bottom Navigation Bar (Visible on < lg) */}
@@ -754,7 +813,9 @@ export default function App() {
                 onClick={() => setMobileDrawerOpen(true)}
                 className="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant"
               >
-                <SakuraIcon className="material-symbols-outlined text-lg">apps</SakuraIcon>
+                <SakuraIcon className="material-symbols-outlined text-lg">
+                  apps
+                </SakuraIcon>
                 <span className="text-[10px] leading-none">更多模块</span>
               </button>
             </nav>
@@ -1081,7 +1142,9 @@ export default function App() {
       {academicAdminOpen &&
       isAuthenticated &&
       defaultProfile.role === "admin" ? (
-        <AcademicAdminView onClose={() => setAcademicAdminOpen(false)} />
+        <Suspense fallback={<ModuleLoading />}>
+          <AcademicAdminView onClose={() => setAcademicAdminOpen(false)} />
+        </Suspense>
       ) : null}
       <SqlApiArchitectureModal
         open={sqlApiModalOpen}

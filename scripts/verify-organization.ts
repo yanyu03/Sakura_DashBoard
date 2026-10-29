@@ -12,6 +12,7 @@ import { registerWorkspace } from "../server/workspace";
 import { apiErrorHandler } from "../server/http";
 import { hashPassword } from "../server/passwords";
 import { classAccess, reply } from "../server/business";
+import {asyncDatabase} from '../server/asyncDatabase';
 import { applyOrganizationFoundation } from "../server/database/organizationFoundation";
 import { applyIdentityHierarchy } from "../server/database/identityHierarchy";
 import { applyAuthProtectionSchema } from "../server/authProtection";
@@ -47,8 +48,8 @@ registerAuth(app, db, {
 registerAcademic(app, db);
 registerSchedules(app, db);
 registerWorkspace(app, db);
-app.get("/api/v1/academic/test/class/:id", (req, res) => {
-  classAccess(db, res, req.params.id);
+app.get("/api/v1/academic/test/class/:id", async (req, res) => {
+  await classAccess(asyncDatabase(db), res, req.params.id);
   reply(res, { allowed: true });
 });
 app.use(apiErrorHandler);

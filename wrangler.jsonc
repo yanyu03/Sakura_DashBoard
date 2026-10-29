@@ -5,6 +5,7 @@
   "main": "cloudflare/worker.ts",
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
+  "placement": {"region":"aws:ap-southeast-1"},
   "workers_dev": true,
   "preview_urls": false,
   "routes": [{ "pattern": "sakura.250221.xyz", "custom_domain": true }],
@@ -33,9 +34,10 @@
     "COOKIE_SECURE": "true",
     "SAKURA_DEMO_MODE": "false",
     "SAKURA_ALLOW_SQL_WRITES": "false",
+    "DATABASE_MODE": "tidb",
   },
   "secrets": {
-    "required": ["SAKURA_ADMIN_PASSWORD_HASH"],
+    "required": ["SAKURA_ADMIN_PASSWORD_HASH", "TIDB_DATABASE_URL"],
   },
   "observability": {
     "enabled": true,

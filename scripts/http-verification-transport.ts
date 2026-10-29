@@ -31,6 +31,7 @@ export const verificationFetch: typeof globalThis.fetch = async (
       "--silent",
       "--show-error",
       "--include",
+      "--compressed",
       "--suppress-connect-headers",
       "--connect-timeout",
       "8",

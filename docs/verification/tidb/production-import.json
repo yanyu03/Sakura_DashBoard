@@ -1,0 +1,299 @@
+{
+  "testedAt": "2026-10-29T05:01:19.981Z",
+  "source": "current Cloudflare v15",
+  "database": "sakura_edu_prod_20261029",
+  "sourceSha256": "6e3412cfe3bb046b1db84f715981466d3e07a88c0ad7ef60fe3ac74d24391412",
+  "schemaChecksum": "fc8bfe53241af918a2cb7147f031490a166b4a06ba43a3285e86bcbb5a4aba41",
+  "checks": [
+    {
+      "table": "security_captchas",
+      "rows": 44,
+      "verified": true
+    },
+    {
+      "table": "faculty_users",
+      "rows": 3,
+      "verified": true
+    },
+    {
+      "table": "lesson_plans",
+      "rows": 1,
+      "verified": true
+    },
+    {
+      "table": "sql_audit_logs",
+      "rows": 1,
+      "verified": true
+    },
+    {
+      "table": "schema_migrations",
+      "rows": 15,
+      "verified": true
+    },
+    {
+      "table": "academic_classes",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "student_profiles",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "timetable_schedules",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "course_swap_requests",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "homework_assignments",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "homework_submissions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "exam_analytics_batches",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "coaching_journals",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "home_school_threads",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "home_school_messages",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "academic_terms",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "courses",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "class_enrollments",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "auth_sessions",
+      "rows": 3,
+      "verified": true
+    },
+    {
+      "table": "login_attempts",
+      "rows": 21,
+      "verified": true
+    },
+    {
+      "table": "teaching_assignments",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "homework_history",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "lesson_revisions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "lesson_homework",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "schedule_entries",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "schedule_changes",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "assessment_exams",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "assessment_questions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "assessment_results",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "assessment_marks",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "assessment_imports",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "care_contacts",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "care_threads",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "care_messages",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "care_todos",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "business_notifications",
+      "rows": 1,
+      "verified": true
+    },
+    {
+      "table": "institutions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "organization_units",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_registry",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_roles",
+      "rows": 8,
+      "verified": true
+    },
+    {
+      "table": "organization_positions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_appointments",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_reporting_lines",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_objects",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_object_bindings",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "auth_protection",
+      "rows": 12,
+      "verified": true
+    },
+    {
+      "table": "schedule_entry_scopes",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "schedule_submissions",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "school_people",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "person_account_links",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "identity_person_links",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "organization_unit_types",
+      "rows": 13,
+      "verified": true
+    },
+    {
+      "table": "organization_parent_rules",
+      "rows": 34,
+      "verified": true
+    },
+    {
+      "table": "school_subjects",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "subject_courses",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "organization_unit_profiles",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "organization_class_links",
+      "rows": 0,
+      "verified": true
+    },
+    {
+      "table": "staff_course_qualifications",
+      "rows": 0,
+      "verified": true
+    }
+  ]
+}

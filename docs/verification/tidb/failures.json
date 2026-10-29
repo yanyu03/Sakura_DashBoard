@@ -1,0 +1,9 @@
+{
+  "testedAt": "2026-10-29T05:06:55.377Z",
+  "passed": 3,
+  "checks": [
+    "unconfirmed commit is never retried and the connection lease is released",
+    "a new explicit transaction recovers after the previous failure",
+    "temporary data failure produces bounded 503 and preserves the authenticated browser state"
+  ]
+}

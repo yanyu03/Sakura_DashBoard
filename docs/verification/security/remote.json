@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-28T13:15:51.872Z",
+  "testedAt": "2026-10-29T05:09:36.641Z",
   "base": "https://sakura.250221.xyz",
   "checks": [
     "login and registration pages load",

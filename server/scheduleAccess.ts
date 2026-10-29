@@ -1,9 +1,12 @@
-import type { DatabaseConnection } from "./dbContract";
+import { type DatabaseConnection } from "./asyncDatabase";
 import type { Response } from "express";
 import { HttpError } from "./http";
 import { organizationScope } from "./organizationCore";
-export function scheduleAccess(db: DatabaseConnection, accountId: string) {
-  const scope = organizationScope(db, accountId);
+export async function scheduleAccess(
+  db: DatabaseConnection,
+  accountId: string,
+) {
+  const scope = await organizationScope(db, accountId);
   const eligible = scope.activeAppointments.filter((a) =>
     ["teacher", "mentor", "director", "subject_member"].includes(a.role_code),
   );
@@ -11,7 +14,7 @@ export function scheduleAccess(db: DatabaseConnection, accountId: string) {
   const manages = scope.manages;
   const institutions = new Map(
     (
-      db.prepare("SELECT id,code FROM institutions").all() as {
+      (await db.prepare("SELECT id,code FROM institutions").all()) as {
         id: string;
         code: string;
       }[]
@@ -52,9 +55,12 @@ export function scheduleAccess(db: DatabaseConnection, accountId: string) {
     },
   };
 }
-export function requestScheduleAccess(
+export async function requestScheduleAccess(
   db: DatabaseConnection,
   res: Response,
-): ReturnType<typeof scheduleAccess> {
-  return (res.locals.scheduleAccess ??= scheduleAccess(db, res.locals.user.id));
+): Promise<Awaited<ReturnType<typeof scheduleAccess>>> {
+  return (res.locals.scheduleAccess ??= await scheduleAccess(
+    db,
+    res.locals.user.id,
+  ));
 }

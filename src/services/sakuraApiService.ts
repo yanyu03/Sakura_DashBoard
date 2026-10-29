@@ -31,7 +31,7 @@ class SakuraApiService {
   private config: SakuraBackendConfig = {
     baseUrl: '/api/v1',
     useRemoteBackend: true,
-    timeoutMs: 8000,
+    timeoutMs: 15000,
   };
 
   private callLogs: {
@@ -97,7 +97,10 @@ class SakuraApiService {
       try {
         const res = await fetch(`${this.config.baseUrl}${path}`, {
           ...options,
-          signal: options.signal || AbortSignal.timeout(this.config.timeoutMs),
+          signal: options.signal || AbortSignal.timeout(
+            /^(POST|PUT|PATCH|DELETE)$/i.test(options.method || 'GET')
+              ? Math.max(this.config.timeoutMs, 45000) : this.config.timeoutMs
+          ),
           headers: {
             'Content-Type': 'application/json',
             ...(this.csrfToken ? {'X-CSRF-Token':this.csrfToken} : {}),
@@ -113,7 +116,7 @@ class SakuraApiService {
             method: meta.method,
             endpoint: meta.endpoint,
             sql: json.sqlExecuted || meta.fallbackSql,
-            engine: 'SQLite3 (local API)',
+            engine: res.headers.get('X-Sakura-Database') || 'SQLite3 (test API)',
           });
           return json;
         }
@@ -127,7 +130,7 @@ class SakuraApiService {
       return {
         code: 503,
         success: false,
-        message: '未获得本地 SQLite 的有效响应，请检查服务后确认操作结果。',
+        message: '未获得数据服务的有效响应，请稍后重试；提交类操作请先确认保存结果，避免重复提交。',
         data: null,
         traceId: `sqlite-unavailable-${Date.now().toString(36)}`,
         timestamp: new Date().toISOString(),

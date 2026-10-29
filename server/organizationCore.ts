@@ -1,18 +1,20 @@
 import { randomUUID } from "node:crypto";
-import type { DatabaseConnection } from "./dbContract";
+import { asyncSome, type DatabaseConnection } from "./asyncDatabase";
 import { HttpError } from "./http";
 export type OrgRow = Record<string, any>;
 export const schoolToday = () =>
   new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10);
-
-export function organizationScope(db: DatabaseConnection, accountId: string) {
-  const units = db
+export async function organizationScope(
+  db: DatabaseConnection,
+  accountId: string,
+) {
+  const units = (await db
     .prepare(
       `SELECT u.*,COALESCE(p.unit_type,u.kind) unit_type,p.subject_id,t.label type_label,s.name subject_name
     FROM organization_units u LEFT JOIN organization_unit_profiles p ON p.unit_id=u.id
     LEFT JOIN organization_unit_types t ON t.code=COALESCE(p.unit_type,u.kind) LEFT JOIN school_subjects s ON s.id=p.subject_id`,
     )
-    .all() as OrgRow[];
+    .all()) as OrgRow[];
   const byId = new Map(units.map((u) => [u.id, u]));
   const ancestors = (id: string) => {
     const result: string[] = [];
@@ -24,9 +26,9 @@ export function organizationScope(db: DatabaseConnection, accountId: string) {
     }
     return result;
   };
-  const activeAppointments = activeStaffAppointments(db, accountId).filter(
-    (a) => ancestors(a.unit_id).length,
-  );
+  const activeAppointments = (
+    await activeStaffAppointments(db, accountId)
+  ).filter((a) => ancestors(a.unit_id).length);
   const member = (id: string) =>
     activeAppointments.some((a) => a.unit_id === id);
   const manages = (id: string) => {
@@ -59,12 +61,12 @@ export function organizationScope(db: DatabaseConnection, accountId: string) {
       })),
   };
 }
-export function activeStaffAppointments(
+export async function activeStaffAppointments(
   db: DatabaseConnection,
   accountId?: string,
-): OrgRow[] {
+): Promise<Awaited<OrgRow[]>> {
   const today = schoolToday();
-  return db
+  return (await db
     .prepare(
       `SELECT a.id appointment_id,a.institution_id,a.starts_on,a.ends_on,i.id identity_id,i.account_id,p.unit_id,p.role_code,p.code position_code,
     f.faculty_code,f.full_name,l.person_id,COALESCE(r.unit_type,u.kind) unit_type,r.subject_id,u.name unit_name
@@ -76,83 +78,99 @@ export function activeStaffAppointments(
     AND (person.id IS NULL OR person.status='active') AND a.starts_on<=? AND (a.ends_on IS NULL OR a.ends_on>=?)
     ${accountId ? "AND i.account_id=?" : ""} ORDER BY a.id`,
     )
-    .all(today, today, ...(accountId ? [accountId] : [])) as OrgRow[];
+    .all(today, today, ...(accountId ? [accountId] : []))) as OrgRow[];
 }
-export function ensureStaffIdentity(
+export async function ensureStaffIdentity(
   db: DatabaseConnection,
   institutionId: string,
   accountId: string,
 ) {
-  const account = db
+  const account = (await db
     .prepare(
       "SELECT id,faculty_code,full_name FROM faculty_users WHERE id=? AND status='ACTIVE'",
     )
-    .get(accountId) as OrgRow | undefined;
+    .get(accountId)) as OrgRow | undefined;
   if (!account) throw new HttpError(422, "账号不存在或已停用");
-  let identity = db
+  let identity = (await db
     .prepare(
       "SELECT id,status FROM identity_registry WHERE institution_id=? AND account_id=? AND identity_kind='staff'",
     )
-    .get(institutionId, accountId) as OrgRow | undefined;
+    .get(institutionId, accountId)) as OrgRow | undefined;
   if (identity && identity.status !== "active")
     throw new HttpError(409, "职工身份已停用");
   if (!identity) {
     identity = { id: randomUUID() };
-    db.prepare(
-      "INSERT INTO identity_registry(id,institution_id,account_id,identity_kind,external_id,display_name) VALUES (?,?,?,'staff',?,?)",
-    ).run(
-      identity.id,
-      institutionId,
-      accountId,
-      account.faculty_code,
-      account.full_name,
-    );
+    await db
+      .prepare(
+        "INSERT INTO identity_registry(id,institution_id,account_id,identity_kind,external_id,display_name) VALUES (?,?,?,'staff',?,?)",
+      )
+      .run(
+        identity.id,
+        institutionId,
+        accountId,
+        account.faculty_code,
+        account.full_name,
+      );
   }
-  let person = db
+  let person = (await db
     .prepare(
       "SELECT person_id FROM person_account_links WHERE institution_id=? AND account_id=?",
     )
-    .get(institutionId, accountId) as { person_id: string } | undefined;
+    .get(institutionId, accountId)) as
+    | {
+        person_id: string;
+      }
+    | undefined;
   if (!person) {
     person = { person_id: randomUUID() };
-    db.prepare(
-      "INSERT INTO school_people(id,institution_id,display_name) VALUES (?,?,?)",
-    ).run(person.person_id, institutionId, account.full_name);
-    db.prepare("INSERT INTO person_account_links VALUES (?,?,?)").run(
-      institutionId,
-      person.person_id,
-      accountId,
-    );
+    await db
+      .prepare(
+        "INSERT INTO school_people(id,institution_id,display_name) VALUES (?,?,?)",
+      )
+      .run(person.person_id, institutionId, account.full_name);
+    await db
+      .prepare("INSERT INTO person_account_links VALUES (?,?,?)")
+      .run(institutionId, person.person_id, accountId);
   }
-  const state = db
+  const state = (await db
     .prepare("SELECT status FROM school_people WHERE id=?")
-    .get(person.person_id) as { status: string };
+    .get(person.person_id)) as {
+    status: string;
+  };
   if (state.status !== "active") throw new HttpError(409, "校内人员身份已停用");
-  db.prepare("INSERT OR IGNORE INTO identity_person_links VALUES (?,?,?)").run(
-    identity.id,
-    institutionId,
-    person.person_id,
-  );
+  await db
+    .prepare("INSERT OR IGNORE INTO identity_person_links VALUES (?,?,?)")
+    .run(identity.id, institutionId, person.person_id);
   return { identityId: identity.id, personId: person.person_id };
 }
-export function ensureUnitProfile(db: DatabaseConnection, unitId: string) {
+export async function ensureUnitProfile(
+  db: DatabaseConnection,
+  unitId: string,
+) {
   if (
-    db
+    await db
       .prepare("SELECT 1 FROM organization_unit_profiles WHERE unit_id=?")
       .get(unitId)
   )
     return;
-  db.prepare(
-    "INSERT OR IGNORE INTO organization_unit_profiles(unit_id,institution_id,unit_type) SELECT id,institution_id,kind FROM organization_units WHERE id=?",
-  ).run(unitId);
+  await db
+    .prepare(
+      "INSERT OR IGNORE INTO organization_unit_profiles(unit_id,institution_id,unit_type) SELECT id,institution_id,kind FROM organization_units WHERE id=?",
+    )
+    .run(unitId);
 }
-export function headTeacherClassIds(db: DatabaseConnection, accountId: string) {
-  const heads = organizationClassHeads(db, accountId);
-  const legacy = db
+export async function headTeacherClassIds(
+  db: DatabaseConnection,
+  accountId: string,
+) {
+  const heads = await organizationClassHeads(db, accountId);
+  const legacy = (await db
     .prepare(
       "SELECT c.id FROM academic_classes c WHERE c.head_teacher_id=? AND NOT EXISTS(SELECT 1 FROM organization_class_links l WHERE l.class_id=c.id)",
     )
-    .all(accountId) as { id: string }[];
+    .all(accountId)) as {
+    id: string;
+  }[];
   return new Set([
     ...legacy.map((c) => c.id),
     ...[...heads]
@@ -160,18 +178,18 @@ export function headTeacherClassIds(db: DatabaseConnection, accountId: string) {
       .map(([classId]) => classId),
   ]);
 }
-export function organizationClassHeads(
+export async function organizationClassHeads(
   db: DatabaseConnection,
   contextAccountId: string,
 ) {
-  const scope = organizationScope(db, contextAccountId),
-    heads = activeStaffAppointments(db).filter(
+  const scope = await organizationScope(db, contextAccountId),
+    heads = (await activeStaffAppointments(db)).filter(
       (a) =>
         a.role_code === "homeroom_teacher" && scope.ancestors(a.unit_id).length,
     );
-  const links = db
+  const links = (await db
     .prepare("SELECT class_id,unit_id FROM organization_class_links")
-    .all() as OrgRow[];
+    .all()) as OrgRow[];
   return new Map<string, string | null>(
     links.map((link) => [
       link.class_id,
@@ -179,10 +197,10 @@ export function organizationClassHeads(
     ]),
   );
 }
-export function coursesForAppointment(
+export async function coursesForAppointment(
   db: DatabaseConnection,
   appointment: OrgRow,
-): OrgRow[] {
+): Promise<Awaited<OrgRow[]>> {
   if (
     appointment.unit_type !== "subject_group" ||
     !["subject_member", "teacher", "mentor", "director"].includes(
@@ -191,7 +209,7 @@ export function coursesForAppointment(
   )
     return [];
   const today = schoolToday();
-  return db
+  return (await db
     .prepare(
       `SELECT c.id,c.name,
     CASE WHEN EXISTS(SELECT 1 FROM staff_course_qualifications q WHERE q.appointment_id=? AND q.course_id=c.id AND q.status='active' AND q.starts_on<=? AND (q.ends_on IS NULL OR q.ends_on>=?)) THEN 'confirmed' ELSE 'current_teaching' END evidence
@@ -213,51 +231,56 @@ export function coursesForAppointment(
       appointment.account_id,
       today,
       today,
-    ) as OrgRow[];
+    )) as OrgRow[];
 }
-export function assertUnitCourse(
+export async function assertUnitCourse(
   db: DatabaseConnection,
   unitId: string,
   courseId: string,
 ) {
-  const group = db
+  const group = (await db
     .prepare(
       "SELECT p.subject_id FROM organization_unit_profiles p WHERE p.unit_id=? AND p.unit_type='subject_group'",
     )
-    .get(unitId) as { subject_id: string } | undefined;
+    .get(unitId)) as
+    | {
+        subject_id: string;
+      }
+    | undefined;
   if (
     group &&
-    !db
+    !(await db
       .prepare(
         "SELECT 1 FROM subject_courses c JOIN school_subjects s ON s.id=c.subject_id WHERE c.subject_id=? AND c.course_id=? AND s.status='active'",
       )
-      .get(group.subject_id, courseId)
+      .get(group.subject_id, courseId))
   )
     throw new HttpError(403, "该课程不属于所选学科组");
 }
-export function assertSubstituteQualification(
+export async function assertSubstituteQualification(
   db: DatabaseConnection,
   accountId: string,
   unitId: string,
   courseId: string,
 ) {
-  assertUnitCourse(db, unitId, courseId);
-  const profile = db
+  await assertUnitCourse(db, unitId, courseId);
+  const profile = await db
     .prepare(
       "SELECT 1 FROM organization_unit_profiles WHERE unit_id=? AND unit_type='subject_group'",
     )
     .get(unitId);
   if (
     profile &&
-    !organizationScope(db, accountId).activeAppointments.some(
-      (a) =>
+    !(await asyncSome(
+      (await organizationScope(db, accountId)).activeAppointments,
+      async (a) =>
         a.unit_id === unitId &&
-        coursesForAppointment(db, a).some((c) => c.id === courseId),
-    )
+        (await coursesForAppointment(db, a)).some((c) => c.id === courseId),
+    ))
   )
     throw new HttpError(403, "代课教师在该学科组尚无有效任教资格");
 }
-export function sameSchoolPerson(
+export async function sameSchoolPerson(
   db: DatabaseConnection,
   first: string,
   second: string,
@@ -265,26 +288,31 @@ export function sameSchoolPerson(
 ) {
   if (first === second) return true;
   if (!unitId) return false;
-  return !!db
+  return !!(await db
     .prepare(
       `SELECT 1 FROM person_account_links a JOIN person_account_links b ON b.institution_id=a.institution_id AND b.person_id=a.person_id
     JOIN organization_units u ON u.institution_id=a.institution_id WHERE a.account_id=? AND b.account_id=? AND u.id=?`,
     )
-    .get(first, second, unitId);
+    .get(first, second, unitId));
 }
-
-export function classOrganizationActive(
+export async function classOrganizationActive(
   db: DatabaseConnection,
   classId: string,
 ) {
-  const link = db
+  const link = (await db
     .prepare("SELECT unit_id FROM organization_class_links WHERE class_id=?")
-    .get(classId) as { unit_id: string } | undefined;
+    .get(classId)) as
+    | {
+        unit_id: string;
+      }
+    | undefined;
   if (!link) return true;
-  const chain = db
+  const chain = (await db
     .prepare(
       `WITH RECURSIVE chain(id,parent_id,status) AS (SELECT id,parent_id,status FROM organization_units WHERE id=? UNION SELECT u.id,u.parent_id,u.status FROM organization_units u JOIN chain c ON u.id=c.parent_id) SELECT status FROM chain`,
     )
-    .all(link.unit_id) as { status: string }[];
+    .all(link.unit_id)) as {
+    status: string;
+  }[];
   return chain.length > 0 && chain.every((u) => u.status === "active");
 }

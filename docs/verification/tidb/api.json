@@ -1,0 +1,16 @@
+{
+  "testedAt": "2026-10-29T04:56:23.513Z",
+  "target": "isolated TiDB migration staging database",
+  "passed": 9,
+  "checks": [
+    "migrated password hash and existing account authenticate against TiDB",
+    "asynchronous defaults and hashing create independent synthetic test accounts",
+    "TiDB preserves the exact governance chain and checks parent relationships",
+    "subject qualification and multiple appointments survive MySQL transactions",
+    "scoped supervisor sees one qualified person; unrelated teacher cannot inspect",
+    "database checks and application guards reject reparenting invalid identities and malformed keys",
+    "qualification revocation affects an existing logged-in supervisor immediately",
+    "real TiDB schedule draft submission approval and class isolation preserve prior behavior",
+    "SQL management stays forbidden and logout revokes the migrated session"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "nativeChecks": 54,
+  "totalChecks": 60,
+  "transactionChecks": 60,
+  "exceptions": [
+    {
+      "table": "organization_units",
+      "index": 4,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    },
+    {
+      "table": "organization_units",
+      "index": 5,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    },
+    {
+      "table": "identity_reporting_lines",
+      "index": 1,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    },
+    {
+      "table": "identity_object_bindings",
+      "index": 3,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    },
+    {
+      "table": "schedule_submissions",
+      "index": 3,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    },
+    {
+      "table": "organization_unit_profiles",
+      "index": 0,
+      "enforcedBy": "application transaction",
+      "reason": "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN"
+    }
+  ]
+}

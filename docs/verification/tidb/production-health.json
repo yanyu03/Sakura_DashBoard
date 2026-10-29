@@ -1,0 +1,17 @@
+{
+  "testedAt": "2026-10-29T05:08:58.273Z",
+  "checks": [
+    {
+      "path": "auth/default-profile",
+      "status": 401,
+      "engine": "TiDB",
+      "durationMs": 1123
+    },
+    {
+      "path": "auth/env-check",
+      "status": 200,
+      "engine": "TiDB",
+      "durationMs": 1888
+    }
+  ]
+}

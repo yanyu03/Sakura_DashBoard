@@ -1,0 +1,14 @@
+{
+  "deployedAt": "2026-10-29T05:09:04.818Z",
+  "worker": "sakura-dashboard",
+  "versionId": "739e921b-cd1a-400b-937c-5953ba9bb05f",
+  "url": "https://sakura.250221.xyz/?design=1.0Sakura",
+  "mode": "tidb",
+  "database": "sakura_edu_prod_20261029",
+  "sourceSchemaVersion": 15,
+  "previousSqliteVersionId": "7b4ef2ae-8340-4696-88d5-f5a202b1673f",
+  "freezeVersionId": "a63868d8-d75a-4596-a040-632f1f73d87b",
+  "previewWorkerDeleted": true,
+  "oldSqliteBusinessAccess": "403 archive only",
+  "wafChanged": false
+}
