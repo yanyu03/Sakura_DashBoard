@@ -1,0 +1,17 @@
+{
+  "testedAt": "2026-10-29T14:19:54.806Z",
+  "cloudCredentialsRequired": false,
+  "completed": [
+    "test:migrations",
+    "test:auth",
+    "test:protection",
+    "test:reliability",
+    "test:hierarchy",
+    "test:schedule-sharing",
+    "test:organization",
+    "test:first-registration",
+    "test:tidb-reliability",
+    "test:preview"
+  ],
+  "passed": 10
+}

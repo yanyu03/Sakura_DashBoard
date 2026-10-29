@@ -38,7 +38,6 @@
   },
   "secrets": {
     "required": [
-      "SAKURA_ADMIN_PASSWORD_HASH",
       "TIDB_DATABASE_URL",
       "AUTH_PASSWORD_PEPPERS",
     ],

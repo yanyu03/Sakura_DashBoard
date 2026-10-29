@@ -1,0 +1,12 @@
+{
+  "testedAt": "2026-10-29T14:19:54.749Z",
+  "passed": 4,
+  "checks": [
+    "actual local entry serves pages and starts without seeded accounts",
+    "first registration through the real entry creates the administrator",
+    "real local login uses SQLite and preserves API management restrictions",
+    "restart retains the account and accepts its original password"
+  ],
+  "target": "real dev-portfolio entry with an isolated local SQLite file",
+  "captchaOverride": "test-owned database challenge hash only; no product bypass"
+}

@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-29T14:25:22.191Z",
+  "scope": "reachable history before the open-source documentation commit plus current source and built assets",
+  "historyCommits": 16,
+  "historyBlobs": 519,
+  "knownCredentialFindings": 0,
+  "historyDatabaseObjects": 1,
+  "historicalWal": "deleted demo fragment retained in history; no known operator secret; recognizable email and phone values match source fixtures",
+  "documentationPages": 14,
+  "relativeLinksChecked": 98,
+  "npmCommandReferencesChecked": 51,
+  "localRegressionSuites": 10,
+  "localRegressionChecks": 98,
+  "securityChecks": 11,
+  "emptyBootstrapTables": 58,
+  "emptyBootstrapAccounts": 0,
+  "emptyBootstrapStudents": 0,
+  "fullCloudBootstrapRetested": false,
+  "notes": "Targeted credential review is not an exhaustive secret or personal-data audit. Existing production TiDB functional evidence remains separately dated."
+}

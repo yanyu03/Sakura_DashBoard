@@ -19,6 +19,7 @@ export function createApplication(
   trustCloudflare = false,
   diagnostics = false,
   passwordPolicy?: PasswordPolicy,
+  databaseLabel: "TiDB" | "SQLite" = "TiDB",
 ) {
   const app = express();
   app.disable("x-powered-by");
@@ -26,7 +27,7 @@ export function createApplication(
     res.locals.requestId = randomUUID();
     res.setHeader("X-Request-Id", res.locals.requestId);
     res.setHeader("Cache-Control", "no-store");
-    res.setHeader("X-Sakura-Database", "TiDB");
+    res.setHeader("X-Sakura-Database", databaseLabel);
     next();
   });
   app.use(express.json({ limit: "5mb" }));
