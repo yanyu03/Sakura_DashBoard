@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-29T06:09:57.343Z",
+  "worker": "sakura-dashboard",
+  "versionId": "885d5c5b-1420-49c0-af1a-41914ecd780c",
+  "url": "https://sakura.250221.xyz/?design=1.0Sakura",
+  "schemaVersion": 15,
+  "syntheticBusinessWritesInProduction": false,
+  "wafChanged": false,
+  "previewWorkerDeleted": true
+}

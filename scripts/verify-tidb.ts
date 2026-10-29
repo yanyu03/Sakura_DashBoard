@@ -2,15 +2,18 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { randomUUID } from "node:crypto";
 import { hashPassword } from "../server/passwords";
-import { tidbPool } from "./tidb-config";
-import { TiDBDatabase } from "../server/tidb/database";
+import { tidbTestDatabase } from "./tidb-test-database";
 import { verificationFetch as fetch } from "./http-verification-transport";
+if (
+  process.env.TIDB_DATABASE &&
+  !process.env.TIDB_DATABASE.startsWith("sakura_migration_")
+)
+  throw Error("Synthetic verification requires an isolated migration database");
 const base =
     process.argv.find((v) => v.startsWith("http")) || "http://127.0.0.1:3018",
-  pool = tidbPool(),
-  db = new TiDBDatabase(pool),
   suffix = randomUUID().slice(0, 8),
   password = "Synthetic-Test-Pass!42";
+const { pool, db } = tidbTestDatabase();
 if (!base.startsWith("http://127.0.0.1:") && !base.endsWith("/__tidb-preview"))
   throw Error("Synthetic scenarios only run on isolated migration previews");
 const checks: string[] = [],
@@ -22,6 +25,9 @@ async function api(who: string, route: string, method = "GET", body?: unknown) {
     headers: {
       Origin: new URL(base).origin,
       "Content-Type": "application/json",
+      ...(process.env.SAKURA_PREVIEW_TOKEN
+        ? { "X-Sakura-Preview-Token": process.env.SAKURA_PREVIEW_TOKEN }
+        : {}),
       ...(s ? { Cookie: s.cookie, "X-CSRF-Token": s.csrf } : {}),
     },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
@@ -80,9 +86,11 @@ try {
   await check(
     "migrated password hash and existing account authenticate against TiDB",
     async () => {
-      const adminPass = fs
-        .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
-        .match(/^Password: (.+)$/m)![1];
+      const adminPass =
+        process.env.SAKURA_TEST_ADMIN_PASSWORD ||
+        fs
+          .readFileSync(".local-data/cloudflare-initial-admin.txt", "utf8")
+          .match(/^Password: (.+)$/m)![1];
       await login("admin", "admin", adminPass);
       assert.equal((await ok("admin", "auth/session")).role, "admin");
     },

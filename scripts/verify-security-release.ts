@@ -126,6 +126,20 @@ await check(
     assert.ok(Array.isArray(scope.json.data.units));
   },
 );
+await check(
+  "legacy student and grading-pool reads remain available after TiDB migration",
+  async () => {
+    for (const route of [
+      "students?classId=release-nonexistent-class",
+      "homework/submissions?className=release-nonexistent-class",
+    ]) {
+      const r = await api(route);
+      assert.equal(r.response.status, 200);
+      assert.equal(r.json.success, true);
+      assert.deepEqual(r.json.data, []);
+    }
+  },
+);
 await check("logout revokes session", async () => {
   assert.equal((await api("auth/logout", "POST", {})).response.status, 200);
   assert.equal((await api("auth/session")).response.status, 401);

@@ -17,6 +17,8 @@ export function registerHomework(app: Express, source: DatabaseSource) {
       .get(id)) as Record<string, any> | undefined;
     if (!row) throw new HttpError(404, "作业不存在");
     await classAccess(db, res, row.class_id);
+    if (row.lifecycle === "draft" && row.owner_id !== res.locals.user.id)
+      throw new HttpError(403, "草稿仅创建者可访问");
     return row;
   };
   const entry = async (id: unknown, res: Response) => {
@@ -97,10 +99,11 @@ export function registerHomework(app: Express, source: DatabaseSource) {
     ).map((c) => c.id);
     const rows = (await db
       .prepare(
-        `SELECT a.*,c.class_name FROM homework_assignments a JOIN academic_classes c ON c.id=a.class_id WHERE a.class_id IN (${ids.map(() => "?").join(",") || "NULL"}) ${req.query.classId ? "AND a.class_id=?" : ""} ORDER BY a.created_at DESC,a.id`,
+        `SELECT a.*,c.class_name FROM homework_assignments a JOIN academic_classes c ON c.id=a.class_id WHERE a.class_id IN (${ids.map(() => "?").join(",") || "NULL"}) AND (a.lifecycle<>'draft' OR a.owner_id=?) ${req.query.classId ? "AND a.class_id=?" : ""} ORDER BY a.created_at DESC,a.id`,
       )
       .all(
         ...ids,
+        res.locals.user.id,
         ...(req.query.classId ? [String(req.query.classId)] : []),
       )) as Record<string, any>[];
     reply(

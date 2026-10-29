@@ -231,6 +231,10 @@ export function registerAuth(
             )
             .get(account, email);
           if (used) throw new HttpError(409, "用户名或邮箱已被使用");
+          // The transaction serializes the empty-installation check with account creation.
+          const firstAccount = !(await db
+            .prepare("SELECT 1 FROM faculty_users LIMIT 1")
+            .get());
           if (
             (
               await db
@@ -243,7 +247,7 @@ export function registerAuth(
             throw new HttpError(422, "验证码已被使用");
           await db
             .prepare(
-              "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,'教师','未设置','teacher','dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
+              "INSERT INTO faculty_users(id,faculty_code,email,password_hash,full_name,title_role,department,role,default_tab,default_theme,default_class_name,semester_label,dnd_enabled) VALUES (?,?,?,?,?,?,'未设置',?,'dashboard-overview','forest-tea','尚未分配班级','尚未设置学期',0)",
             )
             .run(
               randomUUID(),
@@ -251,6 +255,8 @@ export function registerAuth(
               email,
               hashPassword(password),
               fullName,
+              firstAccount ? "系统管理员" : "教师",
+              firstAccount ? "admin" : "teacher",
             );
           await res.locals.authProtectionSuccess?.();
         })();

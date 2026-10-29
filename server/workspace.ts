@@ -84,9 +84,9 @@ export function registerWorkspace(app: Express, source: DatabaseSource) {
     const lessons = (
       (await db
         .prepare(
-          "SELECT COUNT(*) AS n FROM lesson_plans WHERE archived_at IS NULL AND (?='admin' OR visibility='school' OR owner_id=?)",
+          "SELECT COUNT(*) AS n FROM lesson_plans WHERE archived_at IS NULL AND (visibility='school' OR owner_id=?)",
         )
-        .get(res.locals.user.role, res.locals.user.id)) as {
+        .get(res.locals.user.id)) as {
         n: number;
       }
     ).n;
@@ -132,12 +132,9 @@ export function registerWorkspace(app: Express, source: DatabaseSource) {
       });
     const lessons = (await db
       .prepare(
-        "SELECT id,title,owner_id,visibility FROM lesson_plans WHERE archived_at IS NULL AND instr(title||body||tags_json,?)>0 AND (?='admin' OR visibility='school' OR owner_id=?) ORDER BY updated_at DESC,id LIMIT 20",
+        "SELECT id,title,owner_id,visibility FROM lesson_plans WHERE archived_at IS NULL AND instr(title||body||tags_json,?)>0 AND (visibility='school' OR owner_id=?) ORDER BY updated_at DESC,id LIMIT 20",
       )
-      .all(q, res.locals.user.role, res.locals.user.id)) as Record<
-      string,
-      any
-    >[];
+      .all(q, res.locals.user.id)) as Record<string, any>[];
     for (const l of lessons)
       results.push({
         id: l.id,
@@ -152,9 +149,12 @@ export function registerWorkspace(app: Express, source: DatabaseSource) {
     ] as const) {
       const rows = (await db
         .prepare(
-          `SELECT id,title,class_id FROM ${table} WHERE instr(title,?)>0 AND ${type === "homework" ? "lifecycle<>'archived'" : "archived_at IS NULL"} ORDER BY id`,
+          `SELECT id,title,class_id FROM ${table} WHERE instr(title,?)>0 AND ${type === "homework" ? "lifecycle<>'archived' AND (lifecycle<>'draft' OR owner_id=?)" : "archived_at IS NULL"} ORDER BY id`,
         )
-        .all(q)) as Record<string, any>[];
+        .all(
+          q,
+          ...(type === "homework" ? [res.locals.user.id] : []),
+        )) as Record<string, any>[];
       for (const row of (
         await asyncFilter(rows, async (r) => await visible(res, r.class_id))
       ).slice(0, 20))

@@ -14,7 +14,7 @@ export const verificationFetch: typeof globalThis.fetch = async (
         ? input.href
         : input.url;
   const config = [
-    `url = ${JSON.stringify(url)}`,
+    `url = ${JSON.stringify(new URL(url).href)}`,
     `request = ${JSON.stringify(init?.method || "GET")}`,
     ...Array.from(
       new Headers(init?.headers),

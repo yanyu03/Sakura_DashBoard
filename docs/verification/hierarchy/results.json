@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-29T04:33:29.669Z",
+  "testedAt": "2026-10-29T05:45:27.937Z",
   "checks": [
     {
       "name": "upgrade adds nine metadata tables without changing legacy accounts",

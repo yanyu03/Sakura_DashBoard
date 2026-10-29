@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-29T05:09:36.641Z",
+  "testedAt": "2026-10-29T06:14:10.389Z",
   "base": "https://sakura.250221.xyz",
   "checks": [
     "login and registration pages load",
@@ -8,7 +8,8 @@
     "SQL status query backup and reset are denied even to administrator",
     "department scheduling endpoints load after additive migration",
     "organization metadata and scope load after v15 upgrade without granting a school appointment",
+    "legacy student and grading-pool reads remain available after TiDB migration",
     "logout revokes session"
   ],
-  "passed": 7
+  "passed": 8
 }

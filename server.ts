@@ -1,3 +1,4 @@
+import {registerLegacyViews} from './server/legacyViews';
 import svgCaptcha from "svg-captcha";
 import { registerWorkspace } from "./server/workspace";
 import { registerCare } from "./server/care";
@@ -78,113 +79,11 @@ async function startServer() {
   registerExams(app, sqliteDb);
   registerCare(app, sqliteDb);
   registerWorkspace(app, sqliteDb);
+  registerLegacyViews(app, sqliteDb);
 
   // ===========================================================================
   // 2. Schedule & Course Swap Endpoints
   // ===========================================================================
-  app.get("/api/v1/homework/submissions", (req, res) => {
-    const className = String(req.query.className || "高二(1)班");
-    const status = String(req.query.status || "all");
-
-    const rows = sqliteDb
-      .prepare(
-        `SELECT s.* FROM homework_submissions s JOIN homework_assignments a ON a.id=s.assignment_id WHERE s.class_name=? AND (?='all' OR s.status=?) ${res.locals.classScope ? `AND a.class_id IN (${res.locals.classScope.map(() => "?").join(",")})` : ""} ORDER BY s.submitted_at,s.id`,
-      )
-      .all(className, status, status, ...(res.locals.classScope || [])) as {
-      id: string;
-      total_score: number | null;
-      status: string;
-      status_badge: string;
-      stamp_type: string | null;
-      payload_json: string;
-    }[];
-
-    const parsed = rows.map((r) => {
-      const base = JSON.parse(r.payload_json);
-      return {
-        ...base,
-        score: r.total_score ?? base.score,
-        status: r.status || base.status,
-        statusBadge: r.status_badge || base.statusBadge,
-        stamp: r.stamp_type,
-      };
-    });
-
-    const sql = `SELECT * FROM homework_submissions WHERE assignment_id = 'assign-chibifu-04' ORDER BY submitted_at DESC;`;
-
-    return sendSqlResponse(res, parsed, `已加载 ${className} 作业批阅池`, {
-      fn: "sakuraApi.homework.getClassSubmissions",
-      method: "GET",
-      endpoint: `/api/v1/homework/submissions?className=${encodeURIComponent(
-        className,
-      )}&status=${status}`,
-      sql,
-    });
-  });
-
-  app.get("/api/v1/students", (req, res) => {
-    const classId = String(req.query.classId || "G2-201");
-    const tag = String(req.query.tag || "all");
-
-    const rows = sqliteDb
-      .prepare(
-        `SELECT s.*, c.class_name FROM student_profiles s JOIN academic_classes c ON c.id=s.class_id WHERE s.archived_at IS NULL AND s.class_id=? AND (?='all' OR s.tag_category=?) ${res.locals.classScope ? `AND s.class_id IN (${res.locals.classScope.map(() => "?").join(",")})` : ""} ORDER BY s.student_no,s.id`,
-      )
-      .all(classId, tag, tag, ...(res.locals.classScope || [])) as Record<
-      string,
-      any
-    >[];
-
-    const journals = sqliteDb
-      .prepare(
-        `SELECT id, student_id, date_title, tag, content, teacher_name, status_text FROM coaching_journals ORDER BY rowid DESC`,
-      )
-      .all() as {
-      id: string;
-      student_id: string;
-      date_title: string;
-      tag: string;
-      content: string;
-      teacher_name: string;
-      status_text: string;
-    }[];
-
-    const profiles = rows.map((r) => {
-      const base = JSON.parse(r.payload_json);
-      const stuJournals = journals
-        .filter((j) => j.student_id === r.id)
-        .map((j) => ({
-          id: j.id,
-          dateTitle: j.date_title,
-          tag: j.tag,
-          content: j.content,
-          teacher: j.teacher_name,
-          statusText: j.status_text,
-        }));
-      return {
-        ...base,
-        id: r.id,
-        name: r.full_name,
-        studentNo: r.student_no,
-        shortNo: r.short_no,
-        className: r.class_name,
-        avatarChar: r.avatar_char,
-        tagCategory: r.tag_category,
-        coachingJournals:
-          stuJournals.length > 0 ? stuJournals : base.coachingJournals,
-      };
-    });
-
-    const sql = `SELECT * FROM student_profiles WHERE class_id = '${classId}';`;
-
-    return sendSqlResponse(res, profiles, `已加载学生学情档案`, {
-      fn: "sakuraApi.student.getStudentProfiles",
-      method: "GET",
-      endpoint: `/api/v1/students?classId=${classId}&tag=${tag}`,
-      sql,
-    });
-  });
-
   app.get("/api/v1/sqlite/status", (_req, res) => {
     const summary = getSqliteDatabaseSummary();
     return res.json({

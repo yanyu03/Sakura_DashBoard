@@ -10,6 +10,7 @@ import { registerSchedules } from "./schedules";
 import { registerExams } from "./exams";
 import { registerCare } from "./care";
 import { registerWorkspace } from "./workspace";
+import { registerLegacyViews } from "./legacyViews";
 import { apiErrorHandler, HttpError } from "./http";
 export function createApplication(
   db: DatabaseSource,
@@ -43,6 +44,7 @@ export function createApplication(
   registerExams(app, db);
   registerCare(app, db);
   registerWorkspace(app, db);
+  registerLegacyViews(app, db);
   app.use("/api/v1", (_req, _res, next) =>
     next(new HttpError(404, "接口不存在")),
   );

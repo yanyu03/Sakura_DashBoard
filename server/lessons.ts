@@ -15,10 +15,9 @@ export function registerLessons(app: Express, source: DatabaseSource) {
       .get(id)) as Record<string, any> | undefined;
     if (!row) throw new HttpError(404, "教案不存在");
     if (
-      res.locals.user.role !== "admin" &&
-      (write
+      write
         ? row.owner_id !== res.locals.user.id
-        : row.visibility === "private" && row.owner_id !== res.locals.user.id)
+        : row.visibility === "private" && row.owner_id !== res.locals.user.id
     )
       throw new HttpError(403, "无权访问此教案");
     return row;
@@ -28,13 +27,12 @@ export function registerLessons(app: Express, source: DatabaseSource) {
     async (req, res) => {
       const rows = (await db
         .prepare(
-          `SELECT * FROM lesson_plans WHERE archived_at IS NULL AND (?='admin' OR visibility='school' OR owner_id=?) AND instr(title||summary||tags_json,?)>0 ORDER BY updated_at DESC,id`,
+          `SELECT * FROM lesson_plans WHERE archived_at IS NULL AND (visibility='school' OR owner_id=?) AND instr(title||summary||tags_json,?)>0 ORDER BY updated_at DESC,id`,
         )
-        .all(
-          res.locals.user.role,
-          res.locals.user.id,
-          String(req.query.q || ""),
-        )) as Record<string, any>[];
+        .all(res.locals.user.id, String(req.query.q || ""))) as Record<
+        string,
+        any
+      >[];
       reply(
         res,
         await Promise.all(
@@ -56,20 +54,25 @@ export function registerLessons(app: Express, source: DatabaseSource) {
                 }
               },
             ),
-            canEdit:
-              res.locals.user.role === "admin" ||
-              r.owner_id === res.locals.user.id,
+            canEdit: r.owner_id === res.locals.user.id,
             links: (
               await asyncFilter(
                 (await db
                   .prepare(
-                    "SELECT l.assignment_id,a.class_id FROM lesson_homework l JOIN homework_assignments a ON a.id=l.assignment_id WHERE l.lesson_id=?",
+                    "SELECT l.assignment_id,a.class_id,a.lifecycle,a.owner_id FROM lesson_homework l JOIN homework_assignments a ON a.id=l.assignment_id WHERE l.lesson_id=?",
                   )
                   .all(r.id)) as {
                   assignment_id: string;
                   class_id: string;
+                  lifecycle: string;
+                  owner_id: string;
                 }[],
                 async (l) => {
+                  if (
+                    l.lifecycle === "draft" &&
+                    l.owner_id !== res.locals.user.id
+                  )
+                    return false;
                   try {
                     await classAccess(db, res, l.class_id);
                     return true;
@@ -197,13 +200,22 @@ export function registerLessons(app: Express, source: DatabaseSource) {
           version(req.body, row);
           if (row.archived_at) throw new HttpError(409, "教案已归档");
           const work = (await db
-            .prepare("SELECT class_id FROM homework_assignments WHERE id=?")
+            .prepare(
+              "SELECT class_id,lifecycle,owner_id FROM homework_assignments WHERE id=?",
+            )
             .get(req.body.assignment_id)) as
             | {
                 class_id: string;
+                lifecycle: string;
+                owner_id: string;
               }
             | undefined;
           if (!work) throw new HttpError(404, "作业不存在");
+          if (
+            work.lifecycle === "draft" &&
+            work.owner_id !== res.locals.user.id
+          )
+            throw new HttpError(403, "无权关联他人的作业草稿");
           await classAccess(db, res, work.class_id);
           if (req.body.remove === true)
             await db

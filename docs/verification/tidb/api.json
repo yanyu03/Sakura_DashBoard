@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-10-29T04:56:23.513Z",
+  "testedAt": "2026-10-29T06:07:06.697Z",
   "target": "isolated TiDB migration staging database",
   "passed": 9,
   "checks": [

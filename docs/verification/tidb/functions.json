@@ -1,0 +1,118 @@
+{
+  "testedAt": "2026-10-29T06:02:16.284Z",
+  "target": "token-gated Cloudflare Worker with isolated synthetic TiDB database",
+  "checks": [
+    {
+      "name": "registration / real API persists optional name rejects role injection replay and duplicate identity",
+      "status": "PASS",
+      "durationMs": 32092
+    },
+    {
+      "name": "auth / anonymous requests cannot read or administer SQLite",
+      "status": "PASS",
+      "durationMs": 2941
+    },
+    {
+      "name": "auth / actual credentials issue HttpOnly session without password disclosure",
+      "status": "PASS",
+      "durationMs": 6392
+    },
+    {
+      "name": "auth / CSRF validation and expired challenges are enforced",
+      "status": "PASS",
+      "durationMs": 6568
+    },
+    {
+      "name": "auth / teacher scope prevents cross-class access and administration",
+      "status": "PASS",
+      "durationMs": 31786
+    },
+    {
+      "name": "auth / logout invalidates server session",
+      "status": "PASS",
+      "durationMs": 5418
+    },
+    {
+      "name": "academic / create master records and persist linked student data",
+      "status": "PASS",
+      "durationMs": 31226
+    },
+    {
+      "name": "API / common JSON errors and unknown endpoints are structured",
+      "status": "PASS",
+      "durationMs": 2054
+    },
+    {
+      "name": "API / grading rejects missing records and invalid scores without writing",
+      "status": "PASS",
+      "durationMs": 6054
+    },
+    {
+      "name": "homework / draft publish submit grade return resubmit and statistics",
+      "status": "PASS",
+      "durationMs": 55859
+    },
+    {
+      "name": "lessons / API write persists in TiDB and subsequent reads",
+      "status": "PASS",
+      "durationMs": 3930
+    },
+    {
+      "name": "lessons / owner privacy revisions links archive and stale edits",
+      "status": "PASS",
+      "durationMs": 43802
+    },
+    {
+      "name": "schedule / formal entry bypass is rejected in favor of scoped submission approval",
+      "status": "PASS",
+      "durationMs": 4616
+    },
+    {
+      "name": "exams / preview import statistics missing scores and duplicate requests",
+      "status": "PASS",
+      "durationMs": 35601
+    },
+    {
+      "name": "care / shared contacts messages unread todos and journal ownership",
+      "status": "PASS",
+      "durationMs": 46004
+    },
+    {
+      "name": "workspace / aggregates search and notification state are scoped",
+      "status": "PASS",
+      "durationMs": 24666
+    },
+    {
+      "name": "API / grading persists in physical columns and list response",
+      "status": "PASS",
+      "durationMs": 3316
+    },
+    {
+      "name": "external / unconfigured AI rejects instead of fabricating results",
+      "status": "PASS",
+      "durationMs": 5
+    },
+    {
+      "name": "responses / large lesson JSON remains complete across repeated Worker responses",
+      "status": "PASS",
+      "durationMs": 12727
+    },
+    {
+      "name": "isolation / private lesson must remain hidden from a different administrator",
+      "status": "PASS",
+      "durationMs": 13791
+    },
+    {
+      "name": "isolation / same-class colleague must not read an unshared draft assignment",
+      "status": "PASS",
+      "durationMs": 19180
+    },
+    {
+      "name": "isolation / same-class colleague must not overwrite an unshared draft assignment",
+      "status": "PASS",
+      "durationMs": 12379
+    }
+  ],
+  "passed": 22,
+  "failed": 0
+}

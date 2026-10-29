@@ -1,0 +1,24 @@
+{
+  "testedAt": "2026-10-29T05:47:48.663Z",
+  "target": "empty migrated SQLite with the same authentication application code",
+  "checks": [
+    {
+      "name": "first registration must bootstrap an administrator",
+      "status": "PASS",
+      "expected": "admin",
+      "actual": "admin"
+    },
+    {
+      "name": "later public registration must ignore injected admin role",
+      "status": "PASS",
+      "expected": "teacher",
+      "actual": "teacher"
+    },
+    {
+      "name": "concurrent first registrations create exactly one administrator",
+      "status": "PASS",
+      "expected": "1 administrator",
+      "actual": "1 administrator"
+    }
+  ]
+}

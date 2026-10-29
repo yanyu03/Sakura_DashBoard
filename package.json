@@ -29,7 +29,9 @@
     "test:organization-workers": "tsx scripts/verify-organization-workers.ts",
     "test:tidb": "tsx scripts/verify-tidb.ts",
     "test:tidb-reliability": "tsx scripts/verify-tidb-reliability.ts",
-    "test:tidb-read-compatibility": "tsx scripts/verify-tidb-read-compatibility.ts"
+    "test:tidb-read-compatibility": "tsx scripts/verify-tidb-read-compatibility.ts",
+    "test:first-registration": "tsx scripts/verify-first-registration.ts",
+    "test:tidb-functions": "tsx scripts/verify-tidb-functions.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

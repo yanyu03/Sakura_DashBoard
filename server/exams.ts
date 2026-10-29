@@ -418,31 +418,35 @@ export function registerExams(app: Express, source: DatabaseSource) {
     reply(
       res,
       (
-        await asyncFilter(exams, async (e) => {
-          try {
-            await classAccess(db, res, e.class_id);
-            return true;
-          } catch {
-            return false;
-          }
-        })
-      ).flatMap(async (e) => {
-        const student = (await report(e)).students.find(
-          (s) => s.id === req.params.id,
-        );
-        return student
-          ? [
-              {
-                exam_id: e.id,
-                title: e.title,
-                date: e.exam_date,
-                total: student.total,
-                max_score: e.max_score,
-                status: student.status,
-              },
-            ]
-          : [];
-      }),
+        await Promise.all(
+          (
+            await asyncFilter(exams, async (e) => {
+              try {
+                await classAccess(db, res, e.class_id);
+                return true;
+              } catch {
+                return false;
+              }
+            })
+          ).map(async (e) => {
+            const student = (await report(e)).students.find(
+              (s) => s.id === req.params.id,
+            );
+            return student
+              ? [
+                  {
+                    exam_id: e.id,
+                    title: e.title,
+                    date: e.exam_date,
+                    total: student.total,
+                    max_score: e.max_score,
+                    status: student.status,
+                  },
+                ]
+              : [];
+          }),
+        )
+      ).flat(),
     );
   });
 }

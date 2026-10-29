@@ -1,5 +1,7 @@
 # 业务实施进度
 
+> 2026-10-29 功能回归：通过隔离 TiDB 与真实 Worker 测试业务闭环，补齐迁移读取接口、空库首位管理员、成绩轨迹及私有内容权限，见 [功能测试记录](verification/tidb/FUNCTIONAL-TESTS.md)。跨机构公开范围、Key 全流程与学生/家长登录授权仍未纳入通过结论。
+
 > 2026-10-29：线上数据平移 TiDB，SQLite 保留本地测试；异步业务适配、故障处理、按需加载与课表参考模型见 [TiDB 验收](verification/tidb/README.md)。下文包含历史交付记录，周模板和 Key 流程仍不能视作已交付。
 
 > 2026-10-28 后续更新：当前已进入 v15 组织与兼任实施，并持续推送和部署；下文保留首轮交付记录。最新组织结构、权限边界及验证结果见 [v15 验收](verification/organization/README.md)，排课共享见 [v14 验收](verification/schedule-sharing/README.md)。旧文中的 SQLite 控制台已关闭。
