@@ -22,7 +22,8 @@ const root = createRoot(document.getElementById('root')!, {
 async function mount() {
   // Load app styles after the HTML startup screen can paint.
   await import('./index.css');
-  if (new URLSearchParams(window.location.search).get('design') === '1.0Sakura') {
+  const designMode = new URLSearchParams(window.location.search).get('design');
+  if (designMode === '1.0Sakura' || designMode === null) {
     await import('./styles/SakuraEdu_1.0Sakura.css');
     await import('./styles/sakura-standard-bridge.css');
     await import('./styles/workspace-polish.css');

@@ -13,7 +13,11 @@
 
 import standardThemes from './sakuraStandardThemes.json';
 
-export const STANDARD_PREVIEW = new URLSearchParams(window.location.search).get('design') === '1.0Sakura';
+const designParam =
+  typeof window !== "undefined"
+    ? new URLSearchParams(window.location.search).get("design")
+    : "1.0Sakura";
+export const STANDARD_PREVIEW = designParam === '1.0Sakura' || designParam === null;
 export type StandardThemeId = 'sakura-milk' | 'ocean-blue' | 'forest-tea' | 'amber-paper' | 'lavender-mist' | 'graphite-mono' | 'midnight-cyan';
 export type UiThemeId = 'awesome-green' | 'matcha-bamboo' | 'sakura-pink' | 'sakura-classic' | StandardThemeId;
 

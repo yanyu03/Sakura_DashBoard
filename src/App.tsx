@@ -368,18 +368,18 @@ export default function App() {
 
               <div
                 onClick={() => setActiveTab("dashboard-overview")}
-                className="flex items-center gap-2 cursor-pointer shrink-0"
+                className="flex items-center gap-2 cursor-pointer min-w-0"
               >
-                <div className="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-2xs">
+                <div className="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container shadow-2xs shrink-0">
                   <SakuraIcon className="material-symbols-outlined text-lg">
                     eco
                   </SakuraIcon>
                 </div>
-                <div>
-                  <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight block leading-none">
+                <div className="min-w-0">
+                  <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight block leading-none truncate">
                     SakuraEdu
                   </span>
-                  <span className="font-label-sm text-[10px] text-secondary tracking-wider uppercase block mt-0.5">
+                  <span className="font-label-sm text-[10px] text-secondary tracking-wider uppercase block mt-0.5 truncate">
                     樱花教务云 · {defaultProfile.department}
                   </span>
                 </div>
@@ -699,7 +699,7 @@ export default function App() {
             <main
               key={STANDARD_PREVIEW ? activeTab : "workspace"}
               data-state={STANDARD_PREVIEW ? "entering" : undefined}
-              className={`${STANDARD_PREVIEW ? "sakura-motion sakura-motion-fade " : ""}sakura-workspace-body flex-1 h-full overflow-y-auto bg-background relative flex flex-col pb-14 lg:pb-0`}
+              className={`${STANDARD_PREVIEW ? "sakura-motion sakura-motion-rise " : ""}sakura-workspace-body flex-1 h-full overflow-y-auto bg-background relative flex flex-col pb-14 lg:pb-0`}
             >
               <Suspense fallback={<ModuleLoading />}>
                 {activeTab === "dashboard-overview" && (

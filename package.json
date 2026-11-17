@@ -8,7 +8,7 @@
   "engines": { "node": ">=22.12.0" },
   "type": "module",
   "scripts": {
-    "dev": "tsx scripts/dev-portfolio.ts",
+    "dev": "tsx scripts/dev-standard.ts",
     "dev:portfolio": "tsx scripts/dev-portfolio.ts",
     "dev:legacy": "tsx server.ts",
     "dev:standard": "tsx scripts/dev-standard.ts",
