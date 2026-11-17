@@ -48,7 +48,7 @@ const publicProfile = (user: AuthUser) => ({
   role: user.role,
   defaultTab: user.default_tab,
   defaultTheme: user.default_theme,
-  defaultClassName: user.default_class_name,
+  defaultClassName: "请在课表模块选择默认班级",
   semesterLabel: user.semester_label,
   dndEnabled: !!user.dnd_enabled,
   dndStartTime: user.dnd_start_time,
@@ -448,7 +448,7 @@ export function registerAuth(
       throw new HttpError(422, "主题无效");
     await db
       .prepare(
-        "UPDATE faculty_users SET full_name=?,title_role=?,department=?,default_tab=?,default_theme=?,dnd_enabled=?,dnd_start_time=?,default_class_name=?,semester_label=? WHERE id=?",
+        "UPDATE faculty_users SET full_name=?,title_role=?,department=?,default_tab=?,default_theme=?,dnd_enabled=?,dnd_start_time=?,semester_label=? WHERE id=?",
       )
       .run(
         fullName,
@@ -458,11 +458,6 @@ export function registerAuth(
         theme,
         req.body.dndEnabled ? 1 : 0,
         dnd,
-        text(
-          req.body.defaultClassName || user.default_class_name,
-          "默认班级显示名",
-          { max: 80 },
-        ),
         text(req.body.semesterLabel || user.semester_label, "学期显示说明", {
           max: 100,
         }),

@@ -11,7 +11,7 @@
 | 存储契约 | `server/asyncDatabase.ts`、`server/dbContract.ts` | 为原生 SQLite 和异步 TiDB 暴露共同调用方式 |
 | TiDB 适配 | `server/tidb/` | 参数化 SQL 翻译、结果映射、事务、约束检查、HTTPS 驱动 |
 | 边缘入口 | `cloudflare/worker.ts`、`tidb.ts`、`security.ts` | Secret 注入、HTTPS 边界、限速、Node / Express 适配与静态资源 |
-| 本地入口 | `scripts/dev-portfolio.ts` | 空 SQLite + v15 迁移 + 同一业务应用，不依赖云端凭据 |
+| 本地入口 | `scripts/dev-portfolio.ts` | 空 SQLite + v16 迁移 + 同一业务应用，不依赖云端凭据 |
 
 生产 Worker 为每次 API 调用建立请求范围内的应用及数据库客户端，避免把带认证状态的连接跨请求共享。请求经 `cloudflare:node` 桥接到 Express，最终走固定 HTTPS 目标访问 TiDB；原 Durable Object SQLite 只作为归档入口返回 403。
 
@@ -34,9 +34,11 @@ flowchart TD
   Department --> Qualification[课程 / 学科任教资格]
 ```
 
-这是实体之间的语义关系图，完整字段、外键和组织类型映射以 [v15 实现说明](verification/organization/README.md) 和 [TiDB schema](../server/tidb/schema.json) 为准。
+这是实体之间的语义关系图，完整字段、外键和组织类型映射以 [v15 组织实现说明](verification/organization/README.md)、v16 排课任务池迁移和 [TiDB schema](../server/tidb/schema.json) 为准。
 
 “用户”“校内人员”“岗位”“实际任课”分别回答登录身份、人员去重、可管理范围和实际教学分工。不同学校的人员不按姓名猜测合并；一个人可以同时是班主任和学科组成员。可调度资格目录不推断私人日程，也不承诺该老师空闲。
+
+默认班级通过 `faculty_class_defaults` 关联真实班级，且必须属于本人有效任课；它只是新建任务的预填上下文。尚未绑定班级或任课关系的排课事项存入 `schedule_task_pool`，按账号所有者隔离。任务通过任课、学期、组织单位和冲突校验后，才能关联到常规排课提交。
 
 权限使用后台记录与有效日期，不能由用户填写的部门字符串、前端角色或工号格式直接决定。账号 admin 允许配置资料，仍需单独任职才能获得对应组织的课表负责范围。人员别名不能绕过“不可审批本人申请”的约束。
 
@@ -70,7 +72,7 @@ stateDiagram-v2
 
 ## SQLite 到 TiDB
 
-生产采用 v15 业务结构平移：58 张迁移表、99 个外键、34 组旧触发器规则和 60 项检查。54 项检查由 TiDB 原生 CHECK 执行，其余 6 项及触发器语义由应用事务保护；不能说两种数据库的物理能力完全相同。
+生产采用 v15 业务结构并通过 v16 扩展到 60 张表；v16 增加 5 个外键和 3 项任务池检查。TiDB 原生 CHECK 与事务保护的边界见 [TiDB 迁移说明](verification/tidb/README.md)；不能说两种数据库的物理能力完全相同。
 
 适配器对 SQLite 风格参数和部分表达式做有界转换，使用参数化查询，不提供面向浏览器的 SQL 执行 API。写事务锁定统一协调行并更新 epoch，以便互斥检查和并发冲突检测。这使小规模迁移较直接，但会限制吞吐；部分约束检查仍扫描表，大数据量下应改成精确行检查并独立压测。
 

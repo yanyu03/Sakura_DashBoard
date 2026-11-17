@@ -34,6 +34,8 @@
 | `/organization/admin`、`/organization/scope` | 配置元数据与当前组织范围；`server/organization.ts` |
 | `/organization/dispatchable-teachers` | 按负责范围、课程资格返回可协调人员；不返回私人资料或保证空闲 |
 | `/schedules/options`、`/schedules/submissions` | 排课选项、草稿与提交；`server/scheduleSharing.ts` |
+| `/schedules/default-class` | 读取或设置账号默认任课班级；仅接受本人有效任课中的班级，作为预填上下文，不授予数据权限 |
+| `/schedules/task-pool` | 私有排课中间池；GET/POST、按任务 PATCH 编辑或取消，只返回当前账号所有任务；创建课表提交时可附 `pool_task_id` 绑定该任务 |
 | `/schedules/entries`、`/schedules/changes` | 正式课时与调代课申请；`server/schedules.ts` |
 | `/schedules/entries/:id/sharing` | 调整正式课时共享范围，不能扩大其他业务授权 |
 | `/schedules/calendar.ics` | 权限范围内日历导出 |

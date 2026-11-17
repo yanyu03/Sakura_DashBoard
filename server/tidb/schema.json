@@ -1,5 +1,5 @@
 {
-  "sourceSchemaVersion": 15,
+  "sourceSchemaVersion": 16,
   "tables": [
     {
       "name": "security_captchas",
@@ -93,8 +93,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["captcha_id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "captcha_id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [],
       "ddl": "CREATE TABLE `security_captchas` (`captcha_id` VARCHAR(128) NOT NULL,`mode` LONGTEXT NOT NULL,`captcha_mode` LONGTEXT NOT NULL,`question_label` LONGTEXT NOT NULL,`answer_hash` LONGTEXT NOT NULL,`answer_text` LONGTEXT NOT NULL,`svg_markup` LONGTEXT NOT NULL,`verified` BIGINT NOT NULL DEFAULT 0,`client_ip` LONGTEXT,`expires_at` LONGTEXT NOT NULL,`created_at` LONGTEXT NOT NULL,PRIMARY KEY (`captcha_id`)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
@@ -248,9 +252,15 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
-      "checks": ["role IN ('admin','teacher')"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
+      "checks": [
+        "role IN ('admin','teacher')"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `faculty_users` (`id` VARCHAR(128) NOT NULL,`faculty_code` VARCHAR(128) NOT NULL,`email` VARCHAR(254) NOT NULL,`phone` VARCHAR(128),`password_hash` LONGTEXT NOT NULL,`full_name` LONGTEXT NOT NULL,`title_role` LONGTEXT NOT NULL,`department` LONGTEXT NOT NULL,`default_tab` LONGTEXT NOT NULL,`default_theme` LONGTEXT NOT NULL,`default_class_name` LONGTEXT NOT NULL,`semester_label` LONGTEXT NOT NULL,`dnd_enabled` BIGINT NOT NULL DEFAULT 1,`dnd_start_time` LONGTEXT NOT NULL,`status` LONGTEXT NOT NULL,`created_at` LONGTEXT NOT NULL,`role` LONGTEXT NOT NULL,`version` BIGINT NOT NULL DEFAULT 1,PRIMARY KEY (`id`),UNIQUE KEY `idx_0` (`phone`),UNIQUE KEY `idx_1` (`email`),UNIQUE KEY `idx_2` (`faculty_code`),CONSTRAINT `faculty_users_check_0` CHECK (role IN ('admin','teacher'))) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -379,9 +389,15 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["updated_at"],
-      "checks": ["visibility IN ('private','school')"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "updated_at"
+      ],
+      "checks": [
+        "visibility IN ('private','school')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -467,8 +483,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [],
       "ddl": "CREATE TABLE `sql_audit_logs` (`id` BIGINT NOT NULL AUTO_INCREMENT,`trace_id` VARCHAR(128) NOT NULL,`fn_name` LONGTEXT NOT NULL,`http_method` LONGTEXT NOT NULL,`endpoint` LONGTEXT NOT NULL,`sql_text` LONGTEXT NOT NULL,`rows_affected` BIGINT DEFAULT 1,`created_at` LONGTEXT NOT NULL,PRIMARY KEY (`id`),KEY `idx_0` (`trace_id`)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
@@ -510,8 +530,12 @@
           "default": "strftime('%Y-%m-%dT%H:%M:%fZ','now')"
         }
       ],
-      "primary": ["version"],
-      "automaticTimestamps": ["applied_at"],
+      "primary": [
+        "version"
+      ],
+      "automaticTimestamps": [
+        "applied_at"
+      ],
       "checks": [],
       "foreign": [],
       "ddl": "CREATE TABLE `schema_migrations` (`version` BIGINT NOT NULL AUTO_INCREMENT,`name` LONGTEXT NOT NULL,`checksum` LONGTEXT NOT NULL,`applied_at` LONGTEXT NOT NULL,PRIMARY KEY (`version`)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
@@ -601,8 +625,12 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -849,8 +877,12 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["updated_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "updated_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -993,9 +1025,15 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
-      "checks": ["day_of_week BETWEEN 1 AND 7"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
+      "checks": [
+        "day_of_week BETWEEN 1 AND 7"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -1089,8 +1127,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -1249,8 +1291,12 @@
           "default": null
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [
         "lifecycle IN ('draft','published','closed','archived')",
         "max_score > 0",
@@ -1432,8 +1478,12 @@
           "default": "''"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["submitted_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "submitted_at"
+      ],
       "checks": [
         "total_score IS NULL OR total_score >= 0",
         "question_score >= 0"
@@ -1566,8 +1616,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -1670,8 +1724,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -1809,9 +1867,15 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["updated_at"],
-      "checks": ["unread_count >= 0"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "updated_at"
+      ],
+      "checks": [
+        "unread_count >= 0"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -1897,8 +1961,12 @@
           "default": "datetime('now', 'localtime')"
         }
       ],
-      "primary": ["id"],
-      "automaticTimestamps": ["created_at"],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [
+        "created_at"
+      ],
       "checks": [],
       "foreign": [
         {
@@ -1985,9 +2053,14 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["active IN (0,1)", "starts_on <= ends_on"],
+      "checks": [
+        "active IN (0,1)",
+        "starts_on <= ends_on"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `academic_terms` (`id` VARCHAR(128) NOT NULL,`code` VARCHAR(128) NOT NULL,`name` LONGTEXT NOT NULL,`starts_on` LONGTEXT NOT NULL,`ends_on` LONGTEXT NOT NULL,`active` BIGINT NOT NULL DEFAULT 0,`archived_at` LONGTEXT,`version` BIGINT NOT NULL DEFAULT 1,PRIMARY KEY (`id`),UNIQUE KEY `idx_0` (`code`),CONSTRAINT `academic_terms_check_0` CHECK (active IN (0,1)),CONSTRAINT `academic_terms_check_1` CHECK (starts_on <= ends_on)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -2036,7 +2109,9 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [],
@@ -2071,7 +2146,10 @@
           "default": null
         }
       ],
-      "primary": ["student_id", "term_id"],
+      "primary": [
+        "student_id",
+        "term_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2157,7 +2235,9 @@
           "default": null
         }
       ],
-      "primary": ["token_hash"],
+      "primary": [
+        "token_hash"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2213,9 +2293,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["succeeded IN (0,1)"],
+      "checks": [
+        "succeeded IN (0,1)"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `login_attempts` (`id` BIGINT NOT NULL AUTO_INCREMENT,`account` VARCHAR(128) NOT NULL,`attempted_at` BIGINT NOT NULL,`succeeded` BIGINT NOT NULL,PRIMARY KEY (`id`),KEY `idx_0` (`account`,`attempted_at`),CONSTRAINT `login_attempts_check_0` CHECK (succeeded IN (0,1))) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -2280,7 +2364,9 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2385,7 +2471,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2460,7 +2548,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2511,7 +2601,10 @@
           "default": null
         }
       ],
-      "primary": ["lesson_id", "assignment_id"],
+      "primary": [
+        "lesson_id",
+        "assignment_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -2626,9 +2719,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["starts_at<ends_at"],
+      "checks": [
+        "starts_at<ends_at"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -2771,9 +2868,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["status IN ('pending','approved','rejected','cancelled')"],
+      "checks": [
+        "status IN ('pending','approved','rejected','cancelled')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -2913,7 +3014,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "max_score>0",
@@ -3003,9 +3106,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["max_score>0"],
+      "checks": [
+        "max_score>0"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -3051,9 +3158,14 @@
           "default": null
         }
       ],
-      "primary": ["exam_id", "student_id"],
+      "primary": [
+        "exam_id",
+        "student_id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["status IN ('scored','absent','ungraded')"],
+      "checks": [
+        "status IN ('scored','absent','ungraded')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -3118,9 +3230,15 @@
           "default": null
         }
       ],
-      "primary": ["exam_id", "student_id", "question_id"],
+      "primary": [
+        "exam_id",
+        "student_id",
+        "question_id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["score>=0"],
+      "checks": [
+        "score>=0"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -3203,7 +3321,10 @@
           "default": null
         }
       ],
-      "primary": ["actor_id", "request_key"],
+      "primary": [
+        "actor_id",
+        "request_key"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -3294,7 +3415,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -3366,7 +3489,9 @@
           "default": "0"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -3481,7 +3606,9 @@
           "default": null
         }
       ],
-      "primary": ["sequence"],
+      "primary": [
+        "sequence"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "kind IN ('note','outgoing','incoming-record')",
@@ -3583,9 +3710,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["status IN ('open','done','cancelled')"],
+      "checks": [
+        "status IN ('open','done','cancelled')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -3690,7 +3821,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -3738,9 +3871,14 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["CHAR_LENGTH(trim(code))>0", "CHAR_LENGTH(trim(name))>0"],
+      "checks": [
+        "CHAR_LENGTH(trim(code))>0",
+        "CHAR_LENGTH(trim(name))>0"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `institutions` (`id` VARCHAR(128) NOT NULL,`code` VARCHAR(128) NOT NULL,`name` LONGTEXT NOT NULL,PRIMARY KEY (`id`),UNIQUE KEY `idx_0` (`code`),CONSTRAINT `institutions_check_0` CHECK (CHAR_LENGTH(trim(code))>0),CONSTRAINT `institutions_check_1` CHECK (CHAR_LENGTH(trim(name))>0)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -3805,7 +3943,9 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "kind IN ('school','campus','division','department','grade','class','group')",
@@ -3913,7 +4053,9 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "identity_kind IN ('staff','student','guardian')",
@@ -3976,9 +4118,13 @@
           "default": null
         }
       ],
-      "primary": ["code"],
+      "primary": [
+        "code"
+      ],
       "automaticTimestamps": [],
-      "checks": ["identity_kind IN ('staff','student','guardian')"],
+      "checks": [
+        "identity_kind IN ('staff','student','guardian')"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `identity_roles` (`code` VARCHAR(128) NOT NULL,`identity_kind` LONGTEXT NOT NULL,`label` LONGTEXT NOT NULL,PRIMARY KEY (`code`),CONSTRAINT `identity_roles_check_0` CHECK (identity_kind IN ('staff','student','guardian'))) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -4035,9 +4181,13 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["hierarchy_level BETWEEN 1 AND 100"],
+      "checks": [
+        "hierarchy_level BETWEEN 1 AND 100"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -4147,7 +4297,9 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "DATE_FORMAT(STR_TO_DATE(starts_on,'%Y-%m-%d'),'%Y-%m-%d') IS NOT NULL AND DATE_FORMAT(STR_TO_DATE(starts_on,'%Y-%m-%d'),'%Y-%m-%d')=starts_on",
@@ -4257,7 +4409,9 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "status IN ('active','ended','revoked')",
@@ -4366,7 +4520,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "object_kind IN ('student','class','course','term','homework','lesson','exam','report','attachment')",
@@ -4494,7 +4650,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "relation IN ('member','teaches','mentors','counsels','guardian_of','self_record','reports_to')",
@@ -4647,9 +4805,15 @@
           "default": null
         }
       ],
-      "primary": ["bucket_hash"],
+      "primary": [
+        "bucket_hash"
+      ],
       "automaticTimestamps": [],
-      "checks": ["failures>=0", "level BETWEEN 0 AND 5", "blocked_until>=0"],
+      "checks": [
+        "failures>=0",
+        "level BETWEEN 0 AND 5",
+        "blocked_until>=0"
+      ],
       "foreign": [],
       "ddl": "CREATE TABLE `auth_protection` (`bucket_hash` VARCHAR(128) NOT NULL,`failures` BIGINT NOT NULL DEFAULT 0,`level` BIGINT NOT NULL DEFAULT 0,`blocked_until` BIGINT NOT NULL DEFAULT 0,`updated_at` BIGINT NOT NULL,PRIMARY KEY (`bucket_hash`),CONSTRAINT `auth_protection_check_0` CHECK (failures>=0),CONSTRAINT `auth_protection_check_1` CHECK (level BETWEEN 0 AND 5),CONSTRAINT `auth_protection_check_2` CHECK (blocked_until>=0)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
       "foreignDdl": []
@@ -4682,7 +4846,9 @@
           "default": null
         }
       ],
-      "primary": ["entry_id"],
+      "primary": [
+        "entry_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -4864,7 +5030,9 @@
           "default": null
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "status IN ('draft','submitted','approved','rejected','withdrawn')",
@@ -4980,9 +5148,13 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["status IN ('active','suspended','archived')"],
+      "checks": [
+        "status IN ('active','suspended','archived')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -5028,7 +5200,10 @@
           "default": null
         }
       ],
-      "primary": ["institution_id", "account_id"],
+      "primary": [
+        "institution_id",
+        "account_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -5097,7 +5272,9 @@
           "default": null
         }
       ],
-      "primary": ["identity_id"],
+      "primary": [
+        "identity_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -5176,7 +5353,9 @@
           "default": null
         }
       ],
-      "primary": ["code"],
+      "primary": [
+        "code"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [],
@@ -5203,7 +5382,10 @@
           "default": null
         }
       ],
-      "primary": ["parent_type", "child_type"],
+      "primary": [
+        "parent_type",
+        "child_type"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -5278,9 +5460,13 @@
           "default": "'active'"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
-      "checks": ["status IN ('active','archived')"],
+      "checks": [
+        "status IN ('active','archived')"
+      ],
       "foreign": [
         {
           "id": 0,
@@ -5326,7 +5512,10 @@
           "default": null
         }
       ],
-      "primary": ["subject_id", "course_id"],
+      "primary": [
+        "subject_id",
+        "course_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -5403,7 +5592,9 @@
           "default": null
         }
       ],
-      "primary": ["unit_id"],
+      "primary": [
+        "unit_id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "(unit_type='subject_group' AND subject_id IS NOT NULL) OR (unit_type<>'subject_group' AND subject_id IS NULL)"
@@ -5495,7 +5686,9 @@
           "default": null
         }
       ],
-      "primary": ["class_id"],
+      "primary": [
+        "class_id"
+      ],
       "automaticTimestamps": [],
       "checks": [],
       "foreign": [
@@ -5612,7 +5805,9 @@
           "default": "1"
         }
       ],
-      "primary": ["id"],
+      "primary": [
+        "id"
+      ],
       "automaticTimestamps": [],
       "checks": [
         "DATE_FORMAT(STR_TO_DATE(starts_on,'%Y-%m-%d'),'%Y-%m-%d') IS NOT NULL AND DATE_FORMAT(STR_TO_DATE(starts_on,'%Y-%m-%d'),'%Y-%m-%d')=starts_on",
@@ -5676,6 +5871,199 @@
         "ALTER TABLE `staff_course_qualifications` ADD CONSTRAINT `staff_course_qualifications_fk_0` FOREIGN KEY (`subject_id`,`institution_id`,`course_id`) REFERENCES `subject_courses` (`subject_id`,`institution_id`,`course_id`) ON UPDATE NO ACTION ON DELETE NO ACTION",
         "ALTER TABLE `staff_course_qualifications` ADD CONSTRAINT `staff_course_qualifications_fk_1` FOREIGN KEY (`appointment_id`,`institution_id`) REFERENCES `identity_appointments` (`id`,`institution_id`) ON UPDATE NO ACTION ON DELETE NO ACTION"
       ]
+    },
+    {
+      "name": "faculty_class_defaults",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "VARCHAR(128)",
+          "sql": "`account_id` VARCHAR(128) NOT NULL",
+          "pk": 1,
+          "notnull": 1,
+          "default": null
+        },
+        {
+          "name": "class_id",
+          "type": "VARCHAR(128)",
+          "sql": "`class_id` VARCHAR(128)",
+          "pk": 0,
+          "notnull": 0,
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "LONGTEXT",
+          "sql": "`updated_at` LONGTEXT NOT NULL",
+          "pk": 0,
+          "notnull": 1,
+          "default": null
+        }
+      ],
+      "primary": [
+        "account_id"
+      ],
+      "automaticTimestamps": [],
+      "checks": [],
+      "foreign": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "faculty_users",
+          "from": "account_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "academic_classes",
+          "from": "class_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "ddl": "CREATE TABLE `faculty_class_defaults` (`account_id` VARCHAR(128) NOT NULL,`class_id` VARCHAR(128),`updated_at` LONGTEXT NOT NULL,PRIMARY KEY (`account_id`),KEY `idx_0` (`class_id`)) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
+      "foreignDdl": [
+        "ALTER TABLE `faculty_class_defaults` ADD CONSTRAINT `faculty_class_defaults_fk_0` FOREIGN KEY (`account_id`) REFERENCES `faculty_users` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION",
+        "ALTER TABLE `faculty_class_defaults` ADD CONSTRAINT `faculty_class_defaults_fk_1` FOREIGN KEY (`class_id`) REFERENCES `academic_classes` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION"
+      ]
+    },
+    {
+      "name": "schedule_task_pool",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(128)",
+          "sql": "`id` VARCHAR(128) NOT NULL",
+          "pk": 1,
+          "notnull": 1,
+          "default": null
+        },
+        {
+          "name": "owner_id",
+          "type": "VARCHAR(128)",
+          "sql": "`owner_id` VARCHAR(128) NOT NULL",
+          "pk": 0,
+          "notnull": 1,
+          "default": null
+        },
+        {
+          "name": "title",
+          "type": "LONGTEXT",
+          "sql": "`title` LONGTEXT NOT NULL",
+          "pk": 0,
+          "notnull": 1,
+          "default": null
+        },
+        {
+          "name": "note",
+          "type": "LONGTEXT",
+          "sql": "`note` LONGTEXT NOT NULL DEFAULT ''",
+          "pk": 0,
+          "notnull": 1,
+          "default": "''"
+        },
+        {
+          "name": "preferred_class_id",
+          "type": "VARCHAR(128)",
+          "sql": "`preferred_class_id` VARCHAR(128)",
+          "pk": 0,
+          "notnull": 0,
+          "default": null
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(128)",
+          "sql": "`status` VARCHAR(128) NOT NULL DEFAULT 'open'",
+          "pk": 0,
+          "notnull": 1,
+          "default": "'open'"
+        },
+        {
+          "name": "submission_id",
+          "type": "VARCHAR(128)",
+          "sql": "`submission_id` VARCHAR(128)",
+          "pk": 0,
+          "notnull": 0,
+          "default": null
+        },
+        {
+          "name": "version",
+          "type": "BIGINT",
+          "sql": "`version` BIGINT NOT NULL DEFAULT 1",
+          "pk": 0,
+          "notnull": 1,
+          "default": "1"
+        },
+        {
+          "name": "created_at",
+          "type": "LONGTEXT",
+          "sql": "`created_at` LONGTEXT NOT NULL",
+          "pk": 0,
+          "notnull": 1,
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "VARCHAR(128)",
+          "sql": "`updated_at` VARCHAR(128) NOT NULL",
+          "pk": 0,
+          "notnull": 1,
+          "default": null
+        }
+      ],
+      "primary": [
+        "id"
+      ],
+      "automaticTimestamps": [],
+      "checks": [
+        "length(trim(title)) BETWEEN 1 AND 120",
+        "status IN ('open','linked','cancelled')",
+        "(status='linked' AND submission_id IS NOT NULL) OR (status<>'linked' AND submission_id IS NULL)"
+      ],
+      "foreign": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "faculty_users",
+          "from": "owner_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "academic_classes",
+          "from": "preferred_class_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 2,
+          "seq": 0,
+          "table": "schedule_submissions",
+          "from": "submission_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "ddl": "CREATE TABLE `schedule_task_pool` (`id` VARCHAR(128) NOT NULL,`owner_id` VARCHAR(128) NOT NULL,`title` LONGTEXT NOT NULL,`note` LONGTEXT NOT NULL,`preferred_class_id` VARCHAR(128),`status` VARCHAR(128) NOT NULL DEFAULT 'open',`submission_id` VARCHAR(128),`version` BIGINT NOT NULL DEFAULT 1,`created_at` LONGTEXT NOT NULL,`updated_at` VARCHAR(128) NOT NULL,PRIMARY KEY (`id`),UNIQUE KEY `idx_0` (`submission_id`),KEY `idx_1` (`owner_id`,`status`,`updated_at`),CONSTRAINT `schedule_task_pool_check_0` CHECK (CHAR_LENGTH(trim(title)) BETWEEN 1 AND 120),CONSTRAINT `schedule_task_pool_check_1` CHECK (status IN ('open','linked','cancelled')),CONSTRAINT `schedule_task_pool_check_2` CHECK ((status='linked' AND submission_id IS NOT NULL) OR (status<>'linked' AND submission_id IS NULL))) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin",
+      "foreignDdl": [
+        "ALTER TABLE `schedule_task_pool` ADD CONSTRAINT `schedule_task_pool_fk_0` FOREIGN KEY (`owner_id`) REFERENCES `faculty_users` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION",
+        "ALTER TABLE `schedule_task_pool` ADD CONSTRAINT `schedule_task_pool_fk_1` FOREIGN KEY (`preferred_class_id`) REFERENCES `academic_classes` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION",
+        "ALTER TABLE `schedule_task_pool` ADD CONSTRAINT `schedule_task_pool_fk_2` FOREIGN KEY (`submission_id`) REFERENCES `schedule_submissions` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION"
+      ]
     }
   ],
   "triggers": [
@@ -5683,7 +6071,11 @@
       "name": "identity_number_immutable",
       "table": "identity_registry",
       "event": "UPDATE",
-      "columns": ["institution_id", "identity_kind", "external_id"],
+      "columns": [
+        "institution_id",
+        "identity_kind",
+        "external_id"
+      ],
       "when": "NEW.institution_id<>OLD.institution_id OR NEW.identity_kind<>OLD.identity_kind OR NEW.external_id<>OLD.external_id",
       "rules": [
         {
@@ -5696,7 +6088,10 @@
       "name": "organization_scope_immutable",
       "table": "organization_units",
       "event": "UPDATE",
-      "columns": ["institution_id", "kind"],
+      "columns": [
+        "institution_id",
+        "kind"
+      ],
       "when": "NEW.institution_id<>OLD.institution_id OR NEW.kind<>OLD.kind",
       "rules": [
         {
@@ -5797,7 +6192,9 @@
       "name": "role_kind_immutable",
       "table": "identity_roles",
       "event": "UPDATE",
-      "columns": ["identity_kind"],
+      "columns": [
+        "identity_kind"
+      ],
       "when": "NEW.identity_kind<>OLD.identity_kind",
       "rules": [
         {
@@ -5810,7 +6207,12 @@
       "name": "position_definition_immutable",
       "table": "organization_positions",
       "event": "UPDATE",
-      "columns": ["institution_id", "unit_id", "role_code", "hierarchy_level"],
+      "columns": [
+        "institution_id",
+        "unit_id",
+        "role_code",
+        "hierarchy_level"
+      ],
       "when": "NEW.institution_id<>OLD.institution_id OR NEW.unit_id<>OLD.unit_id OR NEW.role_code<>OLD.role_code OR NEW.hierarchy_level<>OLD.hierarchy_level",
       "rules": [
         {
@@ -5823,7 +6225,11 @@
       "name": "appointment_definition_immutable",
       "table": "identity_appointments",
       "event": "UPDATE",
-      "columns": ["identity_id", "position_id", "institution_id"],
+      "columns": [
+        "identity_id",
+        "position_id",
+        "institution_id"
+      ],
       "when": "NEW.identity_id<>OLD.identity_id OR NEW.position_id<>OLD.position_id OR NEW.institution_id<>OLD.institution_id",
       "rules": [
         {
@@ -5836,7 +6242,9 @@
       "name": "organization_parent_immutable",
       "table": "organization_units",
       "event": "UPDATE",
-      "columns": ["parent_id"],
+      "columns": [
+        "parent_id"
+      ],
       "when": "NEW.parent_id IS NOT OLD.parent_id",
       "rules": [
         {
@@ -6065,7 +6473,9 @@
       "name": "identity_account_immutable",
       "table": "identity_registry",
       "event": "UPDATE",
-      "columns": ["account_id"],
+      "columns": [
+        "account_id"
+      ],
       "when": "NEW.account_id IS NOT OLD.account_id AND EXISTS(SELECT 1 FROM identity_person_links WHERE identity_id=OLD.id)",
       "rules": [
         {
@@ -6139,5 +6549,5 @@
       ]
     }
   ],
-  "checksum": "fc8bfe53241af918a2cb7147f031490a166b4a06ba43a3285e86bcbb5a4aba41"
+  "checksum": "ffd2325416b8f6b8e70044263234d109da45bb3c7b1ea4477fc3ef7f8dd123e4"
 }

@@ -26,6 +26,7 @@ const initialOptions = {
   classes: [],
   assignments: [],
   departments: [],
+  defaultClassId: "",
   canAdmin: false,
   userId: "",
 };
@@ -42,6 +43,10 @@ export function ScheduleManagementView({
   const [options, setOptions] = useState<Row>(initialOptions),
     [form, setForm] = useState<Record<string, string>>({}),
     [editing, setEditing] = useState<Row | null>(null);
+  const [poolTasks, setPoolTasks] = useState<Row[]>([]),
+    [poolTitle, setPoolTitle] = useState("排课待办"),
+    [poolNote, setPoolNote] = useState(""),
+    [poolTaskId, setPoolTaskId] = useState("");
   const [proposal, setProposal] = useState<Row | null>(null),
     [reason, setReason] = useState(""),
     [reviewNote, setReviewNote] = useState("");
@@ -69,15 +74,21 @@ export function ScheduleManagementView({
         `entries?${new URLSearchParams({ from, to })}`,
         `submissions?${new URLSearchParams({ from, to })}`,
         "changes",
+        "default-class",
+        "task-pool",
       ].map((path) => sakuraApi.business.request("/schedules/" + path)),
     );
     if (request !== sequence.current) return;
     const failed = results.find((r) => !r.success);
     if (failed) setError(failed.message);
-    setOptions(results[0].success ? results[0].data : initialOptions);
+    setOptions({
+      ...(results[0].success ? results[0].data : initialOptions),
+      defaultClassId: results[4].success ? results[4].data?.class_id || "" : "",
+    });
     setEntries(results[1].success ? results[1].data : []);
     setSubmissions(results[2].success ? results[2].data : []);
     setChanges(results[3].success ? results[3].data : []);
+    setPoolTasks(results[5].success ? results[5].data : []);
     setLoading(false);
   }, [from, to]);
   useEffect(() => {
@@ -104,6 +115,17 @@ export function ScheduleManagementView({
       setBusy(false);
     }
   };
+  const createPoolTask = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const result = await mutate("task-pool", "POST", {
+      title: poolTitle,
+      note: poolNote,
+    });
+    if (result.success) {
+      setPoolTitle("排课待办");
+      setPoolNote("");
+    }
+  };
   const set = (key: string, value: string) =>
     setForm((previous) => ({ ...previous, [key]: value }));
   const ownClasses = Array.from(
@@ -119,6 +141,7 @@ export function ScheduleManagementView({
   );
   const editingAllowed = ownClasses.length > 0;
   const edit = (row: Row) => {
+    setPoolTaskId("");
     setEditing(row);
     setForm({
       class_id: row.class_id,
@@ -200,6 +223,54 @@ export function ScheduleManagementView({
           同室教师可查看已提交与已通过的排课信息；负责人可审批。本人的草稿、其他业务资料与私人教案保持各自权限。
         </p>
       </div>
+      <section className="sakura-workspace-card border border-outline-variant rounded-xl p-4 space-y-4" aria-label="私有排课中间池">
+        <div>
+          <h3 className="font-bold">我的排课中间池</h3>
+          <p className="text-sm text-on-surface-variant mt-1">未绑定班级或任课关系的事项先保存在这里，只有你本人可见。选定有效任课班级后，可带入排课表继续完善并提交。</p>
+        </div>
+        <label className="block max-w-md">
+          默认任课班级
+          <select
+            className="sakura-input block"
+            value={options.defaultClassId || ""}
+            onChange={async (e) => {
+              const classId = e.target.value || null;
+              const result = await mutate("default-class", "PUT", { class_id: classId });
+              if (result.success) setOptions((current: Row) => ({ ...current, defaultClassId: classId || "" }));
+            }}
+          >
+            <option value="">暂不设置</option>
+            {ownClasses.map((c: Row) => <option key={c.id} value={c.id}>{c.class_name}</option>)}
+          </select>
+          <span className="text-xs text-on-surface-variant">只可选择本人有效任课班级；此设置仅用于预填，不会授予班级权限。</span>
+        </label>
+        <form className="grid sm:grid-cols-[1fr_2fr_auto] gap-3 items-end" onSubmit={createPoolTask}>
+          <label>事项标题<input className="sakura-input block" maxLength={120} required value={poolTitle} onChange={(e) => setPoolTitle(e.target.value)} /></label>
+          <label>备注（可选）<input className="sakura-input block" maxLength={1000} value={poolNote} onChange={(e) => setPoolNote(e.target.value)} placeholder="先记录任务，稍后绑定班级和课时" /></label>
+          <button disabled={busy} className="sakura-btn sakura-btn-secondary">加入我的任务池</button>
+        </form>
+        {!poolTasks.length ? <p className="text-sm">当前没有待绑定任务。</p> : <ul className="space-y-2">
+          {poolTasks.map((task) => <li key={task.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-outline-variant p-3">
+            <div><strong>{task.title}</strong><div className="text-sm text-on-surface-variant">{task.preferred_class_name ? `预选班级：${task.preferred_class_name} · ` : "尚未绑定班级 · "}{task.note || "尚无备注"}</div></div>
+            <div className="flex gap-2">
+              <button type="button" className="sakura-btn sakura-btn-secondary" disabled={!ownClasses.length} onClick={() => {
+                const classId = ownClasses.some((c: Row) => c.id === task.preferred_class_id) ? task.preferred_class_id : options.defaultClassId || "";
+                const assignment = (options.assignments as Row[]).find((a) => a.id === classId);
+                setPoolTaskId(task.id);
+                setEditing(null);
+                setForm({ class_id: classId, course_id: assignment?.course_id || "", unit_id: "", note: [task.title, task.note].filter(Boolean).join(" · ") });
+                requestAnimationFrame(() =>
+                  document.getElementById("schedule-editor")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  }),
+                );
+              }}>完善并转入排课</button>
+              <button type="button" className="sakura-btn sakura-btn-ghost" disabled={busy} onClick={() => void mutate(`task-pool/${task.id}`, "PATCH", { action: "cancel", version: task.version })}>移除</button>
+            </div>
+          </li>)}
+        </ul>}
+      </section>
       {options.canAdmin ? (
         <ScheduleDepartmentSettings
           onChanged={() => {
@@ -228,15 +299,16 @@ export function ScheduleManagementView({
         }
       />
       <details
-        open={editing ? true : undefined}
+        id="schedule-editor"
+        open={editing || poolTaskId ? true : undefined}
         className="sakura-workspace-card border border-outline-variant rounded-xl p-4"
       >
         <summary className="font-bold cursor-pointer">
-          {editing ? "编辑我的提交" : "新增课表提交 / 个人草稿"}
+          {editing ? "编辑我的提交" : poolTaskId ? "完善中间池任务" : "新增课表提交 / 个人草稿"}
         </summary>
         {!editingAllowed ? (
           <p className="mt-3">
-            当前没有有效任课关系。请让管理员在基础资料中分配班级与课程。
+            当前没有有效任课关系。你仍可先在上方个人中间池登记任务；管理员分配任课后再绑定并提交。
           </p>
         ) : (
           <form
@@ -263,6 +335,7 @@ export function ScheduleManagementView({
                     : "save"
                   : action,
                 ...(editing ? { version: editing.version } : {}),
+                ...(poolTaskId && !editing ? { pool_task_id: poolTaskId } : {}),
               };
               const r = await mutate(
                 editing ? `submissions/${editing.id}` : "submissions",
@@ -272,6 +345,7 @@ export function ScheduleManagementView({
               if (r.success) {
                 setEditing(null);
                 setForm({});
+                setPoolTaskId("");
               }
             }}
           >
@@ -379,12 +453,13 @@ export function ScheduleManagementView({
               >
                 提交并共享到教研室
               </button>
-              {editing ? (
+              {editing || poolTaskId ? (
                 <button
                   type="button"
                   className="sakura-btn sakura-btn-ghost"
                   onClick={() => {
                     setEditing(null);
+                    setPoolTaskId("");
                     setForm({});
                   }}
                 >

@@ -196,7 +196,7 @@ const triggers = definitions
       rules,
     };
   });
-const content = { sourceSchemaVersion: 15, tables, triggers };
+const content = { sourceSchemaVersion: 16, tables, triggers };
 fs.mkdirSync("server/tidb", { recursive: true });
 fs.writeFileSync(
   "server/tidb/schema.json",

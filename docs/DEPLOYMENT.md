@@ -20,7 +20,7 @@ $env:TIDB_CREDENTIAL_FILE='C:/private/tidb-operator.txt'
 
 ## 2. 全新安装与现有数据迁移分开
 
-全新安装只导入空 SQLite v15 的基础元数据：
+全新安装只导入空 SQLite v16 的基础元数据：
 
 ```powershell
 npx tsx scripts/prepare-empty-install.ts --select
@@ -28,9 +28,9 @@ npx tsx scripts/prepare-tidb.ts
 npx tsx scripts/provision-tidb-runtime.ts
 ```
 
-第一步创建独立空库，包含迁移、组织类型和岗位定义，不含演示账号或学生；`--select` 明确将其设为后续导入源。第二步读取当前导出源，准备 58 张表及关系、导入并逐表 / 外键核对。目标必须是专门创建的空库；不要在已有参考数据或运行中的库上反复导入。
+第一步创建独立空库，包含迁移、组织类型和岗位定义，不含演示账号或学生；`--select` 明确将其设为后续导入源。第二步读取当前导出源，准备 60 张表及关系、导入并逐表 / 外键核对。目标必须是专门创建的空库；不要在已有参考数据或运行中的库上反复导入。
 
-`prepare-tidb.ts --schema-only` **只准备结构，不初始化角色 / 组织基础数据**，不能把它独立当作可用的新安装。现有 SQLite 平移应先做一致性快照，再使用经核对的 v15 导出；不能用空安装快照覆盖现有数据。
+`prepare-tidb.ts --schema-only` **只准备结构，不初始化角色 / 组织基础数据**，不能把它独立当作可用的新安装。现有 SQLite 平移应先做一致性快照，再使用经核对的 v16 导出；不能用空安装快照覆盖现有数据。
 
 运行账号凭据写入 `.local-data/tidb-runtime-<database>.json`，由 DPAPI 加密。表约束 / 触发器的应用保护边界见 [TiDB 说明](verification/tidb/README.md)。
 

@@ -1,7 +1,7 @@
 {
   "name": "sakura-dashboard",
   "private": true,
-  "version": "1.0.1-sakura",
+  "version": "1.0.2-sakura",
   "description": "SakuraEdu: school organization, teaching workflows and scoped scheduling on Cloudflare Workers and TiDB.",
   "license": "MIT",
   "repository": { "type": "git", "url": "git+https://github.com/yanyu03/Sakura_DashBoard.git" },

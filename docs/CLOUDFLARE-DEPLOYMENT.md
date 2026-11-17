@@ -38,7 +38,7 @@ Windows 代理拒绝 Node TLS 时，可设置 `SAKURA_VERIFY_CURL=true` 使用�
 
 ## 数据与维护
 
-- `cloudflare/schema.json` 是不含业务数据的结构快照，对应本地迁移 1–11。重复发布不会重建数据库。版本或校验和不符时拒绝启动，未来结构变更必须增加显式云端迁移，不能直接重新生成快照覆盖现有库。
+- `cloudflare/schema.json` 是不含业务数据的结构快照，当前对应本地迁移至 v16。重复发布不会重建数据库。TiDB 正式库应用 v16 前，先备份并按 [迁移脚本](../server/tidb/migrations/016-private-schedule-task-pool.sql) 增加默认班级关系与私有排课任务池；该脚本不导入账号任务数据。
 - 云端控制台只允许单条 SELECT 或限定的结构检查 PRAGMA；写入必须经过业务 API。
 - 云端备份下载为可恢复的 `.sql` 文件，包含建表和数据；不是本地 `.sqlite` 二进制文件。单次最多 10,000 行，更多数据应通过 Cloudflare 数据恢复工具维护。
 - 验证码及登录入口受速率限制；正式环境不返回验证码提示。会话使用 Secure / HttpOnly Cookie 和 CSRF 校验。

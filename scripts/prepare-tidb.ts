@@ -153,7 +153,7 @@ try {
       JSON.stringify(
         {
           testedAt: new Date().toISOString(),
-          source: source.source || "operator supplied v15 export",
+          source: source.source || "operator supplied v16 export",
           database: process.env.TIDB_DATABASE || "sakura_migration_20261029",
           sourceSha256: createHash("sha256").update(input).digest("hex"),
           schemaChecksum: schema.checksum,

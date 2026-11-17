@@ -81,7 +81,7 @@ const BASELINE_DEFAULT_PROFILE: FacultyDefaultProfileDTO = {
   department: "高中语文教研组",
   defaultTab: "homework-center",
   defaultTheme: "awesome-green",
-  defaultClassName: "高二(1)班",
+  defaultClassName: "请在课表模块选择默认班级",
   semesterLabel: "2024 春季学期 · 第 12 周",
   dndEnabled: true,
   dndStartTime: "20:30",
@@ -384,7 +384,7 @@ export default function App() {
                     </span>
                   </span>
                   <span className="font-label-sm text-[10px] text-secondary tracking-wider uppercase block mt-0.5 truncate">
-                    樱花教务云 · {defaultProfile.department} · {DESIGN_STANDARD_VERSION}
+                    樱花教务云 · 个人工作台 · {DESIGN_STANDARD_VERSION}
                   </span>
                 </div>
               </div>
@@ -401,7 +401,7 @@ export default function App() {
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                 <span className="font-body-sm text-xs text-on-surface-variant">
-                  默认班级：{defaultProfile.defaultClassName}
+                  排课任务先进入个人中间池
                 </span>
               </div>
             </div>
@@ -901,7 +901,7 @@ export default function App() {
                   </div>
                   <div className="space-y-1">
                     <label className="text-[11px] font-semibold text-on-surface-variant block">
-                      所属教研组 / 部门
+                      展示用部门备注（不作为组织归属或授权）
                     </label>
                     <input
                       type="text"
@@ -918,7 +918,7 @@ export default function App() {
                   </div>
                   <div className="space-y-1 sm:col-span-2">
                     <label className="text-[11px] font-semibold text-on-surface-variant block">
-                      职务与用户组头衔 (取代用户组默认头衔)
+                      展示用职务头衔（权限由有效任职决定）
                     </label>
                     <input
                       type="text"
@@ -942,7 +942,7 @@ export default function App() {
                   <SakuraIcon className="material-symbols-outlined text-sm text-primary">
                     dashboard_customize
                   </SakuraIcon>
-                  2. 默认任教班级与登录后首页模块
+                  2. 默认任教班级由排课模块管理 · 登录后首页模块
                 </span>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -950,18 +950,9 @@ export default function App() {
                     <label className="text-[11px] font-semibold text-on-surface-variant block">
                       默认绑定班级
                     </label>
-                    <input
-                      type="text"
-                      value={draftProfile.defaultClassName}
-                      onChange={(e) =>
-                        setDraftProfile((prev) => ({
-                          ...prev,
-                          defaultClassName: e.target.value,
-                        }))
-                      }
-                      placeholder="例如: 高二(1)班"
-                      className="w-full px-2.5 py-1.5 rounded bg-surface-container-lowest border border-outline-variant/35 text-on-surface text-xs focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
+                    <p className="text-xs text-on-surface-variant rounded bg-surface-container-lowest border border-outline-variant/35 px-2.5 py-2">
+                      请在“课表与协同排课”的个人任务池中，从本人有效任课班级里选择。该设置只用于预填任务。
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <label className="text-[11px] font-semibold text-on-surface-variant block">
