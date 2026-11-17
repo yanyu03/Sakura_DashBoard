@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sakura-dashboard-ab",
+  "main": "cloudflare/ab-gateway.mjs",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "routes": [{ "pattern": "ab.sakura.250221.xyz", "custom_domain": true }],
+  "services": [{ "binding": "SAKURA_UPSTREAM", "service": "sakura-dashboard" }],
+  "vars": {
+    "NODE_ENV": "production",
+    "COOKIE_SECURE": "true",
+    "DATABASE_MODE": "tidb",
+    "SAKURA_ALLOW_SQL_WRITES": "false",
+    "SAKURA_DEMO_MODE": "false"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "redact_query_string": true,
+    "logs": { "enabled": true, "invocation_logs": true },
+    "traces": { "enabled": true }
+  }
+}
