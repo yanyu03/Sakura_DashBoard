@@ -47,6 +47,9 @@ export function ScheduleManagementView({
     [poolTitle, setPoolTitle] = useState("排课待办"),
     [poolNote, setPoolNote] = useState(""),
     [poolTaskId, setPoolTaskId] = useState("");
+  const [editingPoolTaskId, setEditingPoolTaskId] = useState("");
+  const [editingPoolTitle, setEditingPoolTitle] = useState("");
+  const [editingPoolNote, setEditingPoolNote] = useState("");
   const [proposal, setProposal] = useState<Row | null>(null),
     [reason, setReason] = useState(""),
     [reviewNote, setReviewNote] = useState("");
@@ -225,7 +228,7 @@ export function ScheduleManagementView({
       </div>
       <section className="sakura-workspace-card border border-outline-variant rounded-xl p-4 space-y-4" aria-label="私有排课中间池">
         <div>
-          <h3 className="font-bold">我的排课中间池</h3>
+          <h3 className="font-bold">我的排课待办</h3>
           <p className="text-sm text-on-surface-variant mt-1">未绑定班级或任课关系的事项先保存在这里，只有你本人可见。选定有效任课班级后，可带入排课表继续完善并提交。</p>
         </div>
         <label className="block max-w-md">
@@ -249,27 +252,82 @@ export function ScheduleManagementView({
           <label>备注（可选）<input className="sakura-input block" maxLength={1000} value={poolNote} onChange={(e) => setPoolNote(e.target.value)} placeholder="先记录任务，稍后绑定班级和课时" /></label>
           <button disabled={busy} className="sakura-btn sakura-btn-secondary">加入我的任务池</button>
         </form>
-        {!poolTasks.length ? <p className="text-sm">当前没有待绑定任务。</p> : <ul className="space-y-2">
-          {poolTasks.map((task) => <li key={task.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-outline-variant p-3">
-            <div><strong>{task.title}</strong><div className="text-sm text-on-surface-variant">{task.preferred_class_name ? `预选班级：${task.preferred_class_name} · ` : "尚未绑定班级 · "}{task.note || "尚无备注"}</div></div>
-            <div className="flex gap-2">
-              <button type="button" className="sakura-btn sakura-btn-secondary" disabled={!ownClasses.length} onClick={() => {
-                const classId = ownClasses.some((c: Row) => c.id === task.preferred_class_id) ? task.preferred_class_id : options.defaultClassId || "";
-                const assignment = (options.assignments as Row[]).find((a) => a.id === classId);
-                setPoolTaskId(task.id);
-                setEditing(null);
-                setForm({ class_id: classId, course_id: assignment?.course_id || "", unit_id: "", note: [task.title, task.note].filter(Boolean).join(" · ") });
-                requestAnimationFrame(() =>
-                  document.getElementById("schedule-editor")?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  }),
-                );
-              }}>完善并转入排课</button>
-              <button type="button" className="sakura-btn sakura-btn-ghost" disabled={busy} onClick={() => void mutate(`task-pool/${task.id}`, "PATCH", { action: "cancel", version: task.version })}>移除</button>
-            </div>
-          </li>)}
-        </ul>}
+        {!poolTasks.length ? (
+          <p className="text-sm">当前没有待绑定任务。</p>
+        ) : (
+          <ul className="space-y-2">
+            {poolTasks.map((task) => (
+              <li key={task.id} className="rounded-lg border border-outline-variant p-3">
+                {editingPoolTaskId === task.id ? (
+                  <form
+                    className="grid gap-3 sm:grid-cols-[1fr_2fr_auto] sm:items-end"
+                    onSubmit={async (event) => {
+                      event.preventDefault();
+                      const result = await mutate(`task-pool/${task.id}`, "PATCH", {
+                        title: editingPoolTitle,
+                        note: editingPoolNote,
+                        version: task.version,
+                      });
+                      if (result.success) setEditingPoolTaskId("");
+                    }}
+                  >
+                    <label className="block">任务标题
+                      <input className="sakura-input block" required maxLength={120} value={editingPoolTitle} onChange={(event) => setEditingPoolTitle(event.target.value)} />
+                    </label>
+                    <label className="block">备注（可选）
+                      <input className="sakura-input block" maxLength={1000} value={editingPoolNote} onChange={(event) => setEditingPoolNote(event.target.value)} />
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      <button type="submit" className="sakura-btn sakura-btn-primary" disabled={busy}>保存</button>
+                      <button type="button" className="sakura-btn sakura-btn-ghost" disabled={busy} onClick={() => setEditingPoolTaskId("")}>取消</button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <strong className="break-words">{task.title}</strong>
+                      <div className="text-sm text-on-surface-variant break-words">
+                        {task.preferred_class_name ? `预选班级：${task.preferred_class_name} · ` : "尚未绑定班级 · "}
+                        {task.note || "尚无备注"}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="sakura-btn sakura-btn-ghost"
+                        disabled={busy}
+                        onClick={() => {
+                          setEditingPoolTaskId(task.id);
+                          setEditingPoolTitle(task.title);
+                          setEditingPoolNote(task.note || "");
+                        }}
+                      >编辑</button>
+                      <button
+                        type="button"
+                        className="sakura-btn sakura-btn-secondary"
+                        disabled={busy || !ownClasses.length}
+                        onClick={() => {
+                          const classId = ownClasses.some((c: Row) => c.id === task.preferred_class_id) ? task.preferred_class_id : options.defaultClassId || "";
+                          const assignment = (options.assignments as Row[]).find((a) => a.id === classId);
+                          setPoolTaskId(task.id);
+                          setEditing(null);
+                          setForm({ class_id: classId, course_id: assignment?.course_id || "", unit_id: "", note: [task.title, task.note].filter(Boolean).join(" · ") });
+                          requestAnimationFrame(() => document.getElementById("schedule-editor")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+                        }}
+                      >完善并转入排课</button>
+                      <button
+                        type="button"
+                        className="sakura-btn sakura-btn-ghost"
+                        disabled={busy}
+                        onClick={() => void mutate(`task-pool/${task.id}`, "PATCH", { action: "cancel", version: task.version })}
+                      >移除</button>
+                    </div>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
       {options.canAdmin ? (
         <ScheduleDepartmentSettings

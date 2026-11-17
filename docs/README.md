@@ -1,6 +1,6 @@
 # 文档导航
 
-**当前基准：应用 1.0.1-sakura、设计标准 1.0Sakura、业务 schema v15。** 生产运行于 Workers + TiDB，原生 SQLite 用于本地复现和测试。版本字段与升级规则见[版本策略](VERSIONING.md)。目录下带历史日期的记录是当时的验收，不自动代表当前线上行为。
+**当前开发分支基准：应用 1.0.2-sakura、设计标准 1.0Sakura、业务 schema v16。** 生产运行于 Workers + TiDB，原生 SQLite 用于本地复现和测试。版本字段与升级规则见[版本策略](VERSIONING.md)。目录下带历史日期的记录是当时的验收，不自动代表当前线上行为。
 
 ## 按阅读目的进入
 
@@ -14,6 +14,7 @@
 
 ## 当前实现的专题说明
 
+- [私有排课待办与默认班级 v16](SQLITE-V16-SCHEDULE-TASK-POOL.md)：真实任课班级预填、账号隔离、提交前权限校验。
 - [组织链、兼任与任教资格 v15](verification/organization/README.md)：A 老师同时任班主任与学科组成员，B 负责人查询可协调教师。
 - [教研室共享与审批 v14](verification/schedule-sharing/README.md)：可见范围、撤回、审批、冲突和生效后的共享变化。
 - [TiDB 迁移](verification/tidb/README.md)：结构映射、外键、检查规则、HTTPS 驱动与实验性事务的限制。

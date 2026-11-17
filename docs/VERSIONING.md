@@ -16,12 +16,12 @@ The application version is imported from `package.json` by both the frontend and
    npm version 1.0.2-sakura --no-git-tag-version
    ```
 
-2. Update the release notes in `docs/releases/` and run `npm run version:check` against the local app or a Worker preview.
+2. Update the release notes in `docs/releases/`, run `node scripts/verify-version-source.mjs` for consistency, and run `npm run version:check` against the local app or a Worker preview.
 3. Build and review the release, then create a Git tag matching the package version with a `v` prefix (for example, `v1.0.2-sakura`).
 4. Deploy only after the version endpoint and normal application checks pass. Do not change the CSS standard or API major version just to reflect an application patch.
 
-## Current release
+## Current branch version
 
-Application: `1.0.1-sakura`  
+Application (development branch): `1.0.2-sakura`  
 Design standard: `1.0Sakura`  
 API: `v1`

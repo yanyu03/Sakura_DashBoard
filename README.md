@@ -2,7 +2,7 @@
 
 [![Verify](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml)
 
-学校组织关系、教师协作与教学业务工作台。当前应用版本为 **1.0.1-sakura**，设计标准为 **1.0Sakura**。项目可以本地运行并带迁移和验证证据：前端采用 React / TypeScript，线上通过 Cloudflare Workers 访问 TiDB，本地用 SQLite 独立复现业务。
+学校组织关系、教师协作与教学业务工作台。当前开发分支应用版本为 **1.0.2-sakura**，设计标准为 **1.0Sakura**。项目可以本地运行并带迁移和验证证据：前端采用 React / TypeScript，线上通过 Cloudflare Workers 访问 TiDB，本地用 SQLite 独立复现业务。
 
 [English](README.en.md) · [版本策略](docs/VERSIONING.md) · [在线入口](https://sakura.250221.xyz/?design=1.0Sakura) · [作品案例 / 面试阅读](docs/PORTFOLIO.md) · [完整文档](docs/README.md) · [MIT](LICENSE)
 
