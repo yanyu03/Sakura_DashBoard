@@ -835,7 +835,7 @@ try {
             .prepare("SELECT MAX(version) v FROM schema_migrations")
             .get() as any
         ).v,
-        15,
+        16,
       );
       assert.equal(db.pragma("integrity_check", { simple: true }), "ok");
       assert.deepEqual(db.pragma("foreign_key_check"), []);
