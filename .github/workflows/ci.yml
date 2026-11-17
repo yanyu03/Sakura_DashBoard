@@ -33,3 +33,13 @@ jobs:
       - run: node scripts/verify-version-source.mjs
       - run: npm run test:local
       - run: npm run test:security-hardening
+      - name: Upload isolated SQLite smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sakura-sqlite-smoke
+          path: |
+            docs/verification/opensource/local-preview.json
+            docs/verification/opensource/local-regressions.json
+          if-no-files-found: warn
+          retention-days: 7

@@ -340,6 +340,21 @@ try {
         ).status,
         404,
       );
+      const edit = await api("alice", `schedules/task-pool/${poolTask.id}`, "PATCH", {
+        title: "修订后的排课事项",
+        note: "经本人编辑",
+        version: poolTask.version,
+      });
+      assert.equal(edit.status, 200);
+      poolTask = edit.data;
+      assert.equal(poolTask.version, 2);
+      assert.equal(
+        (await api("alice", `schedules/task-pool/${poolTask.id}`, "PATCH", {
+          title: "旧版本不应覆盖",
+          version: 1,
+        })).status,
+        409,
+      );
       const unbound = await api("upper", "schedules/task-pool", "POST", {
         title: "未绑定班级的任务",
       });
