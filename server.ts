@@ -1,4 +1,5 @@
 import {registerLegacyViews} from './server/legacyViews';
+import { VERSION_INFO } from "./app-version";
 import svgCaptcha from "svg-captcha";
 import { registerWorkspace } from "./server/workspace";
 import { registerCare } from "./server/care";
@@ -44,6 +45,19 @@ async function startServer() {
         return next(new HttpError(422, "请求内容必须为 JSON 对象"));
     }
     next();
+  });
+
+  app.get("/api/v1/meta/version", (_req, res) => {
+    return res
+      .setHeader("Cache-Control", "no-store")
+      .json({
+        code: 200,
+        success: true,
+        message: "SakuraEdu 版本信息",
+        data: VERSION_INFO,
+        traceId: res.locals.requestId || randomUUID(),
+        timestamp: new Date().toISOString(),
+      });
   });
 
   // Helper to wrap standard API response

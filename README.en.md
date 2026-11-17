@@ -2,9 +2,9 @@
 
 [![Verify](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml)
 
-A full-stack teaching workspace exploring school organization, staff appointments and scoped timetable collaboration. **1.0Sakura** is an engineering preview built with React, TypeScript, Express, SQLite, TiDB and Cloudflare Workers.
+A full-stack teaching workspace exploring school organization, staff appointments and scoped timetable collaboration. The current application release is **1.0.1-sakura** and its design standard is **1.0Sakura**. This engineering preview is built with React, TypeScript, Express, SQLite, TiDB and Cloudflare Workers.
 
-[中文](README.md) · [Portfolio case study](docs/PORTFOLIO.md) · [Documentation](docs/README.md) · [Live entry](https://sakura.250221.xyz/?design=1.0Sakura) · [MIT](LICENSE)
+[中文](README.md) · [Versioning](docs/VERSIONING.md) · [Portfolio case study](docs/PORTFOLIO.md) · [Documentation](docs/README.md) · [Live entry](https://sakura.250221.xyz/?design=1.0Sakura) · [MIT](LICENSE)
 
 ## Why this project
 

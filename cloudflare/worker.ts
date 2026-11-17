@@ -4,6 +4,7 @@ import { tidbRequest } from "./tidb";
 import { tidbHealth } from "./tidb-health";
 import { passwordPolicyFromSecret } from "../server/passwords";
 import { secureRequest, secureResponse } from "./security";
+import { VERSION_INFO } from "../app-version";
 /** Keep the existing SQLite storage as an archive; it no longer serves business requests. */
 export class SakuraSchool extends DurableObject<Env> {
   async fetch(_request: Request) {
@@ -14,6 +15,34 @@ export class SakuraSchool extends DurableObject<Env> {
 const applicationHandler = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/meta/version") {
+      if (request.method !== "GET") {
+        return Response.json(
+          {
+            code: 405,
+            success: false,
+            data: null,
+            message: "仅支持 GET",
+            traceId: randomUUID(),
+          },
+          {
+            status: 405,
+            headers: { "Cache-Control": "no-store", Allow: "GET" },
+          },
+        );
+      }
+      return Response.json(
+        {
+          code: 200,
+          success: true,
+          message: "SakuraEdu 版本信息",
+          data: VERSION_INFO,
+          traceId: randomUUID(),
+          timestamp: new Date().toISOString(),
+        },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    }
     if (url.pathname === "/api/v1/health/tidb") return tidbHealth(request, env);
     if (url.pathname.startsWith("/api/")) {
       if (

@@ -28,6 +28,7 @@
 
 | 资源 / 路径示例 | 内容与实现 |
 | --- | --- |
+| `/meta/version` | 应用版本、设计标准版本和 API 主版本；`Cache-Control: no-store` |
 | `/auth/default-profile` | 读取 / 更新偏好，账号用户名与角色不能通过该入口修改；`server/auth.ts` |
 | `/academic/*` | 学期、课程、班级、任教和基础资料；`server/academic.ts` |
 | `/organization/admin`、`/organization/scope` | 配置元数据与当前组织范围；`server/organization.ts` |

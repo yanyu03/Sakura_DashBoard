@@ -6,6 +6,7 @@ import {
   type FormEvent,
 } from "react";
 import type { UiThemeId } from "../data/awesomeDesignTheme";
+import { APP_VERSION, DESIGN_STANDARD_VERSION } from "../../app-version";
 import { sakuraApi } from "../services/sakuraApiService";
 import type {
   CaptchaChallengeDTO,
@@ -380,7 +381,9 @@ export function AuthPortalView({ onLoginSuccess }: AuthPortalViewProps) {
           </a>
         </p>
       </section>
-      <p className="auth-simple-copyright">SakuraEdu · 让教学更从容</p>
+      <p className="auth-simple-copyright">
+        SakuraEdu v{APP_VERSION} · {DESIGN_STANDARD_VERSION} · 让教学更从容
+      </p>
     </main>
   );
 }

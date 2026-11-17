@@ -14,6 +14,7 @@ import {
 import { sakuraApi } from "./services/sakuraApiService";
 import { FacultyDefaultProfileDTO } from "./types/api";
 import { AppShell, WorkspaceTab } from "./types/sakura";
+import { APP_VERSION, DESIGN_STANDARD_VERSION } from "../app-version";
 const KnowledgeBaseView = lazy(() =>
   import("./components/KnowledgeBaseView").then((m) => ({
     default: m.KnowledgeBaseView,
@@ -376,11 +377,14 @@ export default function App() {
                   </SakuraIcon>
                 </div>
                 <div className="min-w-0">
-                  <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight block leading-none truncate">
-                    SakuraEdu
+                  <span className="font-headline-sm text-sm sm:text-base text-on-surface font-bold tracking-tight flex items-center gap-1.5 leading-none min-w-0">
+                    <span className="truncate">SakuraEdu</span>
+                    <span className="text-[9px] font-medium text-on-surface-variant shrink-0">
+                      v{APP_VERSION}
+                    </span>
                   </span>
                   <span className="font-label-sm text-[10px] text-secondary tracking-wider uppercase block mt-0.5 truncate">
-                    樱花教务云 · {defaultProfile.department}
+                    樱花教务云 · {defaultProfile.department} · {DESIGN_STANDARD_VERSION}
                   </span>
                 </div>
               </div>
