@@ -6,17 +6,28 @@ import schema from "./schema.json";
  * AB-only SQLite driver. Durable Object SQLite is a native SQLite engine;
  * unlike better-sqlite3 it is available within Cloudflare Workers.
  */
+/** Minimal SQLite storage contract, kept portable for Node unit tests. */
+export type AbStorage = {
+  sql: {
+    exec<T extends Record<string, any> = Record<string, any>>(
+      statement: string, ...args: Array<string | number | bigint | null | ArrayBuffer | Uint8Array>
+    ): { toArray(): T[]; one(): T };
+  };
+  transactionSync<T>(callback: () => T): T;
+  transaction<T>(callback: () => T | Promise<T>): Promise<T>;
+};
+
 export class AbDurableSqlite implements DatabaseConnection {
   readonly async = true as const;
   private readonly activeTransaction = new AsyncLocalStorage<boolean>();
 
-  constructor(private readonly storage: DurableObjectStorage) {}
+  constructor(private readonly storage: AbStorage) {}
 
   private execute(sql: string, args: unknown[] = []) {
     try {
       return this.storage.sql.exec(sql, ...(args.map((value) =>
-        value === undefined ? null : value
-      ) as SqlStorageValue[])).toArray();
+        value === undefined ? null : typeof value === 'boolean' ? Number(value) : value
+      ) as Array<string | number | bigint | null | ArrayBuffer | Uint8Array>)).toArray();
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : String(cause);
       const error = new Error(message) as Error & { code?: string };
@@ -65,7 +76,7 @@ const expectedTables = schema.tables.length;
  * Initialize the same frozen v16 SQLite schema used by CI. Do not seed users
  * or reset an existing test database. Reject drift rather than guessing.
  */
-export function ensureAbSchema(storage: DurableObjectStorage) {
+export function ensureAbSchema(storage: AbStorage) {
   const sql = storage.sql;
   const exists = sql.exec(
     "SELECT name FROM sqlite_master WHERE type='table' AND name='schema_migrations'",
