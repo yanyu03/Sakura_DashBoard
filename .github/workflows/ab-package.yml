@@ -53,6 +53,13 @@ jobs:
                   name='/'+str(f.relative_to(root)).replace('\\','/')
                   manifest[name]={'hash':hashlib.sha256(payload).hexdigest(), 'size':len(payload)}
           Path('.ab-deploy-package/asset-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          texts={}
+          for f in root.rglob('*'):
+              if f.is_file() and f.suffix in ('.js','.css','.html','.markdown') and 'aistudio' not in f.parts:
+                  name='/'+str(f.relative_to(root)).replace('\\','/')
+                  texts[name]=f.read_text(encoding='utf-8')
+          Path('.ab-deploy-package/embedded-assets.json').write_text(json.dumps(texts,ensure_ascii=False),encoding='utf-8')
+          print(f"Prepared {len(texts)} text assets for fallback Worker upload")
           print(f"Prepared {len(manifest)} assets")
           PY
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
