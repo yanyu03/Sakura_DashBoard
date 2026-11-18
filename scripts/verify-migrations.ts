@@ -14,7 +14,9 @@ const checks:{name:string;status:string}[]=[];
 function check(name:string,fn:()=>void){fn();checks.push({name,status:'PASS'});console.log(`PASS ${name}`);}
 try{
   check('fresh database migrates and has enforceable foreign keys',()=>{
-    assert.equal((db.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as {n:number}).n,15);
+    assert.equal((db.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as {n:number}).n,16);
+    assert.ok(db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='schedule_task_pool'").get());
+    assert.ok(db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='faculty_class_defaults'").get());
     assert.ok((db.pragma('foreign_key_list(homework_submissions)') as unknown[]).length===2);
     assert.throws(()=>db.prepare("UPDATE student_profiles SET class_id='missing-class'").run(),/FOREIGN KEY/);
     assert.throws(()=>db.prepare('UPDATE homework_submissions SET total_score=-1').run(),/CHECK/);
@@ -29,7 +31,7 @@ try{
   });
   check('repeated migration preserves fixtures and creates no duplicate history',()=>{
     initAndSeedSqliteDatabase(false);
-    assert.equal((db.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as {n:number}).n,15);
+    assert.equal((db.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as {n:number}).n,16);
     assert.equal((db.prepare("SELECT COUNT(*) AS n FROM faculty_users WHERE id LIKE 'fixture-%'").get() as {n:number}).n,2);
   });
   const legacyFile=path.join(directory,'existing.sqlite');
@@ -64,5 +66,5 @@ try{
     assert.deepEqual(db.pragma('foreign_key_check'),[]);
   });
   fs.mkdirSync('docs/verification/business',{recursive:true});
-  fs.writeFileSync('docs/verification/business/migrations.json',JSON.stringify({directory,checks},null,2));
+  fs.writeFileSync('docs/verification/business/migrations.json',JSON.stringify({checks},null,2));
 }finally{db.close();}

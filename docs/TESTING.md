@@ -1,5 +1,11 @@
 # 验证指南与证据分层
 
+## SQLite 预演与部署验证
+
+SQLite 只承担**上线前本地/CI 预演盘**，不是对外服务的部署数据库。2026-11-18 的 [1.0.2-sakura SQLite/HTTP 验收](https://github.com/yanyu03/Sakura_DashBoard/actions/runs/44155005388) 已完成 10 组本地测试、7 项 HTTP 冒烟和 11 项安全专项；它只证明隔离 SQLite 环境通过，不代表同版本 TiDB 生产链路已验收。
+
+正式部署版当前选择 TiDB。每次上线必须在 SQLite 回归之后，用**独立目标数据库**验证实际部署版本的 DDL/迁移、权限、业务流程、事务、并发、超时和回滚，随后才能备份、部署与线上非破坏性冒烟。其他数据库只有实现独立适配器和测试后才能成为部署选项。
+
 ## 无外部凭据的本地检查
 
 ```bash
@@ -24,7 +30,7 @@ npm run test:local
 | `npm run test:organization` | 组织链、兼任、资格目录、跨校 / 跨组拒绝 | 22 组 |
 | `npm run test:first-registration` | 空库首位管理员、后续不可提权、并发首次注册 | 3 项 |
 | `npm run test:tidb-reliability` | 适配器故障注入、未知提交不重放、503 保留状态 | 3 项（模拟，不连接 TiDB） |
-| `npm run test:preview` | 实际本地入口、无预置账号、首次注册、SQL 封禁、重启持久化 | 4 项 |
+| `npm run test:preview` | 实际本地入口、SQLite v16、登录、任务池增改/版本冲突、注销、重启持久化 | 7 项（1.0.2） |
 
 当前 GitHub Actions 在 Windows / Node.js 24 上执行安装、类型检查、构建、文档链接、本地回归和密码专项，不注入云端密钥，也不部署到生产。首次注册等服务端测试使用隔离夹具；实际本地入口测试仅在其独占测试库中替换一次性验证码摘要，不在产品中增加验证码绕过。
 

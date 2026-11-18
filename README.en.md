@@ -2,9 +2,9 @@
 
 [![Verify](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml)
 
-A full-stack teaching workspace exploring school organization, staff appointments and scoped timetable collaboration. **1.0Sakura** is an engineering preview built with React, TypeScript, Express, SQLite, TiDB and Cloudflare Workers.
+A full-stack teaching workspace exploring school organization, staff appointments and scoped timetable collaboration. The current development-branch application version is **1.0.2-sakura** and its design standard is **1.0Sakura**. This engineering preview is built with React, TypeScript, Express, SQLite, TiDB and Cloudflare Workers.
 
-[中文](README.md) · [Portfolio case study](docs/PORTFOLIO.md) · [Documentation](docs/README.md) · [Live entry](https://sakura.250221.xyz/?design=1.0Sakura) · [MIT](LICENSE)
+[中文](README.md) · [Versioning](docs/VERSIONING.md) · [Portfolio case study](docs/PORTFOLIO.md) · [Documentation](docs/README.md) · [Live entry](https://sakura.250221.xyz/?design=1.0Sakura) · [MIT](LICENSE)
 
 ## Why this project
 
@@ -33,7 +33,7 @@ This local preview is not a public production server. The historical `dev:legacy
 - School organization trees, multiple dated appointments, course qualifications and a scoped coordination directory.
 - Timetable drafts, department sharing, approval, self-review rejection, conflict checks and ICS export.
 - Teaching records: homework, text lesson plans and revisions, assessment CSV preview / import, student records and internal communication.
-- Incremental v15 migrations, production SQLite-to-TiDB transfer, parameterized HTTPS transport, bounded timeouts and no automatic replay of unknown commits.
+- Incremental v16 migrations and a private per-account scheduling task pool, production SQLite-to-TiDB transfer, parameterized HTTPS transport, bounded timeouts and no automatic replay of unknown commits.
 - CF Secrets, strengthened salted scrypt with a separate HMAC pepper, encrypted Windows operator files and sensitive-log suppression.
 
 ## Verification

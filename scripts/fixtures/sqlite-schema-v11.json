@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "sourceMigrationVersion": 11,
+  "tables": [
+    "academic_classes",
+    "academic_terms",
+    "assessment_exams",
+    "assessment_imports",
+    "assessment_marks",
+    "assessment_questions",
+    "assessment_results",
+    "auth_sessions",
+    "business_notifications",
+    "care_contacts",
+    "care_messages",
+    "care_threads",
+    "care_todos",
+    "class_enrollments",
+    "coaching_journals",
+    "course_swap_requests",
+    "courses",
+    "exam_analytics_batches",
+    "faculty_users",
+    "home_school_messages",
+    "home_school_threads",
+    "homework_assignments",
+    "homework_history",
+    "homework_submissions",
+    "lesson_homework",
+    "lesson_plans",
+    "lesson_revisions",
+    "login_attempts",
+    "schedule_changes",
+    "schedule_entries",
+    "schema_migrations",
+    "security_captchas",
+    "sql_audit_logs",
+    "student_profiles",
+    "teaching_assignments",
+    "timetable_schedules"
+  ],
+  "statements": [
+    "CREATE TABLE \"academic_classes\" (\n      id TEXT PRIMARY KEY,\n      class_code TEXT NOT NULL UNIQUE,\n      class_name TEXT NOT NULL,\n      grade_level TEXT NOT NULL,\n      head_teacher_id TEXT,\n      student_count INTEGER NOT NULL DEFAULT 45,\n      room_location TEXT NOT NULL,\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , archived_at TEXT, version INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (head_teacher_id) REFERENCES faculty_users(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE academic_terms (\n  id TEXT PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL,\n  starts_on TEXT NOT NULL, ends_on TEXT NOT NULL,\n  active INTEGER NOT NULL DEFAULT 0 CHECK(active IN (0,1)), archived_at TEXT, version INTEGER NOT NULL DEFAULT 1, CHECK(starts_on <= ends_on)\n)",
+    "CREATE TABLE assessment_exams(id TEXT PRIMARY KEY,title TEXT NOT NULL,exam_date TEXT NOT NULL,class_id TEXT NOT NULL REFERENCES academic_classes(id),course_id TEXT NOT NULL REFERENCES courses(id),owner_id TEXT NOT NULL REFERENCES faculty_users(id),max_score REAL NOT NULL CHECK(max_score>0),pass_ratio REAL NOT NULL CHECK(pass_ratio>=0 AND pass_ratio<=1),excellent_ratio REAL NOT NULL CHECK(excellent_ratio>=pass_ratio AND excellent_ratio<=1),roster_json TEXT NOT NULL,version INTEGER NOT NULL DEFAULT 1,archived_at TEXT)",
+    "CREATE TABLE assessment_imports(actor_id TEXT NOT NULL REFERENCES faculty_users(id),request_key TEXT NOT NULL,exam_id TEXT NOT NULL REFERENCES assessment_exams(id),payload_hash TEXT NOT NULL,result_json TEXT NOT NULL,PRIMARY KEY(actor_id,request_key))",
+    "CREATE TABLE assessment_marks(exam_id TEXT NOT NULL,student_id TEXT NOT NULL,question_id TEXT NOT NULL REFERENCES assessment_questions(id),score REAL NOT NULL CHECK(score>=0),PRIMARY KEY(exam_id,student_id,question_id),FOREIGN KEY(exam_id,student_id) REFERENCES assessment_results(exam_id,student_id))",
+    "CREATE TABLE assessment_questions(id TEXT PRIMARY KEY,exam_id TEXT NOT NULL REFERENCES assessment_exams(id),title TEXT NOT NULL,max_score REAL NOT NULL CHECK(max_score>0),ordinal INTEGER NOT NULL,UNIQUE(exam_id,ordinal))",
+    "CREATE TABLE assessment_results(exam_id TEXT NOT NULL REFERENCES assessment_exams(id),student_id TEXT NOT NULL REFERENCES student_profiles(id),status TEXT NOT NULL CHECK(status IN ('scored','absent','ungraded')),PRIMARY KEY(exam_id,student_id))",
+    "CREATE TABLE auth_sessions (\n      token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES faculty_users(id) ON DELETE CASCADE,\n      csrf_token TEXT NOT NULL, expires_at INTEGER NOT NULL, created_at INTEGER NOT NULL\n    )",
+    "CREATE TABLE business_notifications(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES faculty_users(id),event_key TEXT NOT NULL,title TEXT NOT NULL,resource_path TEXT NOT NULL,resource_id TEXT,available_at TEXT NOT NULL,created_at TEXT NOT NULL,read_at TEXT,UNIQUE(user_id,event_key))",
+    "CREATE TABLE care_contacts(id TEXT PRIMARY KEY,student_id TEXT NOT NULL REFERENCES student_profiles(id),name TEXT NOT NULL,relationship TEXT NOT NULL,phone TEXT NOT NULL DEFAULT '',version INTEGER NOT NULL DEFAULT 1,archived_at TEXT)",
+    "CREATE TABLE care_messages(sequence INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT NOT NULL UNIQUE,thread_id TEXT NOT NULL REFERENCES care_threads(id),actor_id TEXT NOT NULL REFERENCES faculty_users(id),request_key TEXT NOT NULL,kind TEXT NOT NULL CHECK(kind IN ('note','outgoing','incoming-record')),content TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('recorded','queued')),not_before TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(actor_id,request_key))",
+    "CREATE TABLE care_threads(id TEXT PRIMARY KEY,contact_id TEXT NOT NULL REFERENCES care_contacts(id),teacher_id TEXT NOT NULL REFERENCES faculty_users(id),last_message TEXT NOT NULL DEFAULT '',updated_at TEXT NOT NULL,last_read_sequence INTEGER NOT NULL DEFAULT 0,UNIQUE(contact_id,teacher_id))",
+    "CREATE TABLE care_todos(id TEXT PRIMARY KEY,student_id TEXT NOT NULL REFERENCES student_profiles(id),owner_id TEXT NOT NULL REFERENCES faculty_users(id),title TEXT NOT NULL,due_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'open' CHECK(status IN ('open','done','cancelled')),version INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL)",
+    "CREATE TABLE class_enrollments (\n  student_id TEXT NOT NULL REFERENCES student_profiles(id),\n  class_id TEXT NOT NULL REFERENCES academic_classes(id),\n  term_id TEXT NOT NULL REFERENCES academic_terms(id),\n  PRIMARY KEY(student_id,term_id)\n)",
+    "CREATE TABLE \"coaching_journals\" (\n      id TEXT PRIMARY KEY,\n      student_id TEXT NOT NULL,\n      student_name TEXT NOT NULL,\n      teacher_id TEXT NOT NULL DEFAULT 'fac-admin',\n      date_title TEXT NOT NULL,\n      tag TEXT NOT NULL,\n      content TEXT NOT NULL,\n      teacher_name TEXT NOT NULL DEFAULT '林知夏 老师',\n      status_text TEXT NOT NULL DEFAULT '已同步成长档案',\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (student_id) REFERENCES student_profiles(id) ON DELETE RESTRICT, FOREIGN KEY (teacher_id) REFERENCES faculty_users(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE \"course_swap_requests\" (\n      id TEXT PRIMARY KEY,\n      applicant_teacher_id TEXT NOT NULL,\n      target_teacher_name TEXT NOT NULL,\n      source_period_desc TEXT NOT NULL,\n      target_period_desc TEXT NOT NULL,\n      reason TEXT NOT NULL,\n      approval_status TEXT NOT NULL DEFAULT 'APPROVED',\n      approved_by TEXT DEFAULT '陈铭 (语文教研组长)',\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (applicant_teacher_id) REFERENCES faculty_users(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE courses (id TEXT PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, archived_at TEXT, version INTEGER NOT NULL DEFAULT 1)",
+    "CREATE TABLE \"exam_analytics_batches\" (\n      id TEXT PRIMARY KEY,\n      exam_title TEXT NOT NULL,\n      exam_date TEXT NOT NULL,\n      class_id TEXT NOT NULL,\n      class_avg REAL NOT NULL,\n      grade_avg REAL NOT NULL,\n      excellent_rate REAL NOT NULL,\n      pass_rate REAL NOT NULL,\n      ai_confidence REAL NOT NULL DEFAULT 98.4,\n      core_conclusion TEXT NOT NULL,\n      tactical_advice TEXT NOT NULL,\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (class_id) REFERENCES academic_classes(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE faculty_users (\n      id TEXT PRIMARY KEY,\n      faculty_code TEXT NOT NULL UNIQUE,\n      email TEXT NOT NULL UNIQUE,\n      phone TEXT UNIQUE,\n      password_hash TEXT NOT NULL,\n      full_name TEXT NOT NULL,\n      title_role TEXT NOT NULL,\n      department TEXT NOT NULL DEFAULT '高中语文教研组',\n      default_tab TEXT NOT NULL DEFAULT 'homework-center',\n      default_theme TEXT NOT NULL DEFAULT 'awesome-green',\n      default_class_name TEXT NOT NULL DEFAULT '高二(1)班',\n      semester_label TEXT NOT NULL DEFAULT '2024 春季学期 · 第 12 周',\n      dnd_enabled INTEGER NOT NULL DEFAULT 1,\n      dnd_start_time TEXT NOT NULL DEFAULT '20:30',\n      status TEXT NOT NULL DEFAULT 'ACTIVE',\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , role TEXT NOT NULL DEFAULT 'teacher' CHECK(role IN ('admin','teacher')), version INTEGER NOT NULL DEFAULT 1)",
+    "CREATE TABLE \"home_school_messages\" (\n      id TEXT PRIMARY KEY,\n      thread_id TEXT NOT NULL,\n      sender_role TEXT NOT NULL,\n      sender_name TEXT NOT NULL,\n      content TEXT NOT NULL,\n      medal_attached_json TEXT,\n      sent_time_label TEXT NOT NULL DEFAULT '',\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (thread_id) REFERENCES home_school_threads(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE \"home_school_threads\" (\n      id TEXT PRIMARY KEY,\n      student_id TEXT NOT NULL,\n      student_name TEXT NOT NULL,\n      parent_name TEXT NOT NULL,\n      class_name TEXT NOT NULL DEFAULT '高二(1)班',\n      role_tag TEXT NOT NULL DEFAULT '',\n      topic_tag TEXT NOT NULL DEFAULT '',\n      category TEXT NOT NULL DEFAULT 'all',\n      unread_count INTEGER NOT NULL DEFAULT 0,\n      last_time TEXT NOT NULL DEFAULT '',\n      last_message TEXT NOT NULL DEFAULT '',\n      payload_json TEXT NOT NULL,\n      updated_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (student_id) REFERENCES student_profiles(id) ON DELETE RESTRICT, CHECK (unread_count >= 0)\n)",
+    "CREATE TABLE \"homework_assignments\" (\n      id TEXT PRIMARY KEY,\n      title TEXT NOT NULL,\n      course_tag TEXT NOT NULL,\n      class_id TEXT NOT NULL,\n      max_score REAL NOT NULL DEFAULT 100,\n      submitted_count INTEGER NOT NULL DEFAULT 1,\n      total_students INTEGER NOT NULL DEFAULT 1,\n      graded_count INTEGER NOT NULL DEFAULT 1,\n      avg_score REAL NOT NULL DEFAULT 98.0,\n      excellent_rate REAL NOT NULL DEFAULT 100.0,\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , lifecycle TEXT NOT NULL DEFAULT 'published' CHECK(lifecycle IN ('draft','published','closed','archived')), owner_id TEXT REFERENCES faculty_users(id), instructions TEXT NOT NULL DEFAULT '', due_at TEXT, version INTEGER NOT NULL DEFAULT 1, roster_json TEXT, FOREIGN KEY (class_id) REFERENCES academic_classes(id) ON DELETE RESTRICT, CHECK (max_score > 0), CHECK (total_students >= 0)\n)",
+    "CREATE TABLE homework_history(id TEXT PRIMARY KEY,submission_id TEXT NOT NULL REFERENCES homework_submissions(id),actor_id TEXT NOT NULL REFERENCES faculty_users(id),action TEXT NOT NULL,snapshot_json TEXT NOT NULL,created_at TEXT NOT NULL)",
+    "CREATE TABLE \"homework_submissions\" (\n      id TEXT PRIMARY KEY,\n      assignment_id TEXT NOT NULL,\n      student_id TEXT NOT NULL,\n      student_name TEXT NOT NULL,\n      class_name TEXT NOT NULL DEFAULT '高二(1)班',\n      total_score REAL,\n      question_score REAL NOT NULL DEFAULT 24.5,\n      status TEXT NOT NULL DEFAULT 'graded',\n      tag_text TEXT NOT NULL DEFAULT '',\n      status_badge TEXT NOT NULL DEFAULT '',\n      is_model_essay INTEGER NOT NULL DEFAULT 0,\n      stamp_type TEXT,\n      payload_json TEXT NOT NULL,\n      submitted_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),\n      graded_at TEXT\n    , version INTEGER NOT NULL DEFAULT 1, content TEXT NOT NULL DEFAULT '', feedback TEXT NOT NULL DEFAULT '', FOREIGN KEY (assignment_id) REFERENCES homework_assignments(id) ON DELETE RESTRICT, FOREIGN KEY (student_id) REFERENCES student_profiles(id) ON DELETE RESTRICT, CHECK (total_score IS NULL OR total_score >= 0), CHECK (question_score >= 0)\n)",
+    "CREATE TABLE lesson_homework(lesson_id TEXT NOT NULL REFERENCES lesson_plans(id),assignment_id TEXT NOT NULL REFERENCES homework_assignments(id),PRIMARY KEY(lesson_id,assignment_id))",
+    "CREATE TABLE lesson_plans (\n      id TEXT PRIMARY KEY,\n      unit_code TEXT NOT NULL DEFAULT 'u2',\n      title TEXT NOT NULL,\n      summary TEXT NOT NULL,\n      category TEXT NOT NULL DEFAULT 'all',\n      badge_text TEXT DEFAULT '',\n      author_name TEXT NOT NULL,\n      citation_count INTEGER NOT NULL DEFAULT 120,\n      updated_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , owner_id TEXT REFERENCES faculty_users(id), body TEXT NOT NULL DEFAULT '', tags_json TEXT NOT NULL DEFAULT '[]', visibility TEXT NOT NULL DEFAULT 'school' CHECK(visibility IN ('private','school')), archived_at TEXT, version INTEGER NOT NULL DEFAULT 1)",
+    "CREATE TABLE lesson_revisions(id TEXT PRIMARY KEY,lesson_id TEXT NOT NULL REFERENCES lesson_plans(id),actor_id TEXT NOT NULL REFERENCES faculty_users(id),snapshot_json TEXT NOT NULL,created_at TEXT NOT NULL)",
+    "CREATE TABLE login_attempts(id INTEGER PRIMARY KEY, account TEXT NOT NULL, attempted_at INTEGER NOT NULL, succeeded INTEGER NOT NULL CHECK(succeeded IN (0,1)))",
+    "CREATE TABLE schedule_changes(id TEXT PRIMARY KEY,entry_id TEXT NOT NULL REFERENCES schedule_entries(id),source_version INTEGER NOT NULL,applicant_id TEXT NOT NULL REFERENCES faculty_users(id),target_json TEXT NOT NULL,reason TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','rejected','cancelled')),reviewer_id TEXT REFERENCES faculty_users(id),review_note TEXT NOT NULL DEFAULT '',version INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL)",
+    "CREATE TABLE schedule_entries(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES academic_classes(id),teacher_id TEXT NOT NULL REFERENCES faculty_users(id),course_id TEXT NOT NULL REFERENCES courses(id),starts_at TEXT NOT NULL,ends_at TEXT NOT NULL,room TEXT NOT NULL,version INTEGER NOT NULL DEFAULT 1,cancelled_at TEXT, lesson_id TEXT REFERENCES lesson_plans(id),CHECK(starts_at<ends_at))",
+    "CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, name TEXT NOT NULL, checksum TEXT NOT NULL, applied_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')))",
+    "CREATE TABLE security_captchas (\n      captcha_id TEXT PRIMARY KEY,\n      mode TEXT NOT NULL DEFAULT 'graphic',\n      captcha_mode TEXT NOT NULL DEFAULT 'graphic',\n      question_label TEXT NOT NULL DEFAULT '',\n      answer_hash TEXT NOT NULL DEFAULT '',\n      answer_text TEXT NOT NULL DEFAULT '',\n      svg_markup TEXT NOT NULL DEFAULT '',\n      verified INTEGER NOT NULL DEFAULT 0,\n      client_ip TEXT DEFAULT '127.0.0.1',\n      expires_at TEXT NOT NULL,\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    )",
+    "CREATE TABLE sql_audit_logs (\n      id INTEGER PRIMARY KEY AUTOINCREMENT,\n      trace_id TEXT NOT NULL,\n      fn_name TEXT NOT NULL,\n      http_method TEXT NOT NULL,\n      endpoint TEXT NOT NULL,\n      sql_text TEXT NOT NULL,\n      rows_affected INTEGER DEFAULT 1,\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    )",
+    "CREATE TABLE \"student_profiles\" (\n      id TEXT PRIMARY KEY,\n      student_no TEXT NOT NULL UNIQUE,\n      short_no TEXT NOT NULL,\n      full_name TEXT NOT NULL,\n      avatar_char TEXT NOT NULL,\n      avatar_url TEXT,\n      class_id TEXT NOT NULL,\n      role_badge TEXT DEFAULT '',\n      rank_label TEXT DEFAULT '',\n      tag_label TEXT DEFAULT '',\n      badge_type TEXT DEFAULT '',\n      trend_text TEXT DEFAULT '',\n      trend_dir TEXT DEFAULT 'up',\n      daily_status TEXT DEFAULT '',\n      bio TEXT DEFAULT '',\n      tag_category TEXT NOT NULL DEFAULT 'focus',\n      radar_classical REAL NOT NULL DEFAULT 90,\n      radar_modern REAL NOT NULL DEFAULT 90,\n      radar_writing REAL NOT NULL DEFAULT 90,\n      radar_poetry REAL NOT NULL DEFAULT 90,\n      radar_basics REAL NOT NULL DEFAULT 90,\n      composite_score REAL NOT NULL DEFAULT 90,\n      strength_module TEXT DEFAULT '',\n      potential_module TEXT DEFAULT '',\n      payload_json TEXT NOT NULL,\n      updated_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , archived_at TEXT, version INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (class_id) REFERENCES academic_classes(id) ON DELETE RESTRICT\n)",
+    "CREATE TABLE \"teaching_assignments\" (\n      id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(16)))),\n      teacher_id TEXT NOT NULL REFERENCES faculty_users(id), class_id TEXT NOT NULL REFERENCES academic_classes(id),\n      course_id TEXT NOT NULL REFERENCES courses(id), term_id TEXT NOT NULL REFERENCES academic_terms(id),\n      archived_at TEXT, version INTEGER NOT NULL DEFAULT 1, UNIQUE(teacher_id,class_id,course_id,term_id)\n    )",
+    "CREATE TABLE \"timetable_schedules\" (\n      id TEXT PRIMARY KEY,\n      semester TEXT NOT NULL DEFAULT '2024-SPRING',\n      week_num INTEGER NOT NULL DEFAULT 12,\n      day_of_week INTEGER NOT NULL,\n      period_id TEXT NOT NULL,\n      period_name TEXT NOT NULL,\n      time_range TEXT NOT NULL,\n      teacher_id TEXT NOT NULL,\n      class_group TEXT NOT NULL DEFAULT 'both',\n      course_title TEXT NOT NULL,\n      course_subtitle TEXT DEFAULT '',\n      room_name TEXT NOT NULL,\n      tag_label TEXT NOT NULL,\n      card_type TEXT NOT NULL DEFAULT 'chinese-main',\n      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))\n    , FOREIGN KEY (teacher_id) REFERENCES faculty_users(id) ON DELETE RESTRICT, CHECK (day_of_week BETWEEN 1 AND 7)\n)",
+    "CREATE INDEX idx_assignment_class ON homework_assignments(class_id)",
+    "CREATE INDEX idx_audit_trace ON sql_audit_logs(trace_id)",
+    "CREATE INDEX idx_care_messages_thread ON care_messages(thread_id,sequence)",
+    "CREATE INDEX idx_enrollment_class ON class_enrollments(class_id,term_id)",
+    "CREATE INDEX idx_exam_class_date ON exam_analytics_batches(class_id,exam_date)",
+    "CREATE INDEX idx_homework_history_submission ON homework_history(submission_id,created_at)",
+    "CREATE INDEX idx_journal_student ON coaching_journals(student_id,created_at)",
+    "CREATE INDEX idx_login_account_time ON login_attempts(account,attempted_at)",
+    "CREATE INDEX idx_message_thread ON home_school_messages(thread_id,created_at,id)",
+    "CREATE INDEX idx_notifications_user ON business_notifications(user_id,available_at,read_at)",
+    "CREATE INDEX idx_schedule_lesson ON schedule_entries(lesson_id)",
+    "CREATE INDEX idx_schedule_teacher_week ON timetable_schedules(teacher_id,semester,week_num,day_of_week,period_id)",
+    "CREATE INDEX idx_schedule_time ON schedule_entries(starts_at,ends_at)",
+    "CREATE INDEX idx_sessions_user_expiry ON auth_sessions(user_id,expires_at)",
+    "CREATE INDEX idx_student_class_category ON student_profiles(class_id,tag_category)",
+    "CREATE INDEX idx_submission_assignment_status ON homework_submissions(assignment_id,status,submitted_at,id)",
+    "CREATE UNIQUE INDEX idx_submission_assignment_student ON homework_submissions(assignment_id,student_id)",
+    "CREATE INDEX idx_submission_student ON homework_submissions(student_id)",
+    "CREATE INDEX idx_teaching_class ON teaching_assignments(class_id,teacher_id)",
+    "CREATE INDEX idx_thread_student ON home_school_threads(student_id)"
+  ],
+  "ledger": [
+    {
+      "version": 1,
+      "name": "relational-foundation",
+      "checksum": "4107a885824aaeebbd41da436b7617c2b5d86e6eb134f0b29a4e33b9bc9afb26"
+    },
+    {
+      "version": 2,
+      "name": "accounts-and-sessions",
+      "checksum": "ad551cfae14f3042d0c4358a18140ab5e827b0983de8d912419d30d9756e1763"
+    },
+    {
+      "version": 3,
+      "name": "academic-master-data",
+      "checksum": "0360fa82adac6ad56a692921f71cbaf6457cc8f7fccf759c7ced4d7df7c3bbd0"
+    },
+    {
+      "version": 4,
+      "name": "versioned-master-records",
+      "checksum": "c09379446e5483eaf45fefb80f39e20360e017230299d9e27eb7f4c5804d28c3"
+    },
+    {
+      "version": 5,
+      "name": "manual-homework-workflow",
+      "checksum": "3188dc40117cabfe05cb6f42c510fee9876c5bec9a710d7e27355cf75a877803"
+    },
+    {
+      "version": 6,
+      "name": "lesson-content-and-revisions",
+      "checksum": "554b59fe9c2f297ce97ac3103714b4623c3213cfb553ee82c442689cb526f8fc"
+    },
+    {
+      "version": 7,
+      "name": "schedule-approval-workflow",
+      "checksum": "3f483a3a5606bde773eb675059e0b45a6a6d7ec729999262107a088d84eba722"
+    },
+    {
+      "version": 8,
+      "name": "assessment-scores-and-imports",
+      "checksum": "dfb29220cd015e8df545b09b152b7554032710c103f6e076b615c400c8dd0cff"
+    },
+    {
+      "version": 9,
+      "name": "internal-care-records",
+      "checksum": "00746dafc69b3b044d8f6c29c731b35fb823ebd52cfbc539f2a1b3dc77a50f46"
+    },
+    {
+      "version": 10,
+      "name": "workspace-notifications",
+      "checksum": "f60b35b2aed0b7124d708cb680e22ba93c09c4065842046f65b65ff7b54baf70"
+    },
+    {
+      "version": 11,
+      "name": "lesson-schedule-links",
+      "checksum": "b8a7f852dab4322f2640fc040656817bbb2577cb62a2feb2687601acfe1ee9d4"
+    }
+  ],
+  "checksum": "de6f1b1b5f4bd5069c066d11bb77487613f0f85d6218acf6c2eabb3222b074fd"
+}

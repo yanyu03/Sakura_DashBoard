@@ -98,10 +98,13 @@ class SakuraApiService {
     fallbackData: (() => T) | null,
     fallbackMsg: string
   ): Promise<ApiResponse<T>> {
+    let transportError: {code:number;message:string} | undefined;
     if (this.config.useRemoteBackend) {
       try {
         const res = await fetch(`${this.config.baseUrl}${path}`, {
           ...options,
+          credentials: 'same-origin',
+          cache: 'no-store',
           signal: options.signal || AbortSignal.timeout(
             /^(POST|PUT|PATCH|DELETE)$/i.test(options.method || 'GET')
               ? Math.max(this.config.timeoutMs, 45000) : this.config.timeoutMs
@@ -112,30 +115,43 @@ class SakuraApiService {
             ...(options.headers || {}),
           },
         });
-        const json = (await res.json()) as ApiResponse<T>;
-        if (json && typeof json.code === 'number') {
-          if(json.code===401&&typeof window!=='undefined'&& !['/auth/default-profile','/auth/faculty-login'].includes(path))window.dispatchEvent(new Event('sakura-session-expired'));
-          if(json.data&&typeof json.data==='object'&&'csrfToken' in json.data)this.csrfToken=String(json.data.csrfToken);
-          this.recordLog(json.traceId || `sqlite-${Date.now().toString(36)}`, {
-            fn: meta.fn,
-            method: meta.method,
-            endpoint: meta.endpoint,
-            sql: json.sqlExecuted || meta.fallbackSql,
-            engine: res.headers.get('X-Sakura-Database') || 'SQLite3 (test API)',
-          });
-          return json;
+        const isJson = (res.headers.get('Content-Type') || '').toLowerCase().includes('json');
+        if (!isJson) {
+          const ray = res.headers.get('CF-Ray');
+          const hint = ray ? `，请求编号 ${ray}` : '';
+          transportError = res.status === 403
+            ? { code: 403, message: `请求在到达业务 API 前被安全验证拦截（HTTP 403${hint}），请刷新完成站点安全验证后再试。提交前请确认是否已保存。` }
+            : { code: res.status >= 400 ? res.status : 503, message: `业务接口返回非 JSON 内容（HTTP ${res.status}${hint}），可能是网络安全验证或 API 路由配置问题。请勿重复提交。` };
+        } else {
+          const json = (await res.json()) as ApiResponse<T>;
+          if (json && typeof json.code === 'number') {
+            if(json.code===401&&typeof window!=='undefined'&& !['/auth/default-profile','/auth/faculty-login'].includes(path))window.dispatchEvent(new Event('sakura-session-expired'));
+            if(json.data&&typeof json.data==='object'&&'csrfToken' in json.data)this.csrfToken=String(json.data.csrfToken);
+            this.recordLog(json.traceId || `sqlite-${Date.now().toString(36)}`, {
+              fn: meta.fn,
+              method: meta.method,
+              endpoint: meta.endpoint,
+              sql: json.sqlExecuted || meta.fallbackSql,
+              engine: res.headers.get('X-Sakura-Database') || 'SQLite3 (test API)',
+            });
+            return json;
+          }
+          transportError = {code:503,message:`业务接口返回了缺少状态码的 JSON（HTTP ${res.status}），请保留页面并检查网络请求。`};
         }
-      } catch {
-        // Smooth fallback if offline
+      } catch (error) {
+        const name = error instanceof Error ? error.name : 'UnknownError';
+        transportError = name === 'TimeoutError' || name === 'AbortError'
+          ? {code:504,message:'操作等待响应超时，结果未知；请先刷新列表核对是否已保存，不要直接重复提交。'}
+          : {code:503,message:`浏览器未能将请求发送到业务接口（网络或安全策略中断，${name}）。请检查网络并保留页面信息。`};
       }
     }
     // Runtime requests must never turn transport failure into a successful demo write.
     // Fallback data is available only when a caller explicitly selects memory/demo mode.
     if (fallbackData === null || this.config.useRemoteBackend) {
       return {
-        code: 503,
+        code: transportError?.code || 503,
         success: false,
-        message: '未获得数据服务的有效响应，请稍后重试；提交类操作请先确认保存结果，避免重复提交。',
+        message: transportError?.message || '未获得数据服务的有效响应，请稍后重试；提交类操作请先确认保存结果，避免重复提交。',
         data: null,
         traceId: `sqlite-unavailable-${Date.now().toString(36)}`,
         timestamp: new Date().toISOString(),
@@ -296,7 +312,7 @@ class SakuraApiService {
             department: '高中语文教研组',
             defaultTab: 'homework-center',
             defaultTheme: 'awesome-green',
-            defaultClassName: '高二(1)班',
+            defaultClassName: '请在课表模块选择默认班级',
             semesterLabel: '2024 春季学期 · 第 12 周',
             dndEnabled: true,
             dndStartTime: '20:30',
@@ -331,7 +347,7 @@ class SakuraApiService {
           department: payload.department || '高中语文教研组',
           defaultTab: payload.defaultTab || 'homework-center',
           defaultTheme: payload.defaultTheme || 'awesome-green',
-          defaultClassName: payload.defaultClassName || '高二(1)班',
+          defaultClassName: payload.defaultClassName || '请在课表模块选择默认班级',
           semesterLabel: payload.semesterLabel || '2024 春季学期 · 第 12 周',
           dndEnabled: payload.dndEnabled ?? true,
           dndStartTime: payload.dndStartTime || '20:30',
@@ -365,7 +381,7 @@ class SakuraApiService {
           token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.sakura_v4_2',
           defaultTab: 'homework-center',
           defaultTheme: 'awesome-green',
-          defaultClassName: '高二(1)班',
+          defaultClassName: '请在课表模块选择默认班级',
           semesterLabel: '2024 春季学期 · 第 12 周',
           dndEnabled: true,
           dndStartTime: '20:30',

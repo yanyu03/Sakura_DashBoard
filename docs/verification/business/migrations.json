@@ -1,5 +1,4 @@
 {
-  "directory": "C:\\Users\\admin\\Desktop\\MYSQL\\Sakura_DashBoard\\.local-data\\migration-test-p285Dt",
   "checks": [
     {
       "name": "fresh database migrates and has enforceable foreign keys",

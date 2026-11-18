@@ -2,6 +2,8 @@
 
 生产路径为浏览器 → Cloudflare Worker → TiDB 固定 HTTPS 接口。本文命令面向**你自己的 CF 账户、域名和独立数据库**。仓库内作者的 account_id、Worker 名与域名是现有部署记录，不是公共部署凭据；克隆后必须先替换。
 
+SQLite 是上线前的本地/CI 预演盘，**不作为部署版的持久化数据库**。生产版当前使用 TiDB；未来采用其他数据库必须先补齐独立适配器、迁移和目标库集成测试。SQLite CI 通过不能替代真实目标数据库的部署前验收。详见[验证指南](TESTING.md)。
+
 本地评审无需执行这些步骤。当前通用运维工具使用 Windows DPAPI，以下操作者流程以 PowerShell 为例；Linux / macOS 的秘密存储适配尚未实现，不应通过保存明文 JSON 绕过失败。
 
 ## 1. 准备自己的环境
@@ -20,7 +22,7 @@ $env:TIDB_CREDENTIAL_FILE='C:/private/tidb-operator.txt'
 
 ## 2. 全新安装与现有数据迁移分开
 
-全新安装只导入空 SQLite v15 的基础元数据：
+全新安装只导入空 SQLite v16 的基础元数据：
 
 ```powershell
 npx tsx scripts/prepare-empty-install.ts --select
@@ -28,9 +30,9 @@ npx tsx scripts/prepare-tidb.ts
 npx tsx scripts/provision-tidb-runtime.ts
 ```
 
-第一步创建独立空库，包含迁移、组织类型和岗位定义，不含演示账号或学生；`--select` 明确将其设为后续导入源。第二步读取当前导出源，准备 58 张表及关系、导入并逐表 / 外键核对。目标必须是专门创建的空库；不要在已有参考数据或运行中的库上反复导入。
+第一步创建独立空库，包含迁移、组织类型和岗位定义，不含演示账号或学生；`--select` 明确将其设为后续导入源。第二步读取当前导出源，准备 60 张表及关系、导入并逐表 / 外键核对。目标必须是专门创建的空库；不要在已有参考数据或运行中的库上反复导入。
 
-`prepare-tidb.ts --schema-only` **只准备结构，不初始化角色 / 组织基础数据**，不能把它独立当作可用的新安装。现有 SQLite 平移应先做一致性快照，再使用经核对的 v15 导出；不能用空安装快照覆盖现有数据。
+`prepare-tidb.ts --schema-only` **只准备结构，不初始化角色 / 组织基础数据**，不能把它独立当作可用的新安装。现有 SQLite 平移应先做一致性快照，再使用经核对的 v16 导出；不能用空安装快照覆盖现有数据。
 
 运行账号凭据写入 `.local-data/tidb-runtime-<database>.json`，由 DPAPI 加密。表约束 / 触发器的应用保护边界见 [TiDB 说明](verification/tidb/README.md)。
 

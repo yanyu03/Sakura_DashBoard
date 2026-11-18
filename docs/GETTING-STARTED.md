@@ -24,7 +24,7 @@ npm run dev
 3. 进入 `/login?design=1.0Sakura` 登录。首次安装没有默认用户名或共享密码。
 4. 用户名不可通过偏好页修改；偏好设置不能提升角色。
 
-数据保存在 `.local-data/portfolio/sakura_edu.sqlite`。启动按顺序执行 v15 迁移，保留已有账号和业务；不会每次重置或补入演示教师。停止服务用 `Ctrl+C`。
+数据保存在 `.local-data/portfolio/sakura_edu.sqlite`。启动按顺序执行 v16 迁移，保留已有账号和业务；不会每次重置或补入演示教师。停止服务用 `Ctrl+C`。
 
 ## 更改端口或隔离演示数据
 

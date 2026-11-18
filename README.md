@@ -2,9 +2,9 @@
 
 [![Verify](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/yanyu03/Sakura_DashBoard/actions/workflows/ci.yml)
 
-学校组织关系、教师协作与教学业务工作台。**1.0Sakura** 是一个可以本地运行、带迁移和验证证据的全栈工程预览：前端采用 React / TypeScript，线上通过 Cloudflare Workers 访问 TiDB，本地用 SQLite 独立复现业务。
+学校组织关系、教师协作与教学业务工作台。当前开发分支应用版本为 **1.0.2-sakura**，设计标准为 **1.0Sakura**。项目可以本地运行并带迁移和验证证据：前端采用 React / TypeScript，线上通过 Cloudflare Workers 访问 TiDB，本地用 SQLite 独立复现业务。
 
-[English](README.en.md) · [在线入口](https://sakura.250221.xyz/?design=1.0Sakura) · [作品案例 / 面试阅读](docs/PORTFOLIO.md) · [完整文档](docs/README.md) · [MIT](LICENSE)
+[English](README.en.md) · [版本策略](docs/VERSIONING.md) · [在线入口](https://sakura.250221.xyz/?design=1.0Sakura) · [作品案例 / 面试阅读](docs/PORTFOLIO.md) · [完整文档](docs/README.md) · [MIT](LICENSE)
 
 ![教学工作台历史演示界面](docs/verification/ui-polish/desktop.png)
 
@@ -25,7 +25,7 @@
 | 协同排课 | 私有草稿、教研室共享、负责人审批、自审拦截、冲突检查、调代课、ICS | 周模板、单双周和完整校历仍在设计阶段 |
 | 教学业务 | 基础资料、作业发布与批阅、文本教案及修订、成绩 CSV 预览与幂等导入 | 无附件 OCR、外部 AI 自动评分或综合教务系统承诺 |
 | 学生与沟通 | 名册、考试轨迹、联系人、站内消息 / 待办、辅导记录 | queued 不代表短信或家长消息已经送达 |
-| 存储与安全 | SQLite v15 增量迁移、TiDB 平移、受限数据库账号、Worker Secret、加强密码哈希、日志脱敏 | 尚未完成多学校全模块租户隔离及容量 / 灾备验收 |
+| 存储与安全 | SQLite v16 增量迁移、TiDB 平移、受限数据库账号、Worker Secret、加强密码哈希、日志脱敏 | 尚未完成多学校全模块租户隔离及容量 / 灾备验收 |
 
 私有教案及未共享草稿已限制所有者；已发布班级资料按任教范围协作。`visibility=school` 的公开教案仍需收紧机构边界。不能将目前的逻辑作用域描述为每账号物理分库。
 
@@ -53,8 +53,10 @@ flowchart LR
   Secret[Worker Secret: DB descriptor + pepper] -.仅服务端.-> Worker
   App --> Adapter[TiDB 适配器 / 参数化 SQL / 事务]
   Adapter -->|固定目标 HTTPS| TiDB[(TiDB)]
-  Local[本地预览 / 同一业务应用] --> SQLite[(SQLite v15)]
+  Local[本地预览 / 同一业务应用] --> SQLite[(SQLite v16)]
 ```
+
+**环境划分：** SQLite 是本地/CI 上线前的测试盘，正式部署使用 TiDB 或未来经单独适配和验收的目标数据库。SQLite 回归全绿并不等于生产数据库通过验收，详见[架构说明](docs/ARCHITECTURE.md)。
 
 线上不把数据库密码交给浏览器。请求采用有界超时，结果不明的写入 / COMMIT 不自动重放；临时数据故障返回 503，前端保留已登录状态与待确认输入。设计取舍与真实限制见 [系统架构](docs/ARCHITECTURE.md)。
 

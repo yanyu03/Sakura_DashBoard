@@ -1,0 +1,81 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sakura-dashboard-ab",
+  "account_id": "3db21a9be03258f819017ca5c2b055d6",
+  "main": "cloudflare/abWorker.ts",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "ab.sakura.250221.xyz",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*",
+      "/",
+      "/__ab/*"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SCHOOL_AB",
+        "class_name": "SakuraAbSchool"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "sakura-ab-sqlite-v1",
+      "new_sqlite_classes": [
+        "SakuraAbSchool"
+      ]
+    }
+  ],
+  "vars": {
+    "NODE_ENV": "production",
+    "COOKIE_SECURE": "true",
+    "SAKURA_DEMO_MODE": "false",
+    "SAKURA_ALLOW_SQL_WRITES": "false",
+    "DATABASE_MODE": "sqlite",
+    "AB_STAGE": "full-business-preview"
+  },
+  "secrets": {
+    "required": [
+      "AB_PASSWORD_PEPPERS"
+    ]
+  },
+  "ratelimits": [
+    {
+      "name": "AUTH_LIMITER",
+      "namespace_id": "2101",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "redact_query_string": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true
+    }
+  },
+  "alias": {
+    "iconv-lite": "./cloudflare/utf8.ts"
+  }
+}

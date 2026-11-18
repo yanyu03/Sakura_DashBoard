@@ -10,6 +10,7 @@ import { registerWorkspace } from "../server/workspace";
 import { apiErrorHandler } from "../server/http";
 import { hashPassword } from "../server/passwords";
 import { applyScheduleSharing } from "../server/database/scheduleSharing";
+import { applyScheduleTaskPool } from "../server/database/scheduleTaskPool";
 fs.mkdirSync(".local-data", { recursive: true });
 process.env.SAKURA_DATA_DIR = fs.mkdtempSync(
   path.resolve(".local-data", "schedule-sharing-test-"),
@@ -124,6 +125,8 @@ let deptA = "",
   pending: any,
   published: any,
   conflict: any,
+  poolTask: any,
+  unboundTask: any,
   bobAppointment = "";
 const body = (hour = 8, klass = "test-class1") => ({
   class_id: klass,
@@ -149,7 +152,7 @@ try {
     () => {
       // Exercise the real v13 -> v14 upgrade, rather than only a fresh schema.
       db.exec(
-        "DROP TABLE schedule_submissions; DROP TABLE schedule_entry_scopes; DELETE FROM schema_migrations WHERE version=14",
+        "DROP TABLE schedule_task_pool; DROP TABLE faculty_class_defaults; DROP TABLE schedule_submissions; DROP TABLE schedule_entry_scopes; DELETE FROM schema_migrations WHERE version IN (14,16)",
       );
       db.prepare(
         "INSERT INTO schedule_entries(id,class_id,teacher_id,course_id,starts_at,ends_at,room) VALUES ('legacy-private','test-class1','test-alice','test-course','2025-01-01T00:00:00.000Z','2025-01-01T01:00:00.000Z','旧教室')",
@@ -158,6 +161,8 @@ try {
         db.prepare("SELECT COUNT(*) n FROM schedule_entries").get() as any
       ).n;
       applyScheduleSharing(db);
+      applyScheduleTaskPool(db);
+      applyScheduleTaskPool(db);
       assert.equal(
         (db.prepare("SELECT COUNT(*) n FROM schedule_entries").get() as any).n,
         count,
@@ -168,7 +173,7 @@ try {
             .prepare("SELECT MAX(version) n FROM schema_migrations")
             .get() as any
         ).n,
-        15,
+        16,
       );
     },
   );
@@ -281,6 +286,104 @@ try {
       db.prepare(
         "INSERT INTO identity_appointments(id,institution_id,identity_id,position_id,starts_on) VALUES ('upper-appointment',?,'upper-identity','upper-position','2020-01-01')",
       ).run(org);
+    },
+  );
+  await check(
+    "default class uses a verified assignment and unbound tasks stay in the owner's private pool",
+    async () => {
+      const setDefault = await api(
+        "alice",
+        "schedules/default-class",
+        "PUT",
+        { class_id: "test-class1" },
+      );
+      assert.equal(setDefault.status, 200);
+      assert.equal(setDefault.data.class_id, "test-class1");
+      assert.equal(
+        (
+          await api("alice", "schedules/default-class")
+        ).data.class_id,
+        "test-class1",
+      );
+      assert.equal(
+        (
+          await api("alice", "schedules/default-class", "PUT", {
+            class_id: "test-class3",
+          })
+        ).status,
+        403,
+      );
+      const created = await api("alice", "schedules/task-pool", "POST", {
+        title: "我的排课事项",
+        note: "先进入个人池",
+      });
+      assert.equal(created.status, 200);
+      poolTask = created.data;
+      assert.equal(poolTask.preferred_class_id, "test-class1");
+      assert.ok(
+        (await api("alice", "schedules/task-pool")).data.some(
+          (row: any) => row.id === poolTask.id,
+        ),
+      );
+      for (const user of ["bob", "chair", "admin", "outsider"])
+        assert.ok(
+          !(await api(user, "schedules/task-pool")).data.some(
+            (row: any) => row.id === poolTask.id,
+          ),
+        );
+      assert.equal(
+        (
+          await api("bob", `schedules/task-pool/${poolTask.id}`, "PATCH", {
+            action: "cancel",
+            version: poolTask.version,
+          })
+        ).status,
+        404,
+      );
+      const edit = await api("alice", `schedules/task-pool/${poolTask.id}`, "PATCH", {
+        title: "修订后的排课事项",
+        note: "经本人编辑",
+        version: poolTask.version,
+      });
+      assert.equal(edit.status, 200);
+      poolTask = edit.data;
+      assert.equal(poolTask.version, 2);
+      assert.equal(
+        (await api("alice", `schedules/task-pool/${poolTask.id}`, "PATCH", {
+          title: "旧版本不应覆盖",
+          version: 1,
+        })).status,
+        409,
+      );
+      const unbound = await api("upper", "schedules/task-pool", "POST", {
+        title: "未绑定班级的任务",
+      });
+      assert.equal(unbound.status, 200);
+      unboundTask = unbound.data;
+      assert.equal(unboundTask.preferred_class_id, null);
+      const foreignLink = await api(
+        "bob",
+        "schedules/submissions",
+        "POST",
+        { ...body(11), action: "draft", pool_task_id: poolTask.id },
+      );
+      assert.equal(foreignLink.status, 409);
+      const linked = await api("alice", "schedules/submissions", "POST", {
+        ...body(11),
+        action: "draft",
+        pool_task_id: poolTask.id,
+      });
+      assert.equal(linked.status, 200, linked.data?.message);
+      assert.ok(
+        !(await api("alice", "schedules/task-pool")).data.some(
+          (row: any) => row.id === poolTask.id,
+        ),
+      );
+      const persisted = db
+        .prepare("SELECT status,submission_id FROM schedule_task_pool WHERE id=?")
+        .get(poolTask.id) as any;
+      assert.equal(persisted.status, "linked");
+      assert.equal(persisted.submission_id, linked.data.id);
     },
   );
   await check(

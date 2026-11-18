@@ -1,0 +1,71 @@
+name: AB compiled staging artifact
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/google-business-updates
+    paths:
+      - "cloudflare/**"
+      - "server/**"
+      - "src/**"
+      - "scripts/**"
+      - "package*.json"
+      - "wrangler.ab.jsonc"
+      - ".github/workflows/ab-package.yml"
+permissions:
+  contents: read
+jobs:
+  stage-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsx scripts/verify-ab-driver.ts
+      - run: npm run build
+      - name: Bundle AB only, no deployment credentials needed
+        run: npx wrangler deploy --dry-run --config wrangler.ab.jsonc --outdir .local-data/ab-bundle
+      - name: Publish isolated compiled artifacts branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ab-deploy-package/assets
+          find .local-data/ab-bundle -type f -maxdepth 2 -print
+          test -f .local-data/ab-bundle/abWorker.js
+          cp .local-data/ab-bundle/abWorker.js .ab-deploy-package/abWorker.js
+          cp -a dist/. .ab-deploy-package/assets/
+          printf "%s\n" "$GITHUB_SHA" > .ab-deploy-package/source-sha.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('.ab-deploy-package/assets')
+          manifest={}
+          for f in root.rglob('*'):
+              if f.is_file():
+                  payload=f.read_bytes()
+                  name='/'+str(f.relative_to(root)).replace('\\','/')
+                  manifest[name]={'hash':hashlib.sha256(payload).hexdigest(), 'size':len(payload)}
+          Path('.ab-deploy-package/asset-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          texts={}
+          for f in root.rglob('*'):
+              if f.is_file() and f.suffix in ('.js','.css','.html','.markdown') and 'aistudio' not in f.parts:
+                  name='/'+str(f.relative_to(root)).replace('\\','/')
+                  texts[name]=f.read_text(encoding='utf-8')
+          Path('.ab-deploy-package/embedded-assets.json').write_text(json.dumps(texts,ensure_ascii=False),encoding='utf-8')
+          print(f"Prepared {len(texts)} text assets for fallback Worker upload")
+          print(f"Prepared {len(manifest)} assets")
+          PY
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan deploy-ab-package
+          git rm -rf . >/dev/null
+          git add -f .ab-deploy-package
+          git commit -m "build(ab): compiled SQLite staging bundle from ${GITHUB_SHA}"
+          git push --force origin HEAD:refs/heads/deploy-ab-package

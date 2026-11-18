@@ -145,8 +145,9 @@ try {
       const old = new Database(":memory:");
       old.pragma("foreign_keys=ON");
       const schema = JSON.parse(
-        fs.readFileSync("cloudflare/schema.json", "utf8"),
+        fs.readFileSync("scripts/fixtures/sqlite-schema-v11.json", "utf8"),
       );
+      assert.equal(schema.sourceMigrationVersion, 11, "Historical upgrade fixture must remain v11");
       for (const sql of schema.statements) old.exec(sql);
       for (const row of schema.ledger)
         old
@@ -835,7 +836,7 @@ try {
             .prepare("SELECT MAX(version) v FROM schema_migrations")
             .get() as any
         ).v,
-        15,
+        16,
       );
       assert.equal(db.pragma("integrity_check", { simple: true }), "ok");
       assert.deepEqual(db.pragma("foreign_key_check"), []);

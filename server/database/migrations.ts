@@ -3,6 +3,7 @@ import { migrateIdentityHierarchy } from './identityHierarchyMigration';
 import {migrateAuthProtection} from './authProtectionMigration';
 import {migrateScheduleSharing} from './scheduleSharingMigration';
 import {migrateOrganizationFoundation} from './organizationFoundationMigration';
+import { migrateScheduleTaskPool } from "./scheduleTaskPoolMigration";
 import { migrateWorkspace } from "./workspaceMigration";
 import { migrateCare } from "./careMigration";
 import { migrateExams } from "./examMigration";
@@ -335,4 +336,5 @@ export function migrateDatabase(
   migrateAuthProtection(db, databasePath);
   migrateScheduleSharing(db, databasePath);
   migrateOrganizationFoundation(db, databasePath);
+  migrateScheduleTaskPool(db, databasePath);
 }

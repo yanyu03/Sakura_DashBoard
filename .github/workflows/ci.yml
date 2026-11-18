@@ -2,7 +2,7 @@ name: Verify
 
 on:
   push:
-    branches: [main]
+    branches: [main, 'feat/**', 'fix/**']
   pull_request:
   workflow_dispatch:
 
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verify-${{ github.ref }}
+  group: verify-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -30,5 +30,37 @@ jobs:
       - run: npm run cf:check
       - run: npm run build
       - run: npm run docs:check
+      - run: node scripts/verify-version-source.mjs
+      - run: npx tsx scripts/verify-ab-driver.ts
       - run: npm run test:local
       - run: npm run test:security-hardening
+      - name: Upload isolated SQLite smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sakura-sqlite-smoke
+          path: |
+            docs/verification/opensource/local-preview.json
+            docs/verification/opensource/local-regressions.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  ab-worker-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check mobile failure response diagnostics
+        run: npx tsx scripts/verify-ab-fetch-errors.ts
+      - name: Verify real AB Worker / native SQLite / authentication
+        run: node scripts/verify-ab-runtime.mjs
+      - name: Bundle AB deployment independently (dry run only)
+        run: npx wrangler deploy --dry-run --config wrangler.ab.jsonc --outdir .local-data/ab-bundle

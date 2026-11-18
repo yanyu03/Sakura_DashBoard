@@ -17,6 +17,8 @@ await new Promise<void>(resolve => reservation.close(() => resolve()));
 const base = "http://127.0.0.1:" + port;
 const password = randomBytes(24).toString("base64url");
 let child: ChildProcess | undefined, cookie = "", csrf = "";
+let poolTaskId = "";
+let poolTaskVersion = 0;
 const checks: string[] = [];
 async function start() {
   child = spawn(process.execPath, ["--import", "tsx", "scripts/dev-portfolio.ts"], {
@@ -79,7 +81,11 @@ try {
     for (const route of ["/", "/login", "/register"])
       assert.equal((await fetch(base + route)).status, 200);
     const db = inspect();
-    try { assert.equal((db.prepare("SELECT COUNT(*) n FROM faculty_users").get() as { n: number }).n, 0); }
+    try {
+      assert.equal((db.prepare("SELECT COUNT(*) n FROM faculty_users").get() as { n: number }).n, 0);
+      assert.equal((db.prepare("SELECT MAX(version) n FROM schema_migrations").get() as { n: number }).n, 16);
+      assert.ok(db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='schedule_task_pool'").get());
+    }
     finally { db.close(); }
   });
   await check("first registration through the real entry creates the administrator", async () => {
@@ -102,6 +108,34 @@ try {
     csrf = r.json.data.csrfToken;
     assert.equal((await api("auth/session")).response.status, 200);
     assert.equal((await api("sqlite/query", "POST", { sql: "SELECT 1" })).response.status, 403);
+  });
+  await check("HTTP task pool create/edit/version conflict under real SQLite v16", async () => {
+    const created = await api("schedules/task-pool", "POST", {
+      title: "首次排课待办",
+      note: "暂未分配班级",
+    });
+    assert.equal(created.response.status, 200, JSON.stringify(created.json));
+    poolTaskId = created.json.data.id;
+    poolTaskVersion = created.json.data.version;
+    assert.equal(created.json.data.preferred_class_id, null);
+    const edited = await api(`schedules/task-pool/${poolTaskId}`, "PATCH", {
+      title: "已更新待办",
+      note: "SQLite 预上线验证",
+      version: poolTaskVersion,
+    });
+    assert.equal(edited.response.status, 200, JSON.stringify(edited.json));
+    poolTaskVersion = edited.json.data.version;
+    assert.equal(poolTaskVersion, 2);
+    const stale = await api(`schedules/task-pool/${poolTaskId}`, "PATCH", {
+      title: "过期更新应拒绝",
+      version: 1,
+    });
+    assert.equal(stale.response.status, 409);
+    const list = await api("schedules/task-pool");
+    assert.equal(list.response.status, 200);
+    assert.equal(list.json.data.find((task: { id: string }) => task.id === poolTaskId)?.title, "已更新待办");
+  });
+  await check("HTTP logout revokes the SQLite session", async () => {
     assert.equal((await api("auth/logout", "POST", {})).response.status, 200);
     assert.equal((await api("auth/session")).response.status, 401);
   });
@@ -113,9 +147,24 @@ try {
       facultyId: "portfolio_owner", password, loginType: "account", ...(await challenge()),
     });
     assert.equal(r.response.status, 200);
+    cookie = r.response.headers.get("set-cookie")!.split(";")[0];
+    csrf = r.json.data.csrfToken;
     const db = inspect();
     try { assert.equal((db.prepare("SELECT COUNT(*) n FROM faculty_users").get() as { n: number }).n, 1); }
     finally { db.close(); }
+    const tasks = await api("schedules/task-pool");
+    assert.equal(tasks.response.status, 200);
+    assert.equal(tasks.json.data.find((task: { id: string }) => task.id === poolTaskId)?.version, poolTaskVersion);
+  });
+  await check("restart keeps task owner and cancellation revokes visibility", async () => {
+    const cancelled = await api(`schedules/task-pool/${poolTaskId}`, "PATCH", {
+      action: "cancel", version: poolTaskVersion,
+    });
+    assert.equal(cancelled.response.status, 200);
+    assert.equal(cancelled.json.data.status, "cancelled");
+    const list = await api("schedules/task-pool");
+    assert.equal(list.response.status, 200);
+    assert.ok(!list.json.data.some((task: { id: string }) => task.id === poolTaskId));
   });
   fs.mkdirSync("docs/verification/opensource", { recursive: true });
   fs.writeFileSync("docs/verification/opensource/local-preview.json", JSON.stringify({

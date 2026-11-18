@@ -1,4 +1,4 @@
-/** Build only v15 reference metadata; never imports the historical demo seeder. */
+/** Build only v16 reference metadata; never imports the historical demo seeder. */
 import fs from "node:fs";
 import path from "node:path";
 import Database from "better-sqlite3";
@@ -22,7 +22,7 @@ try {
   if ((db.pragma("foreign_key_check") as unknown[]).length)
     throw Error("Bootstrap foreign key validation failed");
   fs.writeFileSync(path.join(directory, "source.json"), JSON.stringify({
-    exportedAt: new Date().toISOString(), source: "empty SQLite v15 reference metadata", tables,
+    exportedAt: new Date().toISOString(), source: "empty SQLite v16 reference metadata", tables,
   }));
   if (process.argv.includes("--select"))
     fs.writeFileSync(".local-data/latest-tidb-export.json", JSON.stringify({ directory }));
