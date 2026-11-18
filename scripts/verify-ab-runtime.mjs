@@ -14,7 +14,7 @@ const args=[
   "--var","AB_PASSWORD_PEPPERS:"+policy,
 ];
 const command=process.platform==="win32"?"npx.cmd":"npx";
-const runner=spawn(command,args,{cwd:process.cwd(),stdio:["ignore","pipe","pipe"]});
+const runner=spawn(command,args,{cwd:process.cwd(),stdio:["ignore","pipe","pipe"],detached:process.platform!=="win32"});
 let runnerLog="";
 runner.stdout.on("data",x=>{runnerLog=(runnerLog+String(x)).slice(-15000)});
 runner.stderr.on("data",x=>{runnerLog=(runnerLog+String(x)).slice(-15000)});
@@ -76,9 +76,17 @@ try{
  check(r.response.status===401,"logout invalidates session");
  console.log("PASS AB local Worker + SQLite end-to-end ("+checks+" assertions)");
 }finally{
- if(runner.exitCode===null){
+ // Wrangler uses child processes. Kill the process group on Linux so the
+ // workerd/esbuild descendants do not keep CI pipes open after test completion.
+ if(process.platform!=="win32" && runner.pid){
+  try{process.kill(-runner.pid,"SIGTERM")}catch{}
+  await sleep(700);
+  try{process.kill(-runner.pid,"SIGKILL")}catch{}
+ }else if(runner.exitCode===null){
   runner.kill("SIGTERM");
-  await Promise.race([new Promise(resolve=>runner.once("exit",resolve)),sleep(3000)]);
+  await Promise.race([new Promise(resolve=>runner.once("exit",resolve)),sleep(1000)]);
   if(runner.exitCode===null)runner.kill("SIGKILL");
  }
+ runner.stdout.destroy();
+ runner.stderr.destroy();
 }
