@@ -70,6 +70,24 @@ try{
   r=await api(path,"GET",undefined,cookie);
   check(r.response.status===200,"authenticated "+path+": "+r.response.status+" "+JSON.stringify(r.json).slice(0,120));
  }
+
+ // Regression for mobile "creating information => service unavailable".
+ // All these mutations operate only on the ephemeral local SQLite Durable Object.
+ for (const [label,path,payload] of [
+  ["term","/api/v1/academic/terms",{code:"2026-FALL-AB",name:"测试学期",starts_on:"2026-09-01",ends_on:"2027-01-31",active:true}],
+  ["course","/api/v1/academic/courses",{code:"MATH-AB",name:"数学"}],
+  ["class","/api/v1/academic/classes",{class_code:"AB-CLASS",class_name:"AB 测试班",grade_level:"高一"}],
+  ["task pool","/api/v1/schedules/task-pool",{title:"手机创建回归",note:"仅本地 SQLite 数据"}],
+ ]) {
+  r=await api(path,"POST",payload,cookie,csrf);
+  check(r.response.status===200&&r.json.success===true,
+    "create "+label+" SQLite write: status "+r.response.status+" "+JSON.stringify(r.json).slice(0,420));
+ }
+ r=await api("/api/v1/academic/terms","GET",undefined,cookie);
+ check(r.json.data?.some(t=>t.code==="2026-FALL-AB"),"term persisted in SQLite");
+ r=await api("/api/v1/academic/courses","GET",undefined,cookie);
+ check(r.json.data?.some(t=>t.code==="MATH-AB"),"course persisted in SQLite");
+
  r=await api("/api/v1/auth/logout","POST",{},cookie,csrf);
  check(r.response.status===200,"logout");
  r=await api("/api/v1/auth/session","GET",undefined,cookie);
