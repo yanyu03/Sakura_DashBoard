@@ -29,7 +29,7 @@ const storage = {
     // Unit mock validates adapter dispatch, not DO runtime transaction semantics.
     return await callback();
   },
-} as unknown as DurableObjectStorage;
+} as unknown as import('../cloudflare/abSqliteDatabase').AbStorage;
 let checks = 0;
 const check = (condition: unknown, message: string) => {
   assert.ok(condition, message);
