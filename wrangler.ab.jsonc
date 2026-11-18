@@ -2,7 +2,7 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "sakura-dashboard-ab",
   "account_id": "3db21a9be03258f819017ca5c2b055d6",
-  "main": "cloudflare/ab-gateway.mjs",
+  "main": "cloudflare/abWorker.ts",
   "compatibility_date": "2026-10-19",
   "compatibility_flags": [
     "nodejs_compat"
@@ -14,21 +14,55 @@
       "custom_domain": true
     }
   ],
-  "d1_databases": [
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*",
+      "/",
+      "/__ab/*"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SCHOOL_AB",
+        "class_name": "SakuraAbSchool"
+      }
+    ]
+  },
+  "migrations": [
     {
-      "binding": "AB_SQLITE",
-      "database_name": "sakura-dashboard-ab-sqlite",
-      "database_id": "b76ca872-f0a3-4b93-8617-f2c2487a1c61"
+      "tag": "sakura-ab-sqlite-v1",
+      "new_sqlite_classes": [
+        "SakuraAbSchool"
+      ]
     }
   ],
   "vars": {
     "NODE_ENV": "production",
     "COOKIE_SECURE": "true",
-    "DATABASE_MODE": "sqlite",
-    "SAKURA_ALLOW_SQL_WRITES": "false",
     "SAKURA_DEMO_MODE": "false",
-    "AB_STAGE": "schema-only"
+    "SAKURA_ALLOW_SQL_WRITES": "false",
+    "DATABASE_MODE": "sqlite",
+    "AB_STAGE": "full-business-preview"
   },
+  "secrets": {
+    "required": [
+      "AB_PASSWORD_PEPPERS"
+    ]
+  },
+  "ratelimits": [
+    {
+      "name": "AUTH_LIMITER",
+      "namespace_id": "2101",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
