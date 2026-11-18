@@ -1,0 +1,1 @@
+import{n as e}from"./index-BcYXKGuM.js";import{t}from"./StudentDirectory-CRzco5B2.js";var n=e();function r({showToast:e,focusStudentId:r}){return(0,n.jsx)(t,{showToast:e,careOnly:!0,focusStudentId:r})}export{r as SchoolHomeCommView};

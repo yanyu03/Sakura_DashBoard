@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;1,9..40,400&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&amp;family=DM+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;width:100%;height:100%;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed-dim":"#ffb2bb","on-secondary-fixed-variant":"#85145a","on-primary-container":"#793741","primary-fixed":"#ffd9dc","inverse-surface":"#4c1d4f","on-tertiary-fixed-variant":"#4a4456","surface-container-highest":"#ffd6fa","tertiary-fixed":"#e9def5","error":"#ba1a1a","tertiary":"#635b6e","surface-container-lowest":"#ffffff","surface-container-low":"#ffeffa","surface-tint":"#8f4953","primary":"#8f4953","tertiary-container":"#c3b9cf","secondary-fixed-dim":"#ffafd3","background":"#fff7fa","surface-bright":"#fff7fa","on-primary-fixed-variant":"#73323d","on-primary":"#ffffff","outline":"#857274","secondary":"#a43073","inverse-primary":"#ffb2bb","on-error-container":"#93000a","inverse-on-surface":"#ffebfa","primary-container":"#fda4af","surface":"#fff7fa","on-surface":"#340538","on-primary-fixed":"#3b0613","on-secondary-container":"#76014e","error-container":"#ffdad6","on-secondary":"#ffffff","on-tertiary-container":"#50495b","surface-container-high":"#ffdffa","surface-container":"#ffe7fa","on-tertiary-fixed":"#1e1929","on-surface-variant":"#534344","secondary-fixed":"#ffd8e7","surface-variant":"#ffd6fa","outline-variant":"#d8c1c3","on-secondary-fixed":"#3d0026","tertiary-fixed-dim":"#cdc2d9","secondary-container":"#fc79bd","on-tertiary":"#ffffff","on-background":"#340538","surface-dim":"#ffc9fb","on-error":"#ffffff"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"gutter-lg":"2rem","space-xl":"3rem","space-xs":"0.375rem","gutter-sm":"1rem","space-sm":"0.75rem","gutter":"1.5rem","space-md":"1.25rem","space-lg":"2rem","margin":"2rem","margin-mobile":"1rem","margin-desktop":"3rem"},"fontFamily":{"body-lg":["DM Sans"],"headline-sm":["Bricolage Grotesque"],"label-md":["DM Sans"],"headline-lg-mobile":["Bricolage Grotesque"],"label-sm":["DM Sans"],"body-md":["DM Sans"],"headline-xl":["Bricolage Grotesque"],"headline-xl-mobile":["Bricolage Grotesque"],"headline-md":["Bricolage Grotesque"],"headline-lg":["Bricolage Grotesque"],"body-sm":["DM Sans"]},"fontSize":{"body-lg":["1.125rem",{"lineHeight":"1.75rem","fontWeight":"400"}],"headline-sm":["1.25rem",{"lineHeight":"1.75rem","fontWeight":"600"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.01em","fontWeight":"700"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.02em","fontWeight":"600"}],"body-md":["1rem",{"lineHeight":"1.5rem","fontWeight":"400"}],"headline-xl":["3rem",{"lineHeight":"3.5rem","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-xl-mobile":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["1.75rem",{"lineHeight":"2.25rem","fontWeight":"600"}],"headline-lg":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"400"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface w-screen h-screen overflow-hidden select-none flex flex-col"><header class="h-16 w-full flex-none bg-surface/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(131,24,67,0.06)] z-50 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_4px_16px_rgba(131,24,67,0.08)]"><span class="material-symbols-outlined text-2xl">local_florist</span></div><div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight block leading-none">SakuraEdu</span><span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase block mt-0.5">樱花教务云 · 教师端</span></div></div><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container-low"><span class="material-symbols-outlined text-primary text-lg">calendar_month</span><span class="font-label-md text-label-md text-on-surface">2024 春季学期 · 第 12 周</span><span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span><span class="font-body-sm text-body-sm text-on-surface-variant">周四 · 4节在教日程</span></div><div class="hidden 2xl:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><span class="material-symbols-outlined text-secondary text-lg">wb_sunny</span><span class="font-label-sm text-label-sm text-on-surface">23°C 晴朗微风</span><span class="text-outline-variant">|</span><span class="font-label-sm text-label-sm text-primary">🌸 今日备课心情：元气满满</span></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-on-surface-variant text-lg">search</span><input class="w-72 pl-10 pr-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container shadow-[0_2px_8px_rgba(131,24,67,0.04)] transition-all" placeholder="搜索学生档案、排课表、教学案..." type="text"/></div><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all relative" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary"></span></button><button class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" type="button"><span class="material-symbols-outlined text-xl">assignment_turned_in</span></button><div class="flex items-center gap-space-sm pl-space-sm py-1 pr-space-md rounded-full bg-surface-container-low shadow-[0_2px_8px_rgba(131,24,67,0.04)]"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">林知夏 老师</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">高二(3)班班主任 · 语文组</span></div></div></div></header><div class="flex-1 flex overflow-hidden"><aside class="w-64 flex-none bg-surface-container-low flex flex-col justify-between p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)]"><div class="flex flex-col gap-space-xs"><div class="px-space-md py-space-xs mb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant/70">教务教学核心</span></div><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="dashboard-overview" href="#"><span class="material-symbols-outlined text-xl">grid_view</span>工作台概览</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="schedule-management" href="#"><span class="material-symbols-outlined text-xl">calendar_today</span>课表与排课</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="student-profiles" href="#"><span class="material-symbols-outlined text-xl">school</span>学生学情档案</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="homework-center" href="#"><span class="material-symbols-outlined text-xl">rate_review</span>作业批改中心</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="lesson-plans" href="#"><span class="material-symbols-outlined text-xl">menu_book</span>备课教案库</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="exam-analytics" href="#"><span class="material-symbols-outlined text-xl">analytics</span>考务与成绩分析</a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md" data-path="school-home-communication" href="#"><span class="material-symbols-outlined text-xl">forum</span>家校沟通社区</a></nav></div><div class="flex flex-col gap-space-sm pt-space-md bg-surface-container-lowest/70 p-space-md rounded-2xl shadow-[0_2px_12px_rgba(131,24,67,0.03)]"><button class="w-full flex items-center justify-center gap-space-xs py-2.5 px-space-md rounded-full bg-secondary text-on-secondary font-label-md text-label-md shadow-[0_4px_16px_rgba(164,48,115,0.25)] hover:opacity-95 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-lg">cast_for_education</span><span>一键开启上课模式</span></button><nav class="flex flex-col gap-1" data-active-classes="bg-surface-container text-on-surface font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-sm text-label-sm" data-path="system-settings" href="#"><span class="material-symbols-outlined text-lg">settings</span>系统偏好设置</a></nav></div></aside><main class="flex-1 h-full overflow-hidden bg-background relative flex flex-col"><div class="flex flex-col w-full h-full overflow-hidden">
+<!-- 激活并高亮全局左侧导航栏中的对应菜单项 -->
+<script>
+    (function() {
+      const activePath = 'school-home-communication';
+      const asideNav = document.querySelectorAll('aside nav a');
+      asideNav.forEach(link => {
+        if (link.getAttribute('data-path') === activePath) {
+          link.className = 'flex items-center gap-space-sm px-space-md py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline-sm transition-all shadow-[0_2px_12px_rgba(131,24,67,0.08)]';
+        } else if (link.getAttribute('data-path')) {
+          link.className = 'flex items-center gap-space-sm px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-md text-label-md';
+        }
+      });
+    })();
+  </script>
+<!-- 顶部沟通管控综合栏 -->
+<header class="h-20 flex-none px-gutter-lg flex items-center justify-between bg-surface-container-lowest/80 backdrop-blur-md shadow-[0_2px_16px_rgba(131,24,67,0.04)] z-20">
+<div class="flex items-center gap-space-lg">
+<!-- 班级频道切换 Pills -->
+<div class="flex items-center p-1 bg-surface-container-low rounded-full">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(143,73,83,0.3)] transition-all">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span>高二(1)班 家长会互动群</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span>高二(3)班 语文答疑圈</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[18px]">volunteer_activism</span>
+<span>家校协同委员会</span>
+</button>
+</div>
+<!-- 状态微标签群 -->
+<div class="hidden xl:flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-secondary text-base">verified_user</span>
+          45户家长已全员实名认证
+        </span>
+<span class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+          今日在线 38人
+        </span>
+<span class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-primary text-base">mark_chat_unread</span>
+          待回复留言 3 条
+        </span>
+</div>
+</div>
+<!-- 顶部快捷动作组 -->
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-[0_1px_4px_rgba(131,24,67,0.04)] transition-all">
+<span class="material-symbols-outlined text-secondary text-lg">campaign</span>
+<span>发布班级通知/喜报</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-[0_1px_4px_rgba(131,24,67,0.04)] transition-all">
+<span class="material-symbols-outlined text-primary text-lg">videocam</span>
+<span>预约线上家长会</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md shadow-[0_2px_8px_rgba(164,48,115,0.1)] hover:bg-secondary-fixed-dim transition-all">
+<span class="material-symbols-outlined text-secondary text-lg">auto_awesome</span>
+<span>发放成长电子相册</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-[0_4px_14px_rgba(143,73,83,0.3)] hover:opacity-95 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-primary text-lg">mail</span>
+<span>发送周总结家校信</span>
+</button>
+</div>
+</header>
+<!-- 主体工作台：三栏式沉浸式协同通讯体系 (严格契合 16:9 一屏充满，无外层纵向滚动) -->
+<div class="flex-1 flex overflow-hidden p-space-md gap-space-md bg-background">
+<!-- 【左侧栏 (26%)：家校消息流与分类列表】 -->
+<section class="w-[26%] h-full flex flex-col bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(131,24,67,0.04)] overflow-hidden">
+<!-- 搜索栏与过滤 Tab -->
+<div class="p-space-md pb-space-sm flex flex-col gap-space-sm flex-none">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-md text-on-surface-variant text-lg">search</span>
+<input class="w-full pl-10 pr-space-md py-2 rounded-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/60 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" placeholder="搜索家长姓名、学生或聊天记录..." type="text"/>
+</div>
+<!-- 标签胶囊切换 -->
+<div class="flex items-center justify-between p-1 bg-surface-container-low rounded-full">
+<button class="flex-1 py-1.5 rounded-full bg-surface-container-lowest font-label-sm text-label-sm text-on-surface shadow-[0_1px_4px_rgba(131,24,67,0.06)] text-center transition-all">全部私信</button>
+<button class="flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-secondary font-semibold text-center hover:text-on-surface transition-all flex items-center justify-center gap-1">
+<span>待办/未读</span>
+<span class="w-4 h-4 rounded-full bg-secondary text-on-secondary text-[10px] flex items-center justify-center font-bold">3</span>
+</button>
+<button class="flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant text-center hover:text-on-surface transition-all">喜报表彰</button>
+<button class="flex-1 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant text-center hover:text-on-surface transition-all">家访备忘</button>
+</div>
+</div>
+<!-- 消息列表滚动区 -->
+<div class="flex-1 overflow-y-auto px-space-sm space-y-2 pb-space-md">
+<!-- 激活项: 苏小萌妈妈 -->
+<div class="p-space-md rounded-2xl bg-surface-container-high cursor-pointer shadow-[0_2px_12px_rgba(131,24,67,0.06)] transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="relative flex-none">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center shadow-inner text-on-secondary-fixed font-headline-sm text-headline-sm">
+                苏
+              </div>
+<span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-error border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">苏小萌妈妈</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">08:42</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-secondary font-label-sm text-[11px] leading-tight font-medium">高二(1)班</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[11px] leading-tight">课代表家长</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-2 truncate">
+                收到老师推荐的书单，小萌每天都在认真读~
+              </p>
+</div>
+</div>
+</div>
+<!-- 消息项: 周子涵爸爸 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="relative flex-none">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary font-headline-sm text-headline-sm">
+                周
+              </div>
+<span class="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-secondary-container"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">周子涵爸爸</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70">昨天 19:14</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] leading-tight">高二(1)班</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-[11px] leading-tight">文言文辅导咨询</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 truncate">
+                林老师好，周子涵最近文言文做题有点吃力，想请教一下提升方法...
+              </p>
+</div>
+</div>
+</div>
+<!-- 消息项: 林沐风家长 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="relative flex-none">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-headline-sm text-headline-sm">
+                林
+              </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">林沐风家长</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70">前天 16:20</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] leading-tight">高二(1)班</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-[11px] leading-tight">喜报分享 🏆</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 truncate">
+                沐风省戏剧比赛获奖了，特意向林老师报喜！附证书照片
+              </p>
+</div>
+</div>
+</div>
+<!-- 消息项: 班级官方通知群 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline-sm text-headline-sm flex-none">
+<span class="material-symbols-outlined text-2xl">campaign</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">班级官方群发通道</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70">周二 09:00</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-[11px] leading-tight">全员送达 100%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 truncate">
+                [通知] 《2024高二年级期中表彰与春季家长会日程安排》
+              </p>
+</div>
+</div>
+</div>
+<!-- 额外互动备忘条目 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-tertiary font-headline-sm text-headline-sm flex-none">
+              韩
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">韩欣悦妈妈</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70">05-08</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-[11px] leading-tight">请假确认</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 truncate">
+                欣悦鼻炎已康复，今日正常到校上早读，谢谢老师关照！
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 【中央栏 (44%)：当前私信会话与协同看板】 -->
+<section class="flex-1 h-full flex flex-col bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(131,24,67,0.04)] overflow-hidden">
+<!-- 顶部当前对话对象档案条 -->
+<div class="h-20 px-gutter flex-none flex items-center justify-between bg-surface-container-lowest border-b-0 shadow-[0_1px_8px_rgba(131,24,67,0.03)]">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant font-headline-sm text-headline-sm shadow-[0_2px_8px_rgba(143,73,83,0.15)]">
+            苏
+          </div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">苏小萌妈妈</h2>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">verified</span>
+                家校互联官方认证
+              </span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm mt-0.5">
+<span>在校学生: <strong class="text-on-surface font-semibold">苏小萌</strong> (高二1班)</span>
+<span>·</span>
+<span class="text-secondary font-medium">语文课代表</span>
+<span>·</span>
+<span class="text-primary font-medium">班级综合排位 No.1</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-secondary transition-all" title="电话直连 (加密专线)">
+<span class="material-symbols-outlined text-xl">phone_in_talk</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-secondary transition-all" title="发起双人微视频辅导">
+<span class="material-symbols-outlined text-xl">video_call</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-all" title="调阅小萌个人学情总览">
+<span class="material-symbols-outlined text-xl">assignment_ind</span>
+</button>
+</div>
+</div>
+<!-- 聊天消息流区域 (粉白交织的精致卡片气泡) -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-5 bg-surface/50">
+<!-- 时间戳 -->
+<div class="flex items-center justify-center">
+<span class="px-space-md py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+            今天 08:35
+          </span>
+</div>
+<!-- 家长气泡 1 -->
+<div class="flex items-start gap-space-sm max-w-[85%]">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-secondary font-label-md text-label-md flex-none shadow-sm">
+            家
+          </div>
+<div class="flex flex-col gap-1 items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant">苏小萌妈妈 · 08:35</span>
+<div class="p-space-md rounded-2xl rounded-tl-xs bg-surface-container-lowest text-on-surface shadow-[0_2px_12px_rgba(131,24,67,0.04)] font-body-md text-body-md leading-relaxed">
+              林老师您好！小萌回家说您推荐的《古文观止》精编选本特别好看，孩子每天睡前都在津津有味地读。📖 另外她一直想报名参加本周末的「全市中学生国学演讲大赛」，不知您从老师的角度看合适吗？
+            </div>
+</div>
+</div>
+<!-- 老师气泡 (本用户回复) -->
+<div class="flex items-start gap-space-sm max-w-[85%] ml-auto flex-row-reverse">
+<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary font-label-md text-label-md flex-none shadow-sm">
+            林
+          </div>
+<div class="flex flex-col gap-1 items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant">林知夏 老师 · 08:40</span>
+<div class="p-space-md rounded-2xl rounded-tr-xs bg-primary text-on-primary shadow-[0_4px_16px_rgba(143,73,83,0.22)] font-body-md text-body-md leading-relaxed">
+              特别合适！小萌台风稳健、吐字清澈，文学底蕴也相当扎实。我已经直接帮她勾选了高二年级的首批校级推荐名额。🌸 明后天中午午休时间，我会抽空帮她把一把演讲稿的立意和情感节奏~
+            </div>
+<!-- 附带的鼓励徽章小卡片 -->
+<div class="flex items-center gap-space-sm px-space-md py-2 rounded-xl bg-surface-container-high text-on-surface shadow-sm mt-1">
+<span class="material-symbols-outlined text-secondary text-2xl">local_florist</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-label-md font-bold text-secondary">已赠送：【樱花飞扬·演讲之星】鼓励勋章</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">将在苏小萌成长主页同步点亮</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 家长气泡 2 -->
+<div class="flex items-start gap-space-sm max-w-[85%]">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-secondary font-label-md text-label-md flex-none shadow-sm">
+            家
+          </div>
+<div class="flex flex-col gap-1 items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant">苏小萌妈妈 · 08:42</span>
+<div class="p-space-md rounded-2xl rounded-tl-xs bg-surface-container-lowest text-on-surface shadow-[0_2px_12px_rgba(131,24,67,0.04)] font-body-md text-body-md leading-relaxed">
+              太感谢林老师了！有您的精准指导我们就一百个放心了，孩子刚才得知消息特别激动，直说明天早读要把初稿带来给老师看。辛苦林老师！❤️
+            </div>
+</div>
+</div>
+</div>
+<!-- 底部富文本沟通输入舱与智能扩展工具 -->
+<div class="p-space-md bg-surface-container-lowest shadow-[0_-4px_20px_rgba(131,24,67,0.03)] flex-none flex flex-col gap-space-xs">
+<!-- 快捷家校工具条 -->
+<div class="flex items-center gap-space-xs pb-1">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-sm text-label-sm transition-all">
+<span class="material-symbols-outlined text-base">pie_chart</span>
+<span>学情报告切片</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-sm text-label-sm transition-all">
+<span class="material-symbols-outlined text-base">military_tech</span>
+<span>发放鼓励樱花勋章</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-sm text-label-sm transition-all">
+<span class="material-symbols-outlined text-base">event_upcoming</span>
+<span>预约放学后面谈</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-sm text-label-sm transition-all">
+<span class="material-symbols-outlined text-base">attachment</span>
+<span>发送课后拓展讲义</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-sm text-label-sm ml-auto transition-all">
+<span class="material-symbols-outlined text-base">sentiment_satisfied</span>
+<span>常用温情寄语</span>
+</button>
+</div>
+<!-- 输入文本域 -->
+<div class="relative flex items-end bg-surface-container-low rounded-2xl p-2">
+<textarea class="flex-1 bg-transparent border-0 px-space-sm py-1 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none resize-none" placeholder="在此输入给家长的温馨回复，按 Enter 键快速发送（支持粘贴学生图文作业批语）..." rows="2"></textarea>
+<button class="h-10 px-space-md rounded-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md flex items-center gap-1.5 shadow-[0_2px_8px_rgba(143,73,83,0.3)] transition-all">
+<span>发送</span>
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+<!-- 底部温暖提示 -->
+<div class="flex items-center justify-between text-on-surface-variant/70 font-label-sm text-[12px] px-1 pt-1">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary">bedtime</span>
+<span>已开启家校防打扰模式：非工作时段将自动转入温馨留言箱，保障教师静心研课</span>
+</div>
+<span>支持 Markdown 文本格式</span>
+</div>
+</div>
+</section>
+<!-- 【右侧栏 (30%)：学生家庭档案与家校共育记录簿】 -->
+<section class="w-[30%] h-full flex flex-col gap-space-md overflow-y-auto">
+<!-- 学生及家庭全景画像卡片 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)] flex flex-col gap-space-sm flex-none">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-xl">family_restroom</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">家庭画像与亲密度</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">
+            亲密度 98/100
+          </span>
+</div>
+<!-- 监护人详情简表 -->
+<div class="grid grid-cols-2 gap-space-xs mt-1">
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">母亲 · 赵静雅</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium mt-0.5">大学副教授 (中文系)</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">138****6621</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">父亲 · 苏明哲</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium mt-0.5">科技园架构顾问</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">139****9018</span>
+</div>
+</div>
+<!-- 本学期家校互动关键指标 -->
+<div class="grid grid-cols-3 gap-2 text-center pt-1">
+<div class="p-2 rounded-xl bg-surface-container">
+<span class="font-headline-md text-headline-md text-primary font-bold block">2 次</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">教师深入面访</span>
+</div>
+<div class="p-2 rounded-xl bg-secondary-fixed">
+<span class="font-headline-md text-headline-md text-secondary font-bold block">18 次</span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">即时家校互通</span>
+</div>
+<div class="p-2 rounded-xl bg-surface-container-high">
+<span class="font-headline-md text-headline-md text-on-surface font-bold block">5 枚</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">累计表彰勋章</span>
+</div>
+</div>
+</div>
+<!-- 近期重要家校待办 & 访谈手账 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)] flex flex-col gap-space-sm flex-none">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">event_note</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">家访手账 &amp; 重点待办</h3>
+</div>
+<button class="text-secondary font-label-sm text-label-sm hover:underline flex items-center">
+<span>+ 新增待办</span>
+</button>
+</div>
+<div class="space-y-2 mt-1">
+<!-- 待办1 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5 flex-none">schedule</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-sm text-on-surface font-semibold truncate">周五 16:30 阶段学习心态电话复盘</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]">待执行</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">
+                对象：周子涵家长 · 针对文言文断句训练及学习信心鼓励
+              </p>
+</div>
+</div>
+<!-- 待办2 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 flex-none">co_present</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-body-sm text-on-surface font-semibold truncate">审核家长进课堂《职业生涯领航》</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px]">需批复</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">
+                高二(1)班家委会申请 · 拟定于下周四班会课开展 45分钟
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- 班级家校温情相册墙 & 班级圈瞬间 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_20px_rgba(131,24,67,0.04)] flex flex-col gap-space-sm flex-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-xl">auto_stories</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">班级温情互动圈</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">共 24 条家长热评</span>
+</div>
+<div class="space-y-3 mt-1 overflow-y-auto pr-1">
+<!-- 动态 1 -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-xs font-bold">班</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">春季戏剧节汇演现场展播</span>
+<span class="text-on-surface-variant font-label-sm text-xs ml-auto">昨天 17:30</span>
+</div>
+<!-- 图片占位 -->
+<div class="relative w-full h-28 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="High school students performing in a classical literature drama on school stage, bathed in warm soft stage lights with pink and cream flower props, captured in high aesthetic editorial photography with gentle depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Uvex_QCElSSqAAj-R9pSMfG4xBCZB6lfx9ocD7gY11-Kk3TPWc46j1uYmnY43mJUKV_l1FHUxHlHMib2FUO8VM-fXm1MmAS9c9Lflw_Z5H4Qb4bFc1gOiV_zXg2IJWkHRZTfoZyRDbpq9J0KZjFTDDsAlPDgGyqSLI1PYuVsu_obROYXoPN-GFHZKVu-EkAgodnJb0hInxRQHlNjB-1KUaseoN6OhnspjyRSmGNr2Oxef4B0ww"/>
+<div class="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-inverse-surface/75 text-inverse-on-surface font-label-sm text-[11px] backdrop-blur-sm">
+                戏剧《兰亭集序》彩排瞬间
+              </div>
+</div>
+<!-- 点赞与互动 -->
+<div class="flex items-center justify-between text-xs px-1">
+<span class="text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">favorite</span>
+                42位家长已暖心点赞
+              </span>
+<span class="text-on-surface-variant">“孩子们演得真传神！”等 8 条新评论</span>
+</div>
+</div>
+<!-- 动态 2 -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container text-xs font-bold">诵</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">今日晨读古典诗词优胜小组</span>
+<span class="text-on-surface-variant font-label-sm text-xs ml-auto">今早 08:10</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug px-1">
+              第一大组以整齐洪亮的《归去来兮辞》吟诵赢得今日班级之星，小萌、子涵配合领读超赞！✨
+            </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div></main></div></body></html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SakuraEdu 樱花教务云 · 教师端专属空间</title>
+    <meta name="description" content="樱花教务云（教师端专属空间）——融合温柔与智慧的高中教务教学协同平台，涵盖智能批阅工坊、全景学情画像、课表与排课、备课教案库、考务与成绩分析、家校沟通社区及教务知识库。" />
+    <meta property="og:title" content="SakuraEdu 樱花教务云 · 教师端专属空间" />
+    <meta property="og:description" content="以温柔与智慧，陪伴每一刻花开。Gentle Pedagogy, Flourishing Minds." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f3f7f2" />
+    <style>html,body{background:#f3f7f2;min-height:100%;margin:0}#sakura-startup{z-index:99999;box-sizing:border-box;color:#263e32;background:radial-gradient(at 12% 10%,#dcebdd,#0000 65%),#f3f7f2;place-items:center;padding:24px;font:16px/1.7 system-ui,Microsoft YaHei,sans-serif;display:grid;position:fixed;inset:0}#sakura-startup[hidden]{display:none}.startup-card{box-sizing:border-box;text-align:center;background:#ffffffed;border:1px solid #d7e4d8;border-radius:16px;width:min(100%,400px);padding:32px;box-shadow:0 12px 40px #24452d0a}.startup-mark{color:#416c50;background:#e4efe2;border-radius:16px;place-items:center;width:56px;height:56px;font-size:28px;display:inline-grid}.startup-card h1{margin:16px 0 8px;font-size:23px}.startup-card p{color:#526759;margin:0;font-size:14px}.startup-progress{background:#e7eee4;border-radius:12px;height:4px;margin-top:24px;overflow:hidden}.startup-progress:after{content:"";border-radius:inherit;background:#6b9672;width:40%;height:100%;animation:1.6s ease-in-out infinite alternate startup-progress;display:block}#sakura-startup[data-failed] .startup-progress{display:none}#startup-retry{color:#fff;background:#416c50;border-radius:12px;margin-top:20px;padding:9px 22px;font-size:14px;text-decoration:none;display:inline-block}#startup-retry[hidden]{display:none}#startup-retry:focus-visible{outline-offset:4px;outline:3px solid #99bc9c}@keyframes startup-progress{to{transform:translate(150%)}}@media (prefers-reduced-motion:reduce){.startup-progress:after{width:100%;animation:none}}</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <script type="module" crossorigin src="/assets/index-BcYXKGuM.js"></script>
+  </head>
+  <body class="bg-background font-body-md text-on-surface w-screen h-screen overflow-hidden select-none">
+    <div id="root" class="w-full h-full"></div>
+    <div id="sakura-startup" role="status" aria-live="polite">
+      <div class="startup-card">
+        <span class="startup-mark" aria-hidden="true">✿</span>
+        <h1 id="startup-title">樱花教务云</h1>
+        <p id="startup-message">正在准备你的教学空间…</p>
+        <div class="startup-progress" aria-hidden="true"></div>
+        <a id="startup-retry" href="" hidden>重新加载</a>
+        <noscript><p>请启用 JavaScript 后重新加载页面。</p></noscript>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const screen = document.getElementById('sakura-startup');
+        let complete = false;
+        function fail() {
+          screen.hidden = false;
+          screen.dataset.failed = '';
+          document.getElementById('startup-title').textContent = '页面暂时未能加载';
+          document.getElementById('startup-message').textContent = '网络或数据服务暂时不可用，请稍后重新加载。';
+          document.getElementById('startup-retry').hidden = false;
+        }
+        const timer = setTimeout(() => { if (!complete) fail(); }, 20000);
+        window.__sakuraBoot = {
+          finish() { complete = true; clearTimeout(timer); screen.hidden = true; },
+          fail() { clearTimeout(timer); fail(); }
+        };
+        window.addEventListener('error', (event) => {
+          const isEntry = event.target instanceof HTMLScriptElement && event.target.type === 'module';
+          if (!complete && (isEntry || event instanceof ErrorEvent)) window.__sakuraBoot.fail();
+        }, true);
+        window.addEventListener('unhandledrejection', () => { if (!complete) window.__sakuraBoot.fail(); });
+      })();
+    </script>
+  </body>
+</html>
+

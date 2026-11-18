@@ -1,0 +1,158 @@
+{
+  "/index.html": {
+    "hash": "594117d5d8456627322e52e7dbfaa2fb2c3171d33577363ca42d59b8a7dd43dd",
+    "size": 4803
+  },
+  "/assets/ExamAnalyticsView-B3aqM-bC.js": {
+    "hash": "5bffbfe63314697440c7cbb68e8994eddedce926d73aabea8161fa7cbeebfede",
+    "size": 9368
+  },
+  "/assets/LessonPlansView-DsmJU3_o.js": {
+    "hash": "9d160dd7dbde9beba4c3723e8961aa9abfc5da8de72782c7f9217eb7f37cac41",
+    "size": 7187
+  },
+  "/assets/StudentDirectory-CRzco5B2.js": {
+    "hash": "6aeffdf345de0ff72fe278ae929bf1bc5acc12d5eaab0d9626ac87809cf4daa0",
+    "size": 14560
+  },
+  "/assets/WorkspaceVisuals-D83WhzvQ.js": {
+    "hash": "b7e50a7f021cdfce2aa0d2f51646d97c8083ada14b4d47abd2e884bbd0496d85",
+    "size": 2961
+  },
+  "/assets/KnowledgeBaseView-VhIUOccY.js": {
+    "hash": "f0d9e0483900c0bcc1dad5915baaed60a26a3306ebc9dd44b5a2edcdf31789a0",
+    "size": 5549
+  },
+  "/assets/scoreCsv-BeoChH5l.js": {
+    "hash": "b9b2d188475aa608b73f4b93737859ecabe8584ea24425bfd84d0a2ca4e65830",
+    "size": 1337
+  },
+  "/assets/App-DcJWbh3R.js": {
+    "hash": "50695a11e3faf4f09ccd6a4d451b453ff575bf2c689c0b9510ed89e9c37fda4c",
+    "size": 78594
+  },
+  "/assets/HomeworkCenterView-D1x-P6Qg.js": {
+    "hash": "d848e4b652a6110d7bcbd72b85112b9e9a3a1ccdfed7c836160b925ec72555c9",
+    "size": 13082
+  },
+  "/assets/StudentProfilesView-BRUcH509.js": {
+    "hash": "a261bd3691d098205aee7279d961fc29ed81d80d4d1f764019a6535f7b0e91b4",
+    "size": 222
+  },
+  "/assets/AcademicAdminView-CPd7o72b.js": {
+    "hash": "d241ffafe6d6791dd34a17d8ce0642af2d984780590d15ea66f9b3b837a62e6d",
+    "size": 7712
+  },
+  "/assets/ScheduleManagementView-zmWkzORU.js": {
+    "hash": "b6fe48f9fd1c46cc8f8934204f60f1ecc1b51d4fa82d426bd176233ec07d1c92",
+    "size": 33172
+  },
+  "/assets/index-BcYXKGuM.js": {
+    "hash": "87fc268fe5a6354f5eff17ba7f77ebad12a977ed816d778d4a91a473e18783e6",
+    "size": 222935
+  },
+  "/assets/SchoolHomeCommView-DThRPqFB.js": {
+    "hash": "83147e14afdfc367e962d8f9b60ac55bd6632f67bbb981bcce6b7a3b3d9ab346",
+    "size": 233
+  },
+  "/assets/awesomeDesignTheme-CuPaxuDE.js": {
+    "hash": "f99aef704cfb6cef776a1ebc28f9feef543ecac228d53c6bcd929ddfc6bfc1ea",
+    "size": 3966
+  },
+  "/assets/workspace-polish-3M8Wiowc.css": {
+    "hash": "55cb659d2c8192b08fd5e23a20de40175d112a7277a7a3d92794c167fd1a7bd2",
+    "size": 17625
+  },
+  "/assets/DashboardOverviewView-DMZ7cPz_.js": {
+    "hash": "2f08675c1e44b433d3f3c15f9f2d756bfe00143f69669748559e698a006d048f",
+    "size": 7557
+  },
+  "/assets/App-Z7rQJ3kn.css": {
+    "hash": "510cba677d7ae1096a62a1ef42bc30781d7cd50200c9635e5e4d436694b20bae",
+    "size": 4035
+  },
+  "/assets/sakura-standard-bridge-B13JA8L9.css": {
+    "hash": "0ab2586c9a66b121aa4bc7c256beeeb39f893d782fee9b6d437f1038475650ba",
+    "size": 5562
+  },
+  "/assets/SakuraEdu_1-W2TDceWl.css": {
+    "hash": "f51f720bfa0210fc89e67a0d917982a8a4df5630b19912bd57b37a4ccab05420",
+    "size": 24089
+  },
+  "/assets/DesignStandardPreview-IQOPmvTt.js": {
+    "hash": "82e5bf3c31933d8827abaf5ddb097fc20af4e3adf541d517e911fb59fed752dd",
+    "size": 4996
+  },
+  "/assets/src-Cx3qyJ5l.css": {
+    "hash": "191e4916b2736fe1a489ee616aae0d2ec6ec551da0c1b27ea41a2890965ba11a",
+    "size": 34527
+  },
+  "/assets/aistudio/Image_17_b2d81959.png": {
+    "hash": "b2d81959cca4ffa0cd1b868d59922b1f07c3fcdd9c0a8912fba81bbf56032192",
+    "size": 734055
+  },
+  "/assets/aistudio/Image_7_ff8903fd.png": {
+    "hash": "ff8903fdaa9a246846674e5fd733e4b88f0a4065f80f96f915adc6952ce49424",
+    "size": 860123
+  },
+  "/assets/aistudio/Image_19_0fa1af30.markdown": {
+    "hash": "0fa1af309e049f133adf551279e8a3b21e6604d584d0ac51064687defcd6fa73",
+    "size": 8774
+  },
+  "/assets/aistudio/Image_5_449f1c80.png": {
+    "hash": "449f1c80fefac5a8adf08edbe0c6aa47793b6c23d7b1a39f5c9beb849f52e627",
+    "size": 1020000
+  },
+  "/assets/aistudio/Image_4_97ec9abb.html": {
+    "hash": "97ec9abbd6ee15d54e84ecf006e1612ee22b3068c44b3b38a2d965731ea7408f",
+    "size": 44990
+  },
+  "/assets/aistudio/Image_16_14e4a3d4.html": {
+    "hash": "14e4a3d48229f8d6d52a57fe5934e2d61c7ad1690c9aa9f7f4b251d4625a266d",
+    "size": 25046
+  },
+  "/assets/aistudio/Image_9_e1140b46.png": {
+    "hash": "e1140b46175529266d758a1ab5f6aa8fbf8952f278bc378c9b0322a1913c1197",
+    "size": 796550
+  },
+  "/assets/aistudio/Image_6_77e2693c.html": {
+    "hash": "77e2693c0aeadb8250e7b0d4de1f018f584629b0606ddf3313fda5d43a60c15f",
+    "size": 44094
+  },
+  "/assets/aistudio/Image_12_be9dae7b.html": {
+    "hash": "be9dae7bd0d5ff3861665b2644ae3d60f4d2785692a12040edbcfc670cd3d739",
+    "size": 39955
+  },
+  "/assets/aistudio/Image_3_2c5b4236.png": {
+    "hash": "2c5b4236f4bda9f45d0ce20548b8c3d01a18f86d5778acc6d09f6a9f736c9a08",
+    "size": 929735
+  },
+  "/assets/aistudio/Image_14_88e40750.html": {
+    "hash": "88e40750917685b6d0f5a6aa2dd3bfc75f1594d40c5d8a8e77241326d554e51d",
+    "size": 41325
+  },
+  "/assets/aistudio/Image_11_d95e72a6.png": {
+    "hash": "d95e72a6edb749e84d237877b70118946d347cc42a49c2e9f78b676d630ebe73",
+    "size": 814175
+  },
+  "/assets/aistudio/Image_13_e1700692.png": {
+    "hash": "e17006923d878feb18d8982f21a5a299f772be48ef9c8c4dbeb5606b06395f7f",
+    "size": 801415
+  },
+  "/assets/aistudio/Image_8_cfbe839a.html": {
+    "hash": "cfbe839adb6d14af8de1de6db93bcaec84a82a46b3845ebc4a96f996e1ed9445",
+    "size": 48348
+  },
+  "/assets/aistudio/Image_18_9afb2700.html": {
+    "hash": "9afb2700c8f879bd05ec8bd93e90d459e1bba431c6e224e2cefbe5b462544d25",
+    "size": 35031
+  },
+  "/assets/aistudio/Image_15_380fcdaa.png": {
+    "hash": "380fcdaa8e936e39330f681defde15b10587782e40db7d9a467ebd22e95f9a92",
+    "size": 875107
+  },
+  "/assets/aistudio/Image_10_ca61d817.html": {
+    "hash": "ca61d817b8b72237c3680f82f9472f5ceb761638995569af11d08fe0b8bcd639",
+    "size": 37221
+  }
+}
