@@ -4,7 +4,7 @@ import { handleAsNodeRequest } from "cloudflare:node";
 import { randomUUID } from "node:crypto";
 import { createApplication } from "../server/application";
 import { edgeCaptcha } from "./adapters";
-import { AbDurableSqlite, ensureAbSchema } from "./abSqliteDatabase";
+import { AbDurableSqlite, ensureAbSchema, type AbStorage } from "./abSqliteDatabase";
 import { passwordPolicyFromSecret } from "../server/passwords";
 import { secureRequest, secureResponse } from "./security";
 import { VERSION_INFO } from "../app-version";
@@ -38,9 +38,9 @@ export class SakuraAbSchool extends DurableObject<AbEnv> {
 
   constructor(state: DurableObjectState, env: AbEnv) {
     super(state, env);
-    this.db = new AbDurableSqlite(state.storage);
+    this.db = new AbDurableSqlite(state.storage as unknown as AbStorage);
     state.blockConcurrencyWhile(async () => {
-      this.schemaStatus = ensureAbSchema(state.storage);
+      this.schemaStatus = ensureAbSchema(state.storage as unknown as AbStorage);
     });
   }
 
