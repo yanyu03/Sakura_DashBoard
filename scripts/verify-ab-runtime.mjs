@@ -2,14 +2,15 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
 
-const base="http://127.0.0.1:8788";
+const base="https://127.0.0.1:8788";
+// Only the ephemeral Wrangler loopback uses a self-signed certificate.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED="0";
 const key=randomBytes(48).toString("base64url");
 const policy=JSON.stringify({current:"abtest",keys:{abtest:key},requireProtected:true});
 const args=[
   "wrangler","dev","--local","--config","wrangler.ab.jsonc",
-  "--ip","127.0.0.1","--port","8788",
+  "--ip","127.0.0.1","--port","8788","--local-protocol","https",
   "--persist-to",".local-data/ab-local-durable",
-  "--var","AB_LOCAL_TEST:true",
   "--var","AB_PASSWORD_PEPPERS:"+policy,
 ];
 const command=process.platform==="win32"?"npx.cmd":"npx";
