@@ -1,42 +1,39 @@
-# Sakura A/B 隔离入口
+# Sakura AB · D1（SQLite）预演盘
 
-2026-11-18 创建的独立 Cloudflare Worker：
+2026-11-18 建立了独立数据库和 Worker：
 
-- 名称：`sakura-dashboard-ab`
-- 域名：`https://ab.sakura.250221.xyz`
-- 正式 Worker：`sakura-dashboard` / `https://sakura.250221.xyz`（**不修改**）
-- 代码：[`cloudflare/ab-gateway.mjs`](../cloudflare/ab-gateway.mjs)
-- 独立 Wrangler 配置：[`wrangler.ab.jsonc`](../wrangler.ab.jsonc)
+- Worker：`sakura-dashboard-ab`
+- 测试域名：`https://ab.sakura.250221.xyz`
+- 正式域名：`https://sakura.250221.xyz`，仍使用 TiDB；本变更不修改正式 Worker。
+- 数据库：Cloudflare D1 `sakura-dashboard-ab-sqlite`，ID `b76ca872-f0a3-4b93-8617-f2c2487a1c61`（APAC）。
+- 源码：`cloudflare/ab-gateway.mjs`；配置：`wrangler.ab.jsonc`。
+- 所有业务数据均独立，未复制 TiDB 内容或 Secret。不存在任何指向正式 Worker 的 Service Binding。
 
-## 环境变量与 Secret
+## SQLite 结构导入
 
-从正式 Worker 复制 **非敏感** 环境变量：`NODE_ENV=production`、`COOKIE_SECURE=true`、`DATABASE_MODE=tidb`、`SAKURA_ALLOW_SQL_WRITES=false`、`SAKURA_DEMO_MODE=false`。
+来自仓库的 `cloudflare/schema.json`，源迁移 v16。通过 Cloudflare D1 API 在独立 D1 创建 60 张业务表、33 个索引、34 个触发器，执行 127 条结构语句，并插入 16 条迁移记录。首次验证中教师账号为 0、排课任务为 0。更改 schema 后需要重新校验本盘，不能擅自把正式 TiDB 数据导入 D1。
 
-`TIDB_DATABASE_URL`、`AUTH_PASSWORD_PEPPERS`、旧的 `SAKURA_ADMIN_PASSWORD_HASH` 是 Worker 专属加密 Secret。Cloudflare 不允许读取这些 Secret 的明文来直接复制到另一个 Worker。**不要**尝试导出、硬编码、打印或在 GitHub 中提交 Secret。
+## 已完成和未完成
 
-AB 目前通过 `SAKURA_UPSTREAM` Service Binding 转发到生产 Worker，由生产 Worker 在自身运行时使用原有密钥和 TiDB 连接；这是间接使用**相同后端**，**不是**克隆数据库或复制了 Secret。
+**已完成：** D1 数据库和 schema 初始化、独立 D1 Worker binding、基本数据库查询和版本检查、AB 独立公网域名绑定、无正式 TiDB 依赖。只读取 SQLite 数据库的 `GET /api/v1/health/sqlite` 是唯一数据库健康检查；`GET /__ab/status` 显示绑定状态；`GET /api/v1/meta/version` 标明 `stage=schema-only`。
 
-## 只读保护
+**未完成：** D1 与现有 Express/asyncDatabase 业务层适配，特别是原先同步 SQLite事务与 D1 交互式事务的差异；真实登录、排课、作业及审批、前端完整业务构建。当前根页面仅展示测试盘状态；全部写入返回 405，受保护业务 API 返回 503。**不能把 schema-ready 当作 business-ready。**
 
-- `GET /__ab/status` 返回隔离入口元数据，不会触发数据库请求。
-- 仅允许代理公开 `GET /api/v1/meta/version`、`GET /api/v1/health/tidb` 和 `GET /api/v1/auth/env-check`。
-- 静态页面及资源的 GET/HEAD 请求从正式 Worker 代理，因此**UI 与正式版相同**，不代表已经部署本 PR 的最新前端代码。
-- 拒绝全部 POST/PUT/PATCH/DELETE；其余受保护业务 API 返回 401，不传递请求 Cookie 和 Authorization，代理响应会丢弃 Set-Cookie。
-- 不应在这一路由下测试登录、教师业务写入、学生资料修改、排课审批或业务事务。
+## 环境变量
 
-## 独立发布与验收
+生产的普通环境变量可复制，但 `DATABASE_MODE` 在 AB 专门设为 `sqlite`，并增加 `AB_STAGE=schema-only`。当前没有 `TIDB_DATABASE_URL`、`AUTH_PASSWORD_PEPPERS` 或 `SAKURA_ADMIN_PASSWORD_HASH`，也没有 `SAKURA_UPSTREAM` Service Binding；不允许通过环境变量回退到正式数据库。
 
-A/B Worker 的 **Gateway** 配置由 `wrangler.ab.jsonc` 单独维护；不要用正式版的 `wrangler.jsonc` 部署测试代码。部署前检查 Wrangler 的目标、账号、域名与差异并测试：
+## 独立部署
 
 ```powershell
+npm ci
+node scripts/verify-ab-sqlite.mjs
 npx wrangler deploy --dry-run --config wrangler.ab.jsonc
 npx wrangler deploy --config wrangler.ab.jsonc
 ```
 
-此配置**仅更新只读 Gateway**。后续如果要真正进行 GitHub 新代码的 A/B 业务验收，应在独立的 TiDB 测试库建立受限运行账号及新的 Secret，使用完整的前端/Worker 构建产物替换 Gateway；绝不能让新代码以正式库上的可写测试身份运行。
+发布和测试都**只允许**使用 `wrangler.ab.jsonc`，禁止把它替换到正式 `wrangler.jsonc`。云端环境必须验证绑定类型为 `d1` 且数据库 ID 正确，旧 `SAKURA_UPSTREAM` 应消失；确认正式域名的 Worker 指向不变。
 
-Cloudflare Browser Rendering 对新自定义域名出现过挑战页（HTTP 403），对 `workers.dev` 也曾返回 1101（正式 Worker 的 workers.dev 域名同样复现），因此**域名绑定成功≠浏览器访问和功能回归通过**。需要在不绕过生产安全策略的前提下，用正常浏览器核查 A/B 访问链路；不要因为自动化测试受挑战就放宽全站 WAF。
+## 下一道门槛
 
-## CI 状态
-
-SQLite v16 的本地测试已经通过；`sakura-dashboard-ab` 当前未加载开发分支前端，也未在独立 TiDB 环境做真实写事务集成验收。
+首先完成现有业务数据库契约的 D1/SQLite 适配并在本盘上执行注册登录、课程排课、权限与事务回归；不能简单把 `DATABASE_MODE` 改为 `sqlite` 就让 D1 支持原应用。只有 AB SQLite 预演完成后，再在独立 TiDB 目标库做真实部署测试。若 Cloudflare 安全挑战拦截自动化浏览器访问，应单独诊断正常浏览器访问，不应为了测试放宽生产 WAF。
