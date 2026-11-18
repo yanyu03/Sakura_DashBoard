@@ -74,5 +74,8 @@
     "traces": {
       "enabled": true
     }
+  },
+  "alias": {
+    "iconv-lite": "./cloudflare/utf8.ts"
   }
 }
