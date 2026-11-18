@@ -44,3 +44,21 @@ jobs:
             docs/verification/opensource/local-regressions.json
           if-no-files-found: warn
           retention-days: 7
+
+  ab-worker-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Verify real AB Worker / native SQLite / authentication
+        run: node scripts/verify-ab-runtime.mjs
+      - name: Bundle AB deployment independently (dry run only)
+        run: npx wrangler deploy --dry-run --config wrangler.ab.jsonc --outdir .local-data/ab-bundle

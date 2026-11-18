@@ -16,6 +16,7 @@ type AbEnv = {
   AUTH_LIMITER: { limit(arg: { key: string }): Promise<{ success: boolean }> };
   DATABASE_MODE: string;
   AB_STAGE: string;
+  AB_LOCAL_TEST?: string;
 };
 
 const responses = {
@@ -123,7 +124,12 @@ const gateway = {
 export default {
   async fetch(request: Request, env: AbEnv): Promise<Response> {
     try {
-      return secureResponse(secureRequest(request) || (await gateway.fetch(request, env)));
+      // This exception exists only in explicit loopback development. The
+      // deployed Worker has no AB_LOCAL_TEST binding and always requires HTTPS.
+      const loopbackDev = env.AB_LOCAL_TEST === "true" &&
+        new URL(request.url).origin === "http://127.0.0.1:8788";
+      return secureResponse((loopbackDev ? null : secureRequest(request)) ||
+        (await gateway.fetch(request, env)));
     } catch (error) {
       console.error({
         event: "ab_sqlite_request_failed",
