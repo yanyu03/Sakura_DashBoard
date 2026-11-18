@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
       - run: npm run docs:check
       - run: node scripts/verify-version-source.mjs
-      - run: node scripts/verify-ab-sqlite.mjs
+      - run: npx tsx scripts/verify-ab-driver.ts
       - run: npm run test:local
       - run: npm run test:security-hardening
       - name: Upload isolated SQLite smoke evidence
