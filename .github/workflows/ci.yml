@@ -58,6 +58,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: Check mobile failure response diagnostics
+        run: npx tsx scripts/verify-ab-fetch-errors.ts
       - name: Verify real AB Worker / native SQLite / authentication
         run: node scripts/verify-ab-runtime.mjs
       - name: Bundle AB deployment independently (dry run only)
